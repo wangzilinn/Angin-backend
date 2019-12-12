@@ -39,8 +39,8 @@ public class SiteApplication implements CommandLineRunner {
 			System.out.println(customer);
 		}
 
-		articleRepository.save(new Article("titleName", "textfield"));
-		articleRepository.save(new Article("titleName2", "textfield2"));
+//		articleRepository.save(new Article("titleName", "textfield"));
+//		articleRepository.save(new Article("titleName2", "textfield2"));
 
 	}
 
