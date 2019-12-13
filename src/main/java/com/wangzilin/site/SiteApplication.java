@@ -1,9 +1,8 @@
 package com.***REMOVED***.site;
 
-import com.***REMOVED***.site.accessingdatamongodb.Article;
-import com.***REMOVED***.site.accessingdatamongodb.ArticleRepository;
-import com.***REMOVED***.site.accessingdatamongodb.Customer;
 import com.***REMOVED***.site.accessingdatamongodb.CustomerRepository;
+import com.***REMOVED***.site.cards.Card;
+import com.***REMOVED***.site.cards.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,30 +13,34 @@ public class SiteApplication implements CommandLineRunner {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
 	@Autowired
-	private ArticleRepository articleRepository;
+	private CardRepository cardRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(SiteApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception{
-		customerRepository.deleteAll();
-		//save a couple of customers
-		customerRepository.save(new Customer("Alice", "Smith"));
-		customerRepository.save(new Customer("bob", "Smith"));
+
+		cardRepository.save(new Card("1", "2"));
+		cardRepository.save(new Card("3", "4"));
 
 		//fetch all customers
-		for (Customer customer : customerRepository.findAll()) {
-			System.out.println(customer);
+//		for (Customer customer : customerRepository.findAll()) {
+//			System.out.println(customer);
+//		}
+
+		for (Card card : cardRepository.findAll()) {
+			System.out.println(card);
 		}
 
 		//find firstName Alice
-		System.out.println(customerRepository.findByFirstName("Alice"));
-		//find last name Smith
-		for (Customer customer : customerRepository.findByLastName("Smith")) {
-			System.out.println(customer);
-		}
+//		System.out.println(customerRepository.findByFirstName("Alice"));
+//		//find last name Smith
+//		for (Customer customer : customerRepository.findByLastName("Smith")) {
+//			System.out.println(customer);
+//		}
 
 //		articleRepository.save(new Article("titleName", "textfield"));
 //		articleRepository.save(new Article("titleName2", "textfield2"));
