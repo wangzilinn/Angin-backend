@@ -1,10 +1,12 @@
 package com.***REMOVED***.site;
 
+import org.springframework.stereotype.Controller;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
+//@Controller
 public class ReadTxt {
     public void read() throws Exception{
         String pathname = "C:\\Users\\78286\\Desktop\\input.txt"; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径

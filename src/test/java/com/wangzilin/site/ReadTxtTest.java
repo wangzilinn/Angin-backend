@@ -1,12 +1,18 @@
 package com.***REMOVED***.site;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+
+import org.junit.Test;
+
 
 public class ReadTxtTest {
-    private RaadTxt readTxt = null;
-
+    private ReadTxt readTxt = null;
+    @Before
+    public void setup(){
+        readTxt = new ReadTxt();
+    }
     @Test
-    public void testRead(){
-         = new ReadTxt();
+    public void testRead() throws Exception{
+        readTxt.read();
     }
 }
