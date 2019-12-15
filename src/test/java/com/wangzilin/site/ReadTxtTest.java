@@ -13,6 +13,7 @@ public class ReadTxtTest {
     }
     @Test
     public void testRead() throws Exception{
+
         readTxt.read();
     }
 }
