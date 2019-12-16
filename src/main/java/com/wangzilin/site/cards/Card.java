@@ -16,6 +16,7 @@ public class Card {
     private Date expireDate;
     private int status;
 
+    public Card(){}
     public Card(String front, String back) {
         this(front,back,new Date());
     }

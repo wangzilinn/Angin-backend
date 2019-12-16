@@ -17,37 +17,37 @@ import java.util.List;
 @SpringBootApplication
 public class SiteApplication implements CommandLineRunner {
 
-	@Autowired
-	private CardRepository cardRepository;
-	public static void main(String[] args) {
-		SpringApplication.run(SiteApplication.class, args);
-	}
+    @Autowired
+    private CardRepository cardRepository;
+    public static void main(String[] args) {
+        SpringApplication.run(SiteApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception{
-		cardRepository.deleteAll();
+    @Override
+    public void run(String... args) throws Exception{
+//        cardRepository.deleteAll();
 
-		GetCards getCards = new GetCards();
-		List<String> list = getCards.read();
-		int i = 0;
-		for (String s : list) {
-			Card card = getCards.StringToCard(s);
-			///////
-			Date date=new Date(); //取时间
-			Calendar calendar = new GregorianCalendar();
-			calendar.setTime(date);
-			calendar.add(Calendar.DATE,i--); //把日期往后增加一天,整数  往后推,负数往前移动
-			date =  calendar.getTime(); //这个时间就是日期往后推一天的结果
-			//////
-			card.setExpireDate(date);
-			cardRepository.save(card);
-			System.out.println(card);
-		}
+        GetCards getCards = new GetCards();
+        List<Card> list = getCards.getFromFile();
+        int i = 0;
+        for (Card card : list) {
+            ///////
+            Date date=new Date(); //取时间
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(date);
+            calendar.add(Calendar.DATE,i++); //把日期往后增加一天,整数  往后推,负数往前移动
+            date =  calendar.getTime(); //这个时间就是日期往后推一天的结果
+            //////
+//            System.out.println(date);
+            card.setExpireDate(date);
+            cardRepository.save(card);
+//            System.out.println(card);
+        }
 
-		for (Card card : cardRepository.findAll()) {
-			System.out.println(card);
-		}
+        for (Card card : cardRepository.findAll()) {
+            System.out.println(card);
+        }
 
-	}
+    }
 
 }

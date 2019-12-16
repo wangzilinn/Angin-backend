@@ -6,7 +6,6 @@ import org.junit.Before;
 
 import org.junit.Test;
 
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -18,7 +17,7 @@ public class GetCardsTest {
     }
     @Test
     public void testRead() throws Exception{
-        List<String> list = getCards.read();
+        List<String> list = getCards.readTxt();
         for (String s : list) {
             Card card = getCards.StringToCard(s);
             System.out.println(card);
@@ -27,7 +26,7 @@ public class GetCardsTest {
     }
     @Test
     public void testGet(){
-        List<Card> list = getCards.get();
+        List<Card> list = getCards.getFromFile();
         for (Card card : list) {
             System.out.println(card);
         }
