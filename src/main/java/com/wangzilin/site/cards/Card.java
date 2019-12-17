@@ -57,7 +57,12 @@ public class Card {
     }
 
     public String toString(){
-        return "front:" + front + " back:" + back + "\n"
-                + "expireDate:" + expireDate + "status:" + status;
+        return "\nfront:\n" + front + "\nback:\n" + back
+                + "\nexpireDate:\n" + expireDate + "\nstatus:" + status;
+    }
+
+    public String toHTML(){
+        return "</br>front:</br>" + front + "</br>back:</br>" + back
+                + "</br>expireDate:</br>" + expireDate + "</br>status:" + status;
     }
 }

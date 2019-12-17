@@ -3,7 +3,7 @@ package com.***REMOVED***.site;
 
 import com.***REMOVED***.site.cards.Card;
 import com.***REMOVED***.site.cards.CardRepository;
-import com.***REMOVED***.site.utils.GetCards;
+import com.***REMOVED***.site.cards.GetCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,11 +25,11 @@ public class SiteApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception{
-//        cardRepository.deleteAll();
+        cardRepository.deleteAll();
 
         GetCards getCards = new GetCards();
-        List<Card> list = getCards.getFromFile();
-        int i = 0;
+        List<Card> list = getCards.fromFile();
+        int i = -5;
         for (Card card : list) {
             ///////
             Date date=new Date(); //取时间

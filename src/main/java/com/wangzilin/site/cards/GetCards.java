@@ -1,7 +1,9 @@
-package com.***REMOVED***.site.utils;
+package com.***REMOVED***.site.cards;
 
 import com.***REMOVED***.site.cards.Card;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,11 +11,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //@Controller
 public class GetCards {
-    public List<String> readTxt(){
+    @Autowired
+    private CardRepository cardRepository;
+    private List<String> readTxt(){
         List<String> list = new ArrayList<>();
         try {
             String pathname = "C:\\Users\\78286\\Desktop\\2.txt"; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
@@ -32,7 +37,7 @@ public class GetCards {
         return list;
     }
 
-    public Card StringToCard(String cardString) {
+    private Card StringToCard(String cardString) {
         try {
             String[] frontAndBack = cardString.split("\\t");
             return new Card(frontAndBack[0], frontAndBack[1]);
@@ -42,7 +47,7 @@ public class GetCards {
             return null;
     }
 
-    public List<Card> getFromFile() {
+    public List<Card> fromFile() {
         List<String> list = readTxt();
         List<Card> cardList = new ArrayList<>();
         for (String s : list) {
@@ -52,5 +57,14 @@ public class GetCards {
             }
         }
         return cardList;
+    }
+
+    public Card fromDB(Date date) {
+            return cardRepository.findLatestByExpireDateGreaterThan(date);
+
+    }
+
+    public List<Card> getAllExpiredCards(Date date) {
+        return cardRepository.findByExpireDateGreaterThan(new Date());
     }
 }

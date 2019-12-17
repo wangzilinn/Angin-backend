@@ -14,9 +14,20 @@ import java.util.List;
 public class GetCardController {
     @Autowired
     private CardRepository cardRepository;
-    @RequestMapping(value = "/getCard", method = RequestMethod.GET)
-    public List<Card> getCard() {
+
+    @RequestMapping(value = "/getExpireCard", method = RequestMethod.GET)
+    public String getExpireCard() {
+        Card card = cardRepository.findLatestByExpireDateGreaterThan(new Date());
+        return card.toHTML();
+    }
+
+    @RequestMapping(value = "/getAllExpireCards", method = RequestMethod.GET)
+    public String getAllExpireCards() {
         List<Card> cardList = cardRepository.findByExpireDateGreaterThan(new Date());
-        return cardList;
+        StringBuilder returnString = new StringBuilder();
+        for (Card card : cardList) {
+            returnString.append(card.toHTML()).append("<br/>");
+        }
+        return returnString.toString();
     }
 }

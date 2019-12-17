@@ -1,7 +1,7 @@
 package com.***REMOVED***.site;
 
 import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.utils.GetCards;
+import com.***REMOVED***.site.cards.GetCards;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -15,18 +15,18 @@ public class GetCardsTest {
     public void setup(){
         getCards = new GetCards();
     }
-    @Test
-    public void testRead() throws Exception{
-        List<String> list = getCards.readTxt();
-        for (String s : list) {
-            Card card = getCards.StringToCard(s);
-            System.out.println(card);
-        }
-        System.out.println("test");
-    }
+//    @Test
+//    public void testRead() throws Exception{
+//        List<String> list = getCards.readTxt();
+//        for (String s : list) {
+//            Card card = getCards.StringToCard(s);
+//            System.out.println(card);
+//        }
+//        System.out.println("test");
+//    }
     @Test
     public void testGet(){
-        List<Card> list = getCards.getFromFile();
+        List<Card> list = getCards.fromFile();
         for (Card card : list) {
             System.out.println(card);
         }
