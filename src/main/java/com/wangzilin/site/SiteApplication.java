@@ -3,7 +3,7 @@ package com.***REMOVED***.site;
 
 import com.***REMOVED***.site.cards.Card;
 import com.***REMOVED***.site.cards.CardRepository;
-import com.***REMOVED***.site.cards.GetCards;
+import com.***REMOVED***.site.cards.ManageCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,18 +17,20 @@ import java.util.List;
 @SpringBootApplication
 public class SiteApplication implements CommandLineRunner {
 
-    @Autowired
-    private CardRepository cardRepository;
+//    @Autowired
+//    private CardRepository cardRepository;
     public static void main(String[] args) {
         SpringApplication.run(SiteApplication.class, args);
     }
-
+    @Autowired
+    ManageCards manageCards;
     @Override
     public void run(String... args) throws Exception{
-        cardRepository.deleteAll();
 
-        GetCards getCards = new GetCards();
-        List<Card> list = getCards.fromFile();
+//        cardRepository.deleteAll();
+
+        manageCards.deleteAllCardsFromDB();
+        List<Card> list = manageCards.getCardsFromTxt();
         int i = -5;
         for (Card card : list) {
             ///////
@@ -40,11 +42,12 @@ public class SiteApplication implements CommandLineRunner {
             //////
 //            System.out.println(date);
             card.setExpireDate(date);
-            cardRepository.save(card);
+            manageCards.saveCardToDB(card);
+//            cardRepository.save(card);
 //            System.out.println(card);
         }
 
-        for (Card card : cardRepository.findAll()) {
+        for (Card card : manageCards.getAllCards()) {
             System.out.println(card);
         }
 

@@ -2,6 +2,8 @@ package com.***REMOVED***.site.cards;
 
 import com.***REMOVED***.site.cards.Card;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import javax.xml.crypto.Data;
 import java.io.BufferedReader;
@@ -15,7 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 //@Controller
-public class GetCards {
+@Configuration
+public class ManageCards {
+//    public static ManageCards getInstance(){
+//        return new ManageCards();
+//    }
+//    private ManageCards(){};
+
     @Autowired
     private CardRepository cardRepository;
     private List<String> readTxt(){
@@ -47,7 +55,7 @@ public class GetCards {
             return null;
     }
 
-    public List<Card> fromFile() {
+    public List<Card> getCardsFromTxt() {
         List<String> list = readTxt();
         List<Card> cardList = new ArrayList<>();
         for (String s : list) {
@@ -59,12 +67,25 @@ public class GetCards {
         return cardList;
     }
 
-    public Card fromDB(Date date) {
+    public Card getSingleExpiredCardFromDB(Date date) {
             return cardRepository.findLatestByExpireDateGreaterThan(date);
-
     }
 
-    public List<Card> getAllExpiredCards(Date date) {
+    public List<Card> getAllExpiredCardsFromDB(Date date) {
         return cardRepository.findByExpireDateGreaterThan(new Date());
     }
+
+    public List<Card> getAllCards() {
+        return cardRepository.findAll();
+    }
+
+    public void deleteAllCardsFromDB() {
+        cardRepository.deleteAll();
+    }
+
+    public void saveCardToDB(Card card) {
+        cardRepository.save(card);
+    }
+
+
 }

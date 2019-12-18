@@ -6,10 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+
 import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
-
+//@Repository
 public interface CardRepository extends MongoRepository<Card, String> {
     public Page<Card> findByExpireDateGreaterThan(Date date, Pageable pageable);
     public List<Card> findByExpireDateGreaterThan(Date date);

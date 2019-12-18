@@ -1,7 +1,7 @@
 package com.***REMOVED***.site;
 
 import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.cards.GetCards;
+import com.***REMOVED***.site.cards.ManageCards;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -9,11 +9,11 @@ import org.junit.Test;
 import java.util.List;
 
 
-public class GetCardsTest {
-    private GetCards getCards = null;
+public class ManageCardsTest {
+    private ManageCards manageCards = null;
     @Before
     public void setup(){
-        getCards = new GetCards();
+        manageCards = new ManageCards();
     }
 //    @Test
 //    public void testRead() throws Exception{
@@ -26,7 +26,7 @@ public class GetCardsTest {
 //    }
     @Test
     public void testGet(){
-        List<Card> list = getCards.fromFile();
+        List<Card> list = manageCards.getCardsFromTxt();
         for (Card card : list) {
             System.out.println(card);
         }
