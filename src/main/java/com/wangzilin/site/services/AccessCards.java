@@ -1,5 +1,7 @@
-package com.***REMOVED***.site.cards;
+package com.***REMOVED***.site.services;
 
+import com.***REMOVED***.site.cards.Card;
+import com.***REMOVED***.site.cards.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -14,10 +16,14 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ManageCards {
+public class AccessCards {
+    final private CardRepository cardRepository;
 
     @Autowired
-    private CardRepository cardRepository;
+    public AccessCards(CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
+    }
+
     private List<String> readTxt(){
         List<String> list = new ArrayList<>();
         try {

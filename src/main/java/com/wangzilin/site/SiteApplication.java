@@ -2,7 +2,7 @@ package com.***REMOVED***.site;
 
 
 import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.cards.ManageCards;
+import com.***REMOVED***.site.services.AccessCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,18 +16,22 @@ import java.util.List;
 @SpringBootApplication
 public class SiteApplication implements CommandLineRunner {
 
-    @Autowired
-    ManageCards manageCards;
-
     public static void main(String[] args) {
         SpringApplication.run(SiteApplication.class, args);
+    }
+
+    final private AccessCards accessCards;
+
+    @Autowired
+    public SiteApplication(AccessCards accessCards) {
+        this.accessCards = accessCards;
     }
 
     @Override
     public void run(String... args) {
 
-        manageCards.deleteAllCardsFromDB();
-        List<Card> list = manageCards.getCardsFromTxt();
+        accessCards.deleteAllCardsFromDB();
+        List<Card> list = accessCards.getCardsFromTxt();
         int i = -5;
         for (Card card : list) {
             ///////
@@ -39,10 +43,10 @@ public class SiteApplication implements CommandLineRunner {
             //////
 
             card.setExpireDate(date);
-            manageCards.saveCardToDB(card);
+            accessCards.saveCardToDB(card);
         }
 
-        for (Card card : manageCards.getAllCards()) {
+        for (Card card : accessCards.getAllCards()) {
             System.out.println(card);
         }
 
