@@ -1,7 +1,6 @@
 package com.***REMOVED***.site.controller;
 
 import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.cards.CardRepository;
 import com.***REMOVED***.site.cards.ManageCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +14,6 @@ import java.util.List;
 public class GetCardController {
     @Autowired
     private ManageCards manageCards;
-//    GetCardController() {
-//        manageCards = ManageCards.getInstance();
-//    }
 
     @RequestMapping(value = "/getExpireCard", method = RequestMethod.GET)
     public String getExpireCard() {

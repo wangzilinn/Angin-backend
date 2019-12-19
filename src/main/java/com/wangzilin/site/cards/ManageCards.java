@@ -1,36 +1,28 @@
 package com.***REMOVED***.site.cards;
 
-import com.***REMOVED***.site.cards.Card;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Controller
-@Configuration
+@Service
 public class ManageCards {
-//    public static ManageCards getInstance(){
-//        return new ManageCards();
-//    }
-//    private ManageCards(){};
 
     @Autowired
     private CardRepository cardRepository;
     private List<String> readTxt(){
         List<String> list = new ArrayList<>();
         try {
-            String pathname = "C:\\Users\\78286\\Desktop\\2.txt"; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
-            File filename = new File(pathname); // 要读取以上路径的input。txt文件
+//            String pathname = "2.txt"; // 绝对路径或相对路径都可以，这里是绝对路径，写入文件时演示相对路径
+            File filename = ResourceUtils.getFile("classpath:ankiTxt/test.txt"); // 要读取以上路径的input。txt文件
             InputStreamReader reader = new InputStreamReader(
                     new FileInputStream(filename), StandardCharsets.UTF_8); // 建立一个输入流对象reader
             BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言
@@ -86,6 +78,5 @@ public class ManageCards {
     public void saveCardToDB(Card card) {
         cardRepository.save(card);
     }
-
 
 }
