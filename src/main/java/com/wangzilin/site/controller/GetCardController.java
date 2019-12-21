@@ -3,6 +3,7 @@ package com.***REMOVED***.site.controller;
 import com.***REMOVED***.site.cards.Card;
 import com.***REMOVED***.site.services.AccessCards;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +35,11 @@ public class GetCardController {
             returnString.append(card.toHTML()).append("<br/>");
         }
         return returnString.toString();
+    }
+
+    @RequestMapping(value = "/getSpecificCard", method = RequestMethod.GET)
+    public String getSpecificCard(String key) {
+        Card card = accessCards.getSpecificCard(key);
+        return card.toHTML();
     }
 }

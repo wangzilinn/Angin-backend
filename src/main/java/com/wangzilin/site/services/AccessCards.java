@@ -45,8 +45,10 @@ public class AccessCards {
 
     private Card StringToCard(String cardString) {
         try {
-            String[] frontAndBack = cardString.split("\\t");
-            return new Card(frontAndBack[0], frontAndBack[1]);
+            String[] keyAndOther = cardString.split("<br/>", 2);
+            String[] frontAndBack = keyAndOther[1].split("\\t");
+
+            return new Card(keyAndOther[0].strip().substring(1), frontAndBack[0], frontAndBack[1]);
         } catch (Exception e) {
             System.out.println("unable to parse");
         }
@@ -83,6 +85,10 @@ public class AccessCards {
 
     public void saveCardToDB(Card card) {
         cardRepository.save(card);
+    }
+
+    public Card getSpecificCard(String key) {
+        return cardRepository.findByKeyContains(key);
     }
 
 }

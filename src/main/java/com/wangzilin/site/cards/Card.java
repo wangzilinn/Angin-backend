@@ -11,17 +11,19 @@ import java.util.GregorianCalendar;
 public class Card {
     @Id
     private String id;
+    private String key;
     private String front;
     private String back;
     private Date expireDate;
     private int status;
 
     public Card(){}
-    public Card(String front, String back) {
-        this(front,back,new Date());
+    public Card(String key, String front, String back) {
+        this(key, front, back,new Date());
     }
 
-    public Card(String front, String back, Date expireDate) {
+    public Card(String key, String front, String back, Date expireDate) {
+        this.key = key;
         this.front = front;
         this.back = back;
         this.expireDate = expireDate;
@@ -32,12 +34,15 @@ public class Card {
     }
 
     public String toString(){
-        return "\nfront:\n" + front + "\nback:\n" + back
+        return "key:\n" + key + "\nfront:\n" + front + "\nback:\n" + back
                 + "\nexpireDate:\n" + expireDate + "\nstatus:" + status;
     }
 
     public String toHTML(){
-        return "</br>front:</br>" + front + "</br>back:</br>" + back
-                + "</br>expireDate:</br>" + expireDate + "</br>status:" + status;
+        return "key</br>" + key +
+                "</br>front:</br>" + front +
+                "</br>back:</br>" + back +
+                "</br>expireDate:</br>" + expireDate +
+                "</br>status:" + status;
     }
 }

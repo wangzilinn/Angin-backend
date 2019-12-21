@@ -16,7 +16,8 @@ public interface CardRepository extends MongoRepository<Card, String> {
     Page<Card> findByExpireDateGreaterThan(Date date, Pageable pageable);
     List<Card> findByExpireDateGreaterThan(Date date);
     Card findByExpireDate(Date date);
-    Card findByFront(String frontString);
+    Card findByKeyContains(String key);
+    //替换过期日期
 
     default Card findLatestByExpireDateGreaterThan(Date date){
         PageRequest request =
