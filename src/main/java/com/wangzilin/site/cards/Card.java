@@ -1,6 +1,8 @@
 package com.***REMOVED***.site.cards;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import java.util.Calendar;
@@ -18,6 +20,14 @@ public class Card {
     private int status;
 
     public Card(){}
+
+    public Card(Card card) {
+        this.key = card.key;
+        this.front = card.front;
+        this.back = card.back;
+        this.expireDate = card.expireDate;
+        this.status = card.status;
+    }
     public Card(String key, String front, String back) {
         this(key, front, back,new Date());
     }

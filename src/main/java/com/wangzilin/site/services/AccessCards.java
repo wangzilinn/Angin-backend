@@ -91,4 +91,15 @@ public class AccessCards {
         return cardRepository.findByKeyContains(key);
     }
 
+    public void updateCard(String key, String option) {
+        ChangeCards changeCards = new ChangeCards();
+        Date expireDate = changeCards.optionToExpireData(option);
+        int status = changeCards.optionsToStatus(option);
+        Card card = cardRepository.findByKeyContains(key);
+        card.setExpireDate(expireDate);
+        card.setStatus(status);
+        cardRepository.save(card);
+    }
+
+
 }

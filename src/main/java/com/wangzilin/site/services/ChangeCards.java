@@ -1,47 +1,79 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.cards.Card;
+import com.***REMOVED***.site.cards.DisplayCard;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 @Service
 public class ChangeCards {
-    public Date getNewExpireData(String status) {
-        Date expireDate;
-        switch (status) {
-            case "一点没印象":
-                expireDate = setExpireDate(0);
-                break;
-            case "没啥印象":
-                expireDate = setExpireDate(10);
-                break;
-            case "好像记住了":
-                expireDate = setExpireDate(30);
-                break;
-            case "记得很清楚":
-                expireDate = setExpireDate(300);
-                break;
-            case "永远不会忘":
-                expireDate = setExpireDate(3000);
-                break;
-            case "我爱你":
-                expireDate = setExpireDate(9999999);
-                break;
-            default:
-                expireDate = null;
+    private StatusAndOption[] statusAndOptions;
+    @Data@AllArgsConstructor
+    class StatusAndOption {
+        int status;
+        String option;
+        int addMinuets;
+    }
+
+    public ChangeCards() {
+        statusAndOptions = new StatusAndOption[6];
+        statusAndOptions[0] = new StatusAndOption(0, "一点没印象", 0);
+        statusAndOptions[1] = new StatusAndOption(1, "没啥印象", 10);
+        statusAndOptions[2] = new StatusAndOption(2, "好像记住了", 30);
+        statusAndOptions[3] = new StatusAndOption(3, "记得很清楚", 300);
+        statusAndOptions[4] = new StatusAndOption(4, "永远不会忘", 3000);
+        statusAndOptions[5] = new StatusAndOption(5, "我爱你", 999999);
+    }
+
+    public DisplayCard toDisplayCard(Card card) {
+        List<String> options = new ArrayList<>();
+        int status = card.getStatus();
+        if (status - 1 >= 0) {
+            options.add(findByStatus(status - 1).getOption());
         }
-        return expireDate;
+        options.add(findByStatus(status).getOption());
+        if (status + 1 <= 5) {
+            options.add(findByStatus(status + 1).getOption());
+        }
+        return new DisplayCard(card, options);
+    }
+
+    private StatusAndOption findByStatus(int status) {
+        for (StatusAndOption statusAndOption : statusAndOptions) {
+            if (status == statusAndOption.getStatus()) {
+                return statusAndOption;
+            }
+        }
+        return null;
+    }
+
+    private StatusAndOption findByOption(String option) {
+        for (StatusAndOption statusAndOption : statusAndOptions) {
+            if (option.equals(statusAndOption.getOption())) {
+                return statusAndOption;
+            }
+        }
+        return null;
+    }
+
+    public Date optionToExpireData(String option) {
+        StatusAndOption statusAndOption = findByOption(option);
+        return setExpireDate(statusAndOption.getAddMinuets());
+
+    }
+
+    public int optionsToStatus(String option) {
+        return findByOption(option).getStatus();
     }
 
     private Date setExpireDate(int minutes) {
         Date date=new Date(); //取时间
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        if (minutes == 9999999) {
+        if (minutes > 3000) {
             calendar.add(Calendar.YEAR,1);
         }
         calendar.add(Calendar.MINUTE,minutes); //把日期往后增加一天,整数  往后推,负数往前移动

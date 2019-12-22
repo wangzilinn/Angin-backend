@@ -30,25 +30,25 @@ public class SiteApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        accessCards.deleteAllCardsFromDB();
-        List<Card> list = accessCards.getCardsFromTxt();
-        int i = -5;
-        for (Card card : list) {
-            ///////
-            Date date=new Date(); //取时间
-            Calendar calendar = new GregorianCalendar();
-            calendar.setTime(date);
-            calendar.add(Calendar.DATE,i++); //把日期往后增加一天,整数  往后推,负数往前移动
-            date =  calendar.getTime(); //这个时间就是日期往后推一天的结果
-            //////
-
-            card.setExpireDate(date);
-            accessCards.saveCardToDB(card);
-        }
-
-        for (Card card : accessCards.getAllCards()) {
-            System.out.println(card);
-        }
+//        accessCards.deleteAllCardsFromDB();
+//        List<Card> list = accessCards.getCardsFromTxt();
+//        int i = -5;
+//        for (Card card : list) {
+//            ///////
+//            Date date=new Date(); //取时间
+//            Calendar calendar = new GregorianCalendar();
+//            calendar.setTime(date);
+//            calendar.add(Calendar.DATE,i++); //把日期往后增加一天,整数  往后推,负数往前移动
+//            date =  calendar.getTime(); //这个时间就是日期往后推一天的结果
+//            //////
+//
+//            card.setExpireDate(date);
+//            accessCards.saveCardToDB(card);
+//        }
+//
+//        for (Card card : accessCards.getAllCards()) {
+//            System.out.println(card);
+//        }
 
     }
 
