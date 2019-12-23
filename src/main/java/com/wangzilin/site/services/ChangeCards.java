@@ -23,9 +23,10 @@ public class ChangeCards {
         statusAndOptions[0] = new StatusAndOption(0, "一点没印象", 0);
         statusAndOptions[1] = new StatusAndOption(1, "没啥印象", 10);
         statusAndOptions[2] = new StatusAndOption(2, "好像记住了", 30);
-        statusAndOptions[3] = new StatusAndOption(3, "记得很清楚", 300);
-        statusAndOptions[4] = new StatusAndOption(4, "永远不会忘", 3000);
-        statusAndOptions[5] = new StatusAndOption(5, "我爱你", 999999);
+        statusAndOptions[3] = new StatusAndOption(3, "记住了", 300);
+        statusAndOptions[3] = new StatusAndOption(4, "记得很清楚", 3000);
+        statusAndOptions[4] = new StatusAndOption(5, "永远不会忘", 9000);
+        statusAndOptions[5] = new StatusAndOption(6, "我爱你", 999999);
     }
 
     public DisplayCard toDisplayCard(Card card) {
@@ -73,7 +74,7 @@ public class ChangeCards {
         Date date=new Date(); //取时间
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        if (minutes > 3000) {
+        if (minutes > 900000) {
             calendar.add(Calendar.YEAR,1);
         }
         calendar.add(Calendar.MINUTE,minutes); //把日期往后增加一天,整数  往后推,负数往前移动

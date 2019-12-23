@@ -13,15 +13,15 @@ import java.util.Date;
 import java.util.List;
 @Repository
 public interface CardRepository extends MongoRepository<Card, String> {
-    Page<Card> findByExpireDateGreaterThan(Date date, Pageable pageable);
-    List<Card> findByExpireDateGreaterThan(Date date);
+    Page<Card> findByExpireDateLessThan(Date date, Pageable pageable);
+    List<Card> findByExpireDateLessThan(Date date);
     Card findByExpireDate(Date date);
     Card findByKeyContains(String key);
     //替换过期日期
 
-    default Card findLatestByExpireDateGreaterThan(Date date){
+    default Card findLatestByExpireDateLessThan(Date date){
         PageRequest request =
                 PageRequest.of(0, 1, Sort.Direction.DESC,"expireDate");
-        return findByExpireDateGreaterThan(date, request).getContent().get(0);
+        return findByExpireDateLessThan(date, request).getContent().get(0);
     }
 }

@@ -68,11 +68,11 @@ public class AccessCards {
     }
 
     public Card getSingleExpiredCardFromDB(Date date) {
-            return cardRepository.findLatestByExpireDateGreaterThan(date);
+            return cardRepository.findLatestByExpireDateLessThan(date);
     }
 
     public List<Card> getAllExpiredCardsFromDB(Date date) {
-        return cardRepository.findByExpireDateGreaterThan(new Date());
+        return cardRepository.findByExpireDateLessThan(date);
     }
 
     public List<Card> getAllCards() {
