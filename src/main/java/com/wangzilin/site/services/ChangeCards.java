@@ -11,7 +11,9 @@ import java.util.*;
 @Service
 public class ChangeCards {
     private StatusAndOption[] statusAndOptions;
-    @Data@AllArgsConstructor
+
+    @Data
+    @AllArgsConstructor
     class StatusAndOption {
         int status;
         String option;
@@ -19,45 +21,56 @@ public class ChangeCards {
     }
 
     public ChangeCards() {
-        statusAndOptions = new StatusAndOption[6];
+        statusAndOptions = new StatusAndOption[7];
         statusAndOptions[0] = new StatusAndOption(0, "一点没印象", 0);
         statusAndOptions[1] = new StatusAndOption(1, "没啥印象", 10);
         statusAndOptions[2] = new StatusAndOption(2, "好像记住了", 30);
         statusAndOptions[3] = new StatusAndOption(3, "记住了", 300);
-        statusAndOptions[3] = new StatusAndOption(4, "记得很清楚", 3000);
-        statusAndOptions[4] = new StatusAndOption(5, "永远不会忘", 9000);
-        statusAndOptions[5] = new StatusAndOption(6, "我爱你", 999999);
+        statusAndOptions[4] = new StatusAndOption(4, "记得很清楚", 3000);
+        statusAndOptions[5] = new StatusAndOption(5, "永远不会忘", 9000);
+        statusAndOptions[6] = new StatusAndOption(6, "我爱你", 999999);
     }
 
     public DisplayCard toDisplayCard(Card card) {
         List<String> options = new ArrayList<>();
         int status = card.getStatus();
+        //取当前状态的上一个状态放入可选列表
         if (status - 1 >= 0) {
             options.add(findByStatus(status - 1).getOption());
         }
         options.add(findByStatus(status).getOption());
-        if (status + 1 <= 5) {
+        //取当前状态的下一个状态放入可选列表
+        if (status + 1 <= statusAndOptions.length - 1) {
             options.add(findByStatus(status + 1).getOption());
         }
         return new DisplayCard(card, options);
     }
 
     private StatusAndOption findByStatus(int status) {
-        for (StatusAndOption statusAndOption : statusAndOptions) {
-            if (status == statusAndOption.getStatus()) {
-                return statusAndOption;
+        try {
+            for (StatusAndOption statusAndOption : statusAndOptions) {
+                int OptionStatus = statusAndOption.getStatus();
+                if (status == OptionStatus) {
+                    return statusAndOption;
+                }
             }
+        } catch (Exception e) {
+            System.out.println("没有找到卡片对应的option,status:" + status);
         }
-        return null;
+        return statusAndOptions[0];
     }
 
     private StatusAndOption findByOption(String option) {
-        for (StatusAndOption statusAndOption : statusAndOptions) {
-            if (option.equals(statusAndOption.getOption())) {
-                return statusAndOption;
+        try {
+            for (StatusAndOption statusAndOption : statusAndOptions) {
+                if (option.equals(statusAndOption.getOption())) {
+                    return statusAndOption;
+                }
             }
+        } catch (Exception e) {
+            System.out.println("没有找到卡片对应的option,option:" + option);
         }
-        return null;
+        return statusAndOptions[0];
     }
 
     public Date optionToExpireData(String option) {
@@ -71,13 +84,13 @@ public class ChangeCards {
     }
 
     private Date setExpireDate(int minutes) {
-        Date date=new Date(); //取时间
+        Date date = new Date(); //取时间
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         if (minutes > 900000) {
-            calendar.add(Calendar.YEAR,1);
+            calendar.add(Calendar.YEAR, 1);
         }
-        calendar.add(Calendar.MINUTE,minutes); //把日期往后增加一天,整数  往后推,负数往前移动
+        calendar.add(Calendar.MINUTE, minutes); //把日期往后增加一天,整数  往后推,负数往前移动
         return calendar.getTime(); //这个时间就是日期往后推一天的结果
     }
 }

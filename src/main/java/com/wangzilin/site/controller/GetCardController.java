@@ -29,8 +29,7 @@ public class GetCardController {
     @RequestMapping(value = "/getExpireCard", method = RequestMethod.GET)
     public DisplayCard getExpireCard() {
         Card card = accessCards.getSingleExpiredCardFromDB(new Date());
-        DisplayCard displayCard = changeCards.toDisplayCard(card);
-        return displayCard;
+        return changeCards.toDisplayCard(card);
     }
 
     @RequestMapping(value = "/getAllExpireCards", method = RequestMethod.GET)
@@ -43,8 +42,8 @@ public class GetCardController {
         return displayCards;
     }
 
-    @RequestMapping(value = "/getSpecificCard", method = RequestMethod.GET)
-    public DisplayCard getSpecificCard(String key) {
+    @RequestMapping(value = "/getSpecificCard/{key}", method = RequestMethod.GET)
+    public DisplayCard getSpecificCard(@PathVariable String key) {
         Card card = accessCards.getSpecificCard(key);
         return changeCards.toDisplayCard(card);
     }
