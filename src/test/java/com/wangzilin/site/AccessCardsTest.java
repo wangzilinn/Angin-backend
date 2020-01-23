@@ -1,14 +1,5 @@
 package com.***REMOVED***.site;
 
-import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.services.AccessCards;
-import org.junit.Before;
-
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-
 
 public class AccessCardsTest {
 

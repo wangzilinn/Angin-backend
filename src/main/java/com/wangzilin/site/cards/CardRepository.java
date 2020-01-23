@@ -8,18 +8,17 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.List;
 @Repository
-public interface CardRepository extends MongoRepository<Card, String> {
-    Page<Card> findByExpireDateLessThan(Date date, Pageable pageable);
-    List<Card> findByExpireDateLessThan(Date date);
-    Card findByExpireDate(Date date);
-    Card findByKeyContains(String key);
+public interface CardRepository extends MongoRepository<DBCard, String> {
+    Page<DBCard> findByExpireDateLessThan(Date date, Pageable pageable);
+    List<DBCard> findByExpireDateLessThan(Date date);
+    DBCard findByExpireDate(Date date);
+    DBCard findByKeyContains(String key);
     //替换过期日期
 
-    default Card findLatestByExpireDateLessThan(Date date){
+    default DBCard findLatestByExpireDateLessThan(Date date){
         PageRequest request =
                 PageRequest.of(0, 1, Sort.Direction.DESC,"expireDate");
         return findByExpireDateLessThan(date, request).getContent().get(0);

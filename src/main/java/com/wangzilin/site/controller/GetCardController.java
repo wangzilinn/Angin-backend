@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.controller;
 
-import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.cards.DisplayCard;
+import com.***REMOVED***.site.cards.DBCard;
+import com.***REMOVED***.site.cards.DisplayDBCard;
 import com.***REMOVED***.site.services.AccessCards;
 import com.***REMOVED***.site.services.ChangeCards;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +27,30 @@ public class GetCardController {
     }
 
     @RequestMapping(value = "/getExpireCard", method = RequestMethod.GET)
-    public DisplayCard getExpireCard() {
-        Card card = accessCards.getSingleExpiredCardFromDB(new Date());
-        return changeCards.toDisplayCard(card);
+    public DisplayDBCard getExpireCard() {
+        DBCard DBCard = accessCards.getSingleExpiredCardFromDB(new Date());
+        return changeCards.toDisplayCard(DBCard);
     }
 
     @RequestMapping(value = "/getAllExpireCards", method = RequestMethod.GET)
-    public List<DisplayCard> getAllExpireCards() {
-        List<Card> cardList = accessCards.getAllExpiredCardsFromDB(new Date());
-        List<DisplayCard> displayCards = new ArrayList<>();
-        for(Card card:cardList){
-            displayCards.add(changeCards.toDisplayCard(card));
+    public List<DisplayDBCard> getAllExpireCards() {
+        List<DBCard> DBCardList = accessCards.getAllExpiredCardsFromDB(new Date());
+        List<DisplayDBCard> displayCards = new ArrayList<>();
+        for(DBCard DBCard : DBCardList){
+            displayCards.add(changeCards.toDisplayCard(DBCard));
         }
         return displayCards;
     }
 
     @RequestMapping(value = "/getSpecificCard/{key}", method = RequestMethod.GET)
-    public DisplayCard getSpecificCard(@PathVariable String key) {
-        Card card = accessCards.getSpecificCard(key);
-        return changeCards.toDisplayCard(card);
+    public DisplayDBCard getSpecificCard(@PathVariable String key) {
+        DBCard DBCard = accessCards.getSpecificCard(key);
+        return changeCards.toDisplayCard(DBCard);
     }
+
+    //TODO:获得今日要背的所有单词
+//    public DisplayCard getTodayCards(){
+//        List<Card>
+//    }
+
 }

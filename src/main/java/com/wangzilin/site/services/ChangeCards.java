@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.services;
 
-import com.***REMOVED***.site.cards.Card;
-import com.***REMOVED***.site.cards.DisplayCard;
+import com.***REMOVED***.site.cards.DBCard;
+import com.***REMOVED***.site.cards.DisplayDBCard;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -21,19 +21,20 @@ public class ChangeCards {
     }
 
     public ChangeCards() {
-        statusAndOptions = new StatusAndOption[7];
-        statusAndOptions[0] = new StatusAndOption(0, "一点没印象", 0);
-        statusAndOptions[1] = new StatusAndOption(1, "没啥印象", 10);
-        statusAndOptions[2] = new StatusAndOption(2, "好像记住了", 30);
-        statusAndOptions[3] = new StatusAndOption(3, "记住了", 300);
-        statusAndOptions[4] = new StatusAndOption(4, "记得很清楚", 3000);
-        statusAndOptions[5] = new StatusAndOption(5, "永远不会忘", 9000);
+        statusAndOptions = new StatusAndOption[8];
+        statusAndOptions[0] = new StatusAndOption(-1, "null", 0);
+        statusAndOptions[1] = new StatusAndOption(0, "一点没印象", 0);
+        statusAndOptions[2] = new StatusAndOption(1, "没啥印象", 10);
+        statusAndOptions[3] = new StatusAndOption(2, "好像记住了", 30);
+        statusAndOptions[4] = new StatusAndOption(3, "记住了", 300);
+        statusAndOptions[5] = new StatusAndOption(4, "记得很清楚", 3000);
+        statusAndOptions[6] = new StatusAndOption(5, "永远不会忘", 9000);
         statusAndOptions[6] = new StatusAndOption(6, "我爱你", 999999);
     }
 
-    public DisplayCard toDisplayCard(Card card) {
+    public DisplayDBCard toDisplayCard(DBCard DBCard) {
         List<String> options = new ArrayList<>();
-        int status = card.getStatus();
+        int status = DBCard.getStatus();
         //取当前状态的上一个状态放入可选列表
         if (status - 1 >= 0) {
             options.add(findByStatus(status - 1).getOption());
@@ -43,7 +44,7 @@ public class ChangeCards {
         if (status + 1 <= statusAndOptions.length - 1) {
             options.add(findByStatus(status + 1).getOption());
         }
-        return new DisplayCard(card, options);
+        return new DisplayDBCard(DBCard, options);
     }
 
     private StatusAndOption findByStatus(int status) {

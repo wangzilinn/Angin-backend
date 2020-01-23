@@ -1,17 +1,11 @@
 package com.***REMOVED***.site;
 
 
-import com.***REMOVED***.site.cards.Card;
 import com.***REMOVED***.site.services.AccessCards;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 @SpringBootApplication
 public class SiteApplication implements CommandLineRunner {
