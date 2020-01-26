@@ -5,11 +5,23 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
-@Data
+
 public class DBCard extends Card{
     @Id
     private String id;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     private int status;
+    public DBCard(){
+        super();
+    }
 
     public DBCard(String key, String front, String back) {
         this(key, front, back,new Date(), -1);

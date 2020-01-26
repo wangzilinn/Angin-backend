@@ -15,4 +15,6 @@ public class Card {
         this.back = back;
         this.expireDate = expireDate;
     }
+
+    Card(){}
 }

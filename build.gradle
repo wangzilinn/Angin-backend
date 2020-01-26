@@ -36,6 +36,7 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+	testLogging.showStandardStreams true
 }
 
 task buildDocker(dependsOn:build,type:Copy){

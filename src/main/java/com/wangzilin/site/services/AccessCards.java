@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.cards.DBCard;
-import com.***REMOVED***.site.cards.CardRepository;
+import com.***REMOVED***.site.dao.CardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -15,13 +15,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * 这个类负责从数据库类中获取数据
+ */
 @Service
 public class AccessCards {
-    final private CardRepository cardRepository;
+    final private CardDAO cardDAO;
 
     @Autowired
-    public AccessCards(CardRepository cardRepository) {
-        this.cardRepository = cardRepository;
+    public AccessCards(CardDAO cardDAO) {
+        this.cardDAO = cardDAO;
     }
 
     private List<String> readTxt() {
@@ -55,7 +59,7 @@ public class AccessCards {
         return null;
     }
 
-    public List<DBCard> getCardsFromTxt() {
+    public List<DBCard> getLocalCards() {
         List<String> list = readTxt();
         List<DBCard> DBCardList = new ArrayList<>();
         for (String s : list) {
@@ -67,47 +71,31 @@ public class AccessCards {
         return DBCardList;
     }
 
-    public DBCard getSingleExpiredCardFromDB(Date date) {
-        return cardRepository.findLatestByExpireDateLessThan(date);
+    //获得所有到期卡片
+    public List<DBCard> getAllExpiredCards() {
+        return cardDAO.findByExpireDateLessThan(new Date());
     }
 
-    public List<DBCard> getAllExpiredCardsFromDB(Date date) {
-        return cardRepository.findByExpireDateLessThan(date);
-    }
 
-    //TODO:获得到期得卡片
-//    public List<Card> getExpiredCardFromDB(Date date, Integer limit){
-//        if (limit == null){
-//            return cardRepository.findByExpireDateLessThan(date);
-//        }else {
-//
-//        }
-//    }
-
-    public List<DBCard> getAllCards() {
-        return cardRepository.findAll();
-    }
-
-    public void deleteAllCardsFromDB() {
-        cardRepository.deleteAll();
-    }
-
-    public void saveCardToDB(DBCard DBCard) {
-        cardRepository.save(DBCard);
-    }
-
+    //获得指定key的卡片
     public DBCard getSpecificCard(String key) {
-        return cardRepository.findByKeyContains(key);
+        return cardDAO.findByKeyContains(key);
     }
 
-    //根据传入的参数更新单词的过期时间
-    public void updateCard(String key, String option) {
-        ChangeCards changeCards = new ChangeCards();
-        Date expireDate = changeCards.optionToExpireData(option);
-        int status = changeCards.optionsToStatus(option);
-        DBCard DBCard = cardRepository.findByKeyContains(key);
-        DBCard.setExpireDate(expireDate);
-        DBCard.setStatus(status);
-        cardRepository.save(DBCard);
+    //获得今日要背的卡片
+    public List<DBCard> getTodayCards(int expiredCardLimit, int newCardLimit){
+        List<DBCard> expiredCardList = cardDAO.findByExpireDateLessThan(new Date(), expiredCardLimit);
+        List<DBCard> newCardList = cardDAO.findByStatusEqualTo(-1, newCardLimit);
+
+        expiredCardList.addAll(newCardList);
+        return expiredCardList;
+    }
+
+    //根据传入的参数更新单词的状态和过期时间
+    public void updateCardStatus(String key, String option) {
+        ConvertCards convertCards = new ConvertCards();
+        Date expireDate = convertCards.optionToExpireDate(option);
+        int status = convertCards.optionsToStatus(option);
+        cardDAO.updateStatusAndExpiredDate(key, status, expireDate);
     }
 }

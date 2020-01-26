@@ -14,6 +14,6 @@ public class ProcessStringTest {
     public AccessCards accessCards;
     @Test
     public void test() {
-        System.out.println(accessCards.getCardsFromTxt());
+        System.out.println(accessCards.getLocalCards());
     }
 }

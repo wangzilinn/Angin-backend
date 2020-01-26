@@ -1,15 +1,18 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.cards.DBCard;
-import com.***REMOVED***.site.cards.DisplayDBCard;
+import com.***REMOVED***.site.cards.DisplayedCard;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+/**
+ * 这个类负责将一种类型的卡片转换成另一种
+ */
 @Service
-public class ChangeCards {
+public class ConvertCards {
     private StatusAndOption[] statusAndOptions;
 
     @Data
@@ -20,7 +23,7 @@ public class ChangeCards {
         int addMinuets;
     }
 
-    public ChangeCards() {
+    public ConvertCards() {
         statusAndOptions = new StatusAndOption[8];
         statusAndOptions[0] = new StatusAndOption(-1, "null", 0);
         statusAndOptions[1] = new StatusAndOption(0, "一点没印象", 0);
@@ -29,10 +32,10 @@ public class ChangeCards {
         statusAndOptions[4] = new StatusAndOption(3, "记住了", 300);
         statusAndOptions[5] = new StatusAndOption(4, "记得很清楚", 3000);
         statusAndOptions[6] = new StatusAndOption(5, "永远不会忘", 9000);
-        statusAndOptions[6] = new StatusAndOption(6, "我爱你", 999999);
+        statusAndOptions[7] = new StatusAndOption(6, "我爱你", 999999);
     }
 
-    public DisplayDBCard toDisplayCard(DBCard DBCard) {
+    public DisplayedCard toDisplayedCard(DBCard DBCard) {
         List<String> options = new ArrayList<>();
         int status = DBCard.getStatus();
         //取当前状态的上一个状态放入可选列表
@@ -44,7 +47,7 @@ public class ChangeCards {
         if (status + 1 <= statusAndOptions.length - 1) {
             options.add(findByStatus(status + 1).getOption());
         }
-        return new DisplayDBCard(DBCard, options);
+        return new DisplayedCard(DBCard, options);
     }
 
     private StatusAndOption findByStatus(int status) {
@@ -74,7 +77,7 @@ public class ChangeCards {
         return statusAndOptions[0];
     }
 
-    public Date optionToExpireData(String option) {
+    public Date optionToExpireDate(String option) {
         StatusAndOption statusAndOption = findByOption(option);
         return setExpireDate(statusAndOption.getAddMinuets());
 
