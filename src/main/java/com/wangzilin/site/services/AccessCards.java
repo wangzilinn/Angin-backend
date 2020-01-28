@@ -1,6 +1,7 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.cards.DBCard;
+import com.***REMOVED***.site.cards.DisplayedCard;
 import com.***REMOVED***.site.dao.CardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,10 +93,14 @@ public class AccessCards {
     }
 
     //根据传入的参数更新单词的状态和过期时间
-    public void updateCardStatus(String key, String option) {
+    public DisplayedCard updateCardStatus(String key, String option) {
         ConvertCards convertCards = new ConvertCards();
-        Date expireDate = convertCards.optionToExpireDate(option);
+        Date expirationDate = convertCards.optionToExpirationDate(option);
         int status = convertCards.optionsToStatus(option);
-        cardDAO.updateStatusAndExpiredDate(key, status, expireDate);
+        //先存入数据库
+        cardDAO.updateStatusAndExpiredDate(key, status, expirationDate);
+        //再把存入的新的取回来
+        DBCard dbCard = cardDAO.findByKeyContains(key);
+        return convertCards.toDisplayedCard(dbCard);
     }
 }

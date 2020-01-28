@@ -77,7 +77,7 @@ public class ConvertCards {
         return statusAndOptions[0];
     }
 
-    public Date optionToExpireDate(String option) {
+    public Date optionToExpirationDate(String option) {
         StatusAndOption statusAndOption = findByOption(option);
         return setExpireDate(statusAndOption.getAddMinuets());
 
