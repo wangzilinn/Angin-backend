@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import java.util.Date;
 
 
-public class DBCard extends Card{
+public class DBCard extends Card {
     @Id
     private String id;
 
@@ -19,12 +19,13 @@ public class DBCard extends Card{
     }
 
     private int status;
-    public DBCard(){
+
+    public DBCard() {
         super();
     }
 
     public DBCard(String key, String front, String back) {
-        this(key, front, back,new Date(), -1);
+        this(key, front, back, new Date(), -1);
     }
 
     public DBCard(String key, String front, String back, Date expireDate, int status) {
@@ -36,12 +37,12 @@ public class DBCard extends Card{
         this.expireDate = expireDate;
     }
 
-    public String toString(){
+    public String toString() {
         return "key:\n" + key + "\nfront:\n" + front + "\nback:\n" + back
                 + "\nexpireDate:\n" + expireDate + "\nstatus:" + status;
     }
 
-    public String toHTML(){
+    public String toHTML() {
         return "key</br>" + key +
                 "</br>front:</br>" + front +
                 "</br>back:</br>" + back +

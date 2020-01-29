@@ -103,4 +103,9 @@ public class AccessCards {
         DBCard dbCard = cardDAO.findByKeyContains(key);
         return convertCards.toDisplayedCard(dbCard);
     }
+
+    public void saveCard(DBCard dbCard) {
+        cardDAO.saveCard(dbCard);
+    }
+
 }

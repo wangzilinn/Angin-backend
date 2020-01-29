@@ -1,62 +1,24 @@
 [
   {
-    "key": "exact",
-    "front": "Example:\"\"<br/> The exact locations are being kept secret for reasons of security.&nbsp;\"\" <br/>Root:<br/>ex-, 向外。-act, 做，驱使，称量，词源同act, examine, exigent. 即称量的，精确要求的。\"",
-    "back": "\"adj.准确的，精密的；精确的vt.要求；强求；急需vi.勒索钱财<div><span style=\"\"color: rgb(255, 255, 255)\"\">确切地点因为安全原因要保密。</span></div>\"",
-    "expireDate": "2019-12-16T15:52:20.956+0000",
-    "options": [
-      "一点没印象",
-      "没啥印象"
-    ]
-  },
-  {
     "key": "accurate",
     "front": "Example:\"\"<br/> Schools were told their exam information had to be spot-on and accurate. &nbsp;\"\" <br/>Root:<br/>前缀ac-同ad-. cure, 关心，照料。指用心使精确。\"",
     "back": "\"adj.精确的<div><span style=\"\"color: rgb(255, 255, 255)\"\">各学校接到通知，要求考试信息必须准确无误。</span></div>\"",
-    "expireDate": "2019-12-17T15:52:21.032+0000",
+    "expireDate": "2020-01-25 21:52:18",
     "options": [
       "一点没印象",
-      "没啥印象"
+      "没啥印象",
+      "好像记住了"
     ]
   },
   {
     "key": "reliably",
     "front": "Example:\"\"<br/> <div>Therefore, DB2 cannot reliably get the list of tables.&nbsp;</div><div><div>How can you reliably measure and compare between components or projects?&nbsp;</div></div>\"\" <br/>Root:<br/>reliable的变形\"",
     "back": "\"adv. 可靠地；确实地<div><span style=\"\"color: rgb(255, 255, 255)\"\">因此，DB2 不能可靠地获得这份表的列表</span></div><div><span style=\"\"color: rgb(255, 255, 255);\"\"><br /></span></div><span style=\"\"color: rgb(255, 255, 255);\"\">您如何能够可靠地度量并比较组件或项目？</span>\"",
-    "expireDate": "2019-12-18T15:52:21.082+0000",
+    "expireDate": "2020-01-26 21:52:18",
     "options": [
       "一点没印象",
-      "没啥印象"
-    ]
-  },
-  {
-    "key": "articulate",
-    "front": "Example:\"\"<br/> <div>Be careful to articulate yourwords so that everyone in the roomcan understand you.&nbsp;</div><div><br /></div><div><div>She was an intelligent and articulate woman in her early 40s who came to see me for depression and anxiety.&nbsp;</div><div><br /></div></div>\"\" <br/>Root:<br/>来自词根art-, 连贯，连结，词源同art, arm.\"",
-    "back": "\"vt.清晰地发（音）；明确有力地表达；用关节连接；使相互连贯vi.发音；清楚地讲话；用关节连接起来adj.发音清晰的；口才好的；有关节的<div><span style=\"\"color: rgb(255, 255, 255)\"\">小心使你的话发音清晰，使室内每人都能听懂。</span></div><div><span style=\"\"color: rgb(255, 255, 255);\"\"><span style=\"\"color: rgb(255, 255, 255);\"\">这是个40岁刚出头的女性患者，言谈睿智，发音清晰，她来就诊是因为情绪低落，精神焦虑。</span></span></div>\"",
-    "expireDate": "2019-12-19T15:52:21.135+0000",
-    "options": [
-      "一点没印象",
-      "没啥印象"
-    ]
-  },
-  {
-    "key": "franchise&nbsp;",
-    "front": "Example:\"\"<br/> the cost of operating a franchise&nbsp;\"\" <br/>Root:<br/>来自古法语franc, 非奴役的，自由的，来自拉丁语francus, 法兰克人，自由人，词源同Frank. 其原词义即使享有自由权，后引申词义选举权，特许经销权等\"",
-    "back": "专营权",
-    "expireDate": "2019-12-23T15:52:21.330+0000",
-    "options": [
-      "null",
-      "一点没印象"
-    ]
-  },
-  {
-    "key": "motivate&nbsp;",
-    "front": "Example:\"\"<br/> if patients are to be expected to take part in research for altruistic reasons, they have a right to know what reasons motivate the people carrying out the research.\"\" <br/>Root:<br/>来自motive,动机，-ive,使。比喻用法。\"",
-    "back": "刺激，激励",
-    "expireDate": "2019-12-24T15:52:21.379+0000",
-    "options": [
-      "null",
-      "一点没印象"
+      "没啥印象",
+      "好像记住了"
     ]
   }
 ]

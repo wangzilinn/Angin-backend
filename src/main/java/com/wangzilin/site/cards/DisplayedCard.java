@@ -3,6 +3,7 @@ package com.***REMOVED***.site.cards;
 import com.mongodb.DB;
 import com.mongodb.client.model.DBCollectionFindAndModifyOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class DisplayedCard extends Card {
     public String key;
     public String front;
     public String back;
-    public Date expireDate;
+    public String expireDate;
     public List<String> options;
 
     public DisplayedCard(DBCard DBCard, List<String> options) {
@@ -19,7 +20,7 @@ public class DisplayedCard extends Card {
         this.key = DBCard.key;
         this.front = DBCard.front;
         this.back = DBCard.back;
-        this.expireDate = DBCard.expireDate;
+        this.expireDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(DBCard.expireDate);
         this.options = options;
     }
 }
