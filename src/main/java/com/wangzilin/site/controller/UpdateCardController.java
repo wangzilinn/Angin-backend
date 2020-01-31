@@ -31,4 +31,10 @@ public class UpdateCardController {
         //TODO:单纯更新单词的过期时间
     }
 
+    @RequestMapping(value = "/updateCardExpirationDate/{key}/{date}")
+    public void updateCardDetil(@PathVariable String key, @PathVariable String date) throws ParseException {
+        Date ExpirationDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
+        //TODO:单纯更新单词的过期时间
+    }
+
 }
