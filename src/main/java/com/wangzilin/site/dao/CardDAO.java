@@ -41,12 +41,6 @@ public class CardDAO {
         return mongoTemplate.find(query.limit(limit), DBCard.class, COLLECTION_NAME);
     }
 
-    public void updateStatusAndExpiredDate(String key, int status, Date expiredDate) {
-        key = String.format("^.*%s.*$", key);
-        Query query = new Query(Criteria.where("key").regex(key));
-        Update update = new Update().set("status", status).set("expireDate", expiredDate);
-        mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
-    }
 
     public void saveCard(DBCard dbCard) {
         mongoTemplate.save(dbCard, COLLECTION_NAME);
@@ -63,6 +57,12 @@ public class CardDAO {
         Query query = new Query(Criteria.where("key").regex(key));
 
         mongoTemplate.updateFirst(query, update, COLLECTION_NAME);
+    }
+
+    public void deleteCard(String key) {
+        key = String.format("^.*%s.*$", key);
+        Query query = new Query(Criteria.where("key").regex(key));
+        mongoTemplate.remove(query, COLLECTION_NAME);
     }
 
 }

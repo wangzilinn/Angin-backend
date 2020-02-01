@@ -119,4 +119,8 @@ public class AccessCards {
         cardDAO.updateCardItem(key, itemMap);
     }
 
+    public void deleteCard(String key) {
+        cardDAO.deleteCard(key);
+    }
+
 }
