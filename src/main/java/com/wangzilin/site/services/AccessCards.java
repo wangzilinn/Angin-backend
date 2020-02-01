@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -98,7 +99,10 @@ public class AccessCards {
         Date expirationDate = convertCards.optionToExpirationDate(option);
         int status = convertCards.optionsToStatus(option);
         //先存入数据库
-        cardDAO.updateStatusAndExpiredDate(key, status, expirationDate);
+        HashMap<String, Object> itemMap = new HashMap<>();
+        itemMap.put("status", status);
+        itemMap.put("expireDate", expirationDate);
+        cardDAO.updateCardItem(key, itemMap);
         //再把存入的新的取回来
         DBCard dbCard = cardDAO.findByKeyContains(key);
         return convertCards.toDisplayedCard(dbCard);
@@ -106,6 +110,13 @@ public class AccessCards {
 
     public void saveCard(DBCard dbCard) {
         cardDAO.saveCard(dbCard);
+    }
+
+    public void updateCardFrontAndBack(String key, String front, String back) {
+        HashMap<String, Object> itemMap = new HashMap<>();
+        itemMap.put("front", front);
+        itemMap.put("back", back);
+        cardDAO.updateCardItem(key, itemMap);
     }
 
 }

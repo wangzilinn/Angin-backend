@@ -18,6 +18,8 @@ public class DisplayedCard extends Card {
     public String expireDate;
     public List<String> options;
 
+    public DisplayedCard(){}//这个构造函数必须有, 以供spring调用
+
     public DisplayedCard(DBCard DBCard, List<String> options) {
         super(DBCard.key, DBCard.front, DBCard.back, DBCard.expireDate);
         this.key = DBCard.key;
