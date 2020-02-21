@@ -6,9 +6,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Member;
-import java.util.Arrays;
-
 @Component
 public class MqttService implements ApplicationRunner {
     private static MqttClient client;
@@ -29,7 +26,7 @@ public class MqttService implements ApplicationRunner {
         try {
             String[] messageTopic = {"chat"};
             int[] qos = {2};
-            client.setCallback(new TopMsgCallback(client, options, messageTopic, qos));
+            client.setCallback(new MessageCallback(client, options, messageTopic, qos));
             client.connect(options);
             client.subscribe("chat", 2);
         } catch (Exception e) {
@@ -38,7 +35,7 @@ public class MqttService implements ApplicationRunner {
     }
 }
 
-class TopMsgCallback implements MqttCallback {
+class MessageCallback implements MqttCallback {
 
     //这些东西都是为了重连用的
     private MqttClient client;
@@ -46,9 +43,9 @@ class TopMsgCallback implements MqttCallback {
     private String[] topic;
     private int[] qos;
 
-    public TopMsgCallback() {}
+    public MessageCallback() {}
 
-    public TopMsgCallback(MqttClient client, MqttConnectOptions options,String[] topic,int[] qos) {
+    public MessageCallback(MqttClient client, MqttConnectOptions options, String[] topic, int[] qos) {
         this.client = client;
         this.options = options;
         this.topic=topic;
@@ -74,7 +71,7 @@ class TopMsgCallback implements MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         System.out.println(topic);
-        System.out.println(Arrays.toString(message.getPayload()));
+        System.out.println(new String(message.getPayload()));
     }
 
 
