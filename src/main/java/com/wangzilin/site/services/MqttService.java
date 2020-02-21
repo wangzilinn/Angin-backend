@@ -2,6 +2,7 @@ package com.***REMOVED***.site.services;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -9,11 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MqttService implements ApplicationRunner {
     private static MqttClient client;
+    @Autowired
+    private MessageCallback messageCallback;
 
     //初始化参数
     @Override
     public void run(ApplicationArguments args) throws Exception{
-        System.out.println("初始化MQTT连接");
+        System.out.println("MQTT连接");
         connect();
     }
 
@@ -26,7 +29,7 @@ public class MqttService implements ApplicationRunner {
         try {
             String[] messageTopic = {"chat"};
             int[] qos = {2};
-            client.setCallback(new MessageCallback(client, options, messageTopic, qos));
+            client.setCallback(messageCallback);
             client.connect(options);
             client.subscribe("chat", 2);
         } catch (Exception e) {
@@ -35,49 +38,3 @@ public class MqttService implements ApplicationRunner {
     }
 }
 
-class MessageCallback implements MqttCallback {
-
-    //这些东西都是为了重连用的
-    private MqttClient client;
-    private MqttConnectOptions options;
-    private String[] topic;
-    private int[] qos;
-
-    public MessageCallback() {}
-
-    public MessageCallback(MqttClient client, MqttConnectOptions options, String[] topic, int[] qos) {
-        this.client = client;
-        this.options = options;
-        this.topic=topic;
-        this.qos=qos;
-    }
-
-    @Override
-    public void connectionLost(Throwable cause) {
-        System.out.println("正在重连");
-        while (true) {
-            try {
-                Thread.sleep(3000);
-                client.connect(options);
-                client.subscribe(topic, qos);
-                System.out.println("重新连接成功");
-                break;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println(topic);
-        System.out.println(new String(message.getPayload()));
-    }
-
-
-
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken token) {
-
-    }
-}
