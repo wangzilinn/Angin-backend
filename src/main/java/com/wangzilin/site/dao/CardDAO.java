@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.dao;
 
-import com.***REMOVED***.site.cards.DBCard;
+import com.***REMOVED***.site.model.DBCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -14,9 +14,14 @@ import java.util.Map;
 
 @Repository
 public class CardDAO {
-    @Autowired
+
     private MongoTemplate mongoTemplate;
     final private String COLLECTION_NAME = "card";
+
+    @Autowired
+    CardDAO(MongoTemplate mongoTemplate){
+        this.mongoTemplate = mongoTemplate;
+    }
 
     public List<DBCard> findByExpireDateLessThan(Date date) {
         return mongoTemplate.find(new Query(Criteria.where("expireDate").lte(date).and("status").ne(-1)), DBCard.class, COLLECTION_NAME);
@@ -64,5 +69,7 @@ public class CardDAO {
         Query query = new Query(Criteria.where("key").regex(key));
         mongoTemplate.remove(query, COLLECTION_NAME);
     }
+
+
 
 }

@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.controller;
 
-import com.***REMOVED***.site.cards.DBCard;
-import com.***REMOVED***.site.cards.DisplayedCard;
+import com.***REMOVED***.site.model.DBCard;
+import com.***REMOVED***.site.model.DisplayedCard;
 import com.***REMOVED***.site.services.AccessCards;
 import com.***REMOVED***.site.services.ConvertCards;
 import org.springframework.beans.factory.annotation.Autowired;

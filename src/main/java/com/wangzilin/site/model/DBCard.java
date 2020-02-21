@@ -1,6 +1,5 @@
-package com.***REMOVED***.site.cards;
+package com.***REMOVED***.site.model;
 
-import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;

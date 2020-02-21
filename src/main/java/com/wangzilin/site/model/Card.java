@@ -1,6 +1,5 @@
-package com.***REMOVED***.site.cards;
+package com.***REMOVED***.site.model;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class Card {
