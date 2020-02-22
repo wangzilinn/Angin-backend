@@ -1,5 +1,6 @@
 package com.***REMOVED***.site.dao;
 
+import com.***REMOVED***.site.model.MessageModel;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ public class ChatDAO {
 
     ChatDAO(){}
 
-    public void saveMessage(String message) {
+    public void saveMessage(MessageModel message) {
         mongoTemplateForChat.save(message, COLLECTION_NAME);
     }
 
