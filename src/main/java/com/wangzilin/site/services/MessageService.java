@@ -5,20 +5,23 @@ import com.***REMOVED***.site.model.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 @Service
-public class ChatService {
-
-
+public class MessageService {
     private ChatDAO chatDAO;
 
-
     @Autowired
-    public ChatService(ChatDAO chatDAO) {
+    public MessageService(ChatDAO chatDAO) {
         this.chatDAO = chatDAO;
     }
 
-
     public void saveMessage(MessageModel message) {
         chatDAO.saveMessage(message);
+    }
+
+    public List<MessageModel> getHistoryMessage() {
+        return chatDAO.findByDate(new Date(), 100);
     }
 }

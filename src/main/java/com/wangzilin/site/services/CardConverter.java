@@ -12,7 +12,7 @@ import java.util.*;
  * 这个类负责将一种类型的卡片转换成另一种
  */
 @Service
-public class ConvertCards {
+public class CardConverter {
     private StatusAndOption[] statusAndOptions;
 
     @Data
@@ -23,7 +23,7 @@ public class ConvertCards {
         int addMinuets;
     }
 
-    public ConvertCards() {
+    public CardConverter() {
         statusAndOptions = new StatusAndOption[8];
         statusAndOptions[0] = new StatusAndOption(-1, "null", 0);
         statusAndOptions[1] = new StatusAndOption(0, "一点没印象", 0);

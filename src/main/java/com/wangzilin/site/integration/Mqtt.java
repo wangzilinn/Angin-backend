@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.integration;
 
 import com.***REMOVED***.site.model.MessageModel;
-import com.***REMOVED***.site.services.ChatService;
+import com.***REMOVED***.site.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class Mqtt {
     @Autowired
-    ChatService chatService;
+    MessageService messageService;
 
     @Bean
     public MessageChannel mqttInputChannel() {
@@ -40,8 +40,8 @@ public class Mqtt {
     public MessageHandler handler() {
         return message -> {
             MessageModel messageModel = new MessageModel();
-            messageModel.message = (String) message.getPayload();
-            chatService.saveMessage(messageModel);
+            messageModel.content = (String) message.getPayload();
+            messageService.saveMessage(messageModel);
             System.out.println(message.getPayload());
         };
     }

@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.services;
 
+import com.***REMOVED***.site.dao.CardDAO;
 import com.***REMOVED***.site.model.DBCard;
 import com.***REMOVED***.site.model.DisplayedCard;
-import com.***REMOVED***.site.dao.CardDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -22,11 +22,11 @@ import java.util.List;
  * 这个类负责从数据库类中获取数据
  */
 @Service
-public class AccessCards {
+public class CardAccessor {
     final private CardDAO cardDAO;
 
     @Autowired
-    public AccessCards(CardDAO cardDAO) {
+    public CardAccessor(CardDAO cardDAO) {
         this.cardDAO = cardDAO;
     }
 
@@ -95,9 +95,9 @@ public class AccessCards {
 
     //根据传入的参数更新单词的状态和过期时间
     public DisplayedCard updateCardStatus(String key, String option) {
-        ConvertCards convertCards = new ConvertCards();
-        Date expirationDate = convertCards.optionToExpirationDate(option);
-        int status = convertCards.optionsToStatus(option);
+        CardConverter cardConverter = new CardConverter();
+        Date expirationDate = cardConverter.optionToExpirationDate(option);
+        int status = cardConverter.optionsToStatus(option);
         //先存入数据库
         HashMap<String, Object> itemMap = new HashMap<>();
         itemMap.put("status", status);
@@ -105,7 +105,7 @@ public class AccessCards {
         cardDAO.updateCardItem(key, itemMap);
         //再把存入的新的取回来
         DBCard dbCard = cardDAO.findByKeyContains(key);
-        return convertCards.toDisplayedCard(dbCard);
+        return cardConverter.toDisplayedCard(dbCard);
     }
 
     public void saveCard(DBCard dbCard) {

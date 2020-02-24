@@ -1,7 +1,7 @@
 package com.***REMOVED***.site;
 
 
-import com.***REMOVED***.site.services.AccessCards;
+import com.***REMOVED***.site.services.CardAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,11 +14,11 @@ public class SiteApplication implements CommandLineRunner {
         SpringApplication.run(SiteApplication.class, args);
     }
 
-    final private AccessCards accessCards;
+    final private CardAccessor cardAccessor;
 
     @Autowired
-    public SiteApplication(AccessCards accessCards) {
-        this.accessCards = accessCards;
+    public SiteApplication(CardAccessor cardAccessor) {
+        this.cardAccessor = cardAccessor;
     }
 
     @Override
