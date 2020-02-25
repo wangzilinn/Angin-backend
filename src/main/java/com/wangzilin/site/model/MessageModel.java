@@ -8,8 +8,8 @@ public class MessageModel {
     @Id
     public String id;
     public String userId;
+    public String peerId;
     public String type;
     public String content;
-    public Date date;
-
+    public Date dateTime;
 }

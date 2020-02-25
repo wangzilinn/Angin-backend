@@ -1,5 +1,7 @@
 package com.***REMOVED***.site.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import org.springframework.messaging.MessageHandler;
 public class Mqtt {
     @Autowired
     MessageService messageService;
+
+    @Autowired
+    ObjectMapper mapper;
 
     @Bean
     public MessageChannel mqttInputChannel() {
@@ -39,9 +44,13 @@ public class Mqtt {
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
         return message -> {
-            MessageModel messageModel = new MessageModel();
-            messageModel.content = (String) message.getPayload();
-            messageService.saveMessage(messageModel);
+            String json = (String) message.getPayload();
+            try {
+                MessageModel messageModel = mapper.readValue(json, MessageModel.class);
+                messageService.saveMessage(messageModel);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             System.out.println(message.getPayload());
         };
     }
