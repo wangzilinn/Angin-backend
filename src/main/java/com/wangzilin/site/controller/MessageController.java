@@ -19,7 +19,7 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @RequestMapping(value = "/getHistory", method = RequestMethod.POST)
+    @RequestMapping(value = "/getHistory", method = RequestMethod.GET)
     public List<MessageModel> getHistory() {
         return messageService.getHistoryMessage();
     }

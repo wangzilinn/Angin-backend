@@ -24,8 +24,7 @@ public class ChatDAO {
     }
 
     public List<MessageModel> findByDate(Date since, int limit) {
-        Query query = new Query(Criteria.where("date").lte(since));
+        Query query = new Query(Criteria.where("dateTime").lte(since));
         return mongoTemplateForChat.find(query.limit(limit), MessageModel.class, COLLECTION_NAME);
     }
-
 }
