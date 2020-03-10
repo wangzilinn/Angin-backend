@@ -1,13 +1,12 @@
 package com.***REMOVED***.site.util;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.Security;
 import java.security.cert.CertificateFactory;
@@ -17,10 +16,13 @@ public class SslUtil {
     public static SSLSocketFactory getSocketFactory() throws Exception {
         Security.addProvider(new BouncyCastleProvider());
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-        File file = ResourceUtils.getFile("classpath:certs/server-cert.pem");
+
+        ClassPathResource classPathResource = new ClassPathResource("certs/server-cert.pem");
+        InputStream inputStream = classPathResource.getInputStream();
+//        File file = ResourceUtils.getFile("classpath:certs/server-cert.pem");
 
         X509Certificate certificate =
-                (X509Certificate) certificateFactory.generateCertificate(new FileInputStream(file));
+                (X509Certificate) certificateFactory.generateCertificate(inputStream);
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         keyStore.load(null, null);
         keyStore.setCertificateEntry("ca-certificate", certificate);
