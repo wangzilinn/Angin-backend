@@ -17,9 +17,8 @@ public class SslUtil {
         Security.addProvider(new BouncyCastleProvider());
         CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
 
-        ClassPathResource classPathResource = new ClassPathResource("certs/server-cert.pem");
+        ClassPathResource classPathResource = new ClassPathResource("certs/mqtt-cert.pem");
         InputStream inputStream = classPathResource.getInputStream();
-//        File file = ResourceUtils.getFile("classpath:certs/server-cert.pem");
 
         X509Certificate certificate =
                 (X509Certificate) certificateFactory.generateCertificate(inputStream);
