@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.services.MessageService;
+import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,13 +35,14 @@ public class Mqtt {
 
     @Bean
     public MessageProducer inbound() throws Exception {
-        DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
-        MqttConnectOptions options = new MqttConnectOptions();
         SSLSocketFactory socketFactory = SslUtil.getSocketFactory();
+        MqttConnectOptions options = new MqttConnectOptions();
         options.setSocketFactory(socketFactory);
+        DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
         defaultMqttPahoClientFactory.setConnectionOptions(options);
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("ssl://***REMOVED***:8883", "backend", defaultMqttPahoClientFactory,
+                new MqttPahoMessageDrivenChannelAdapter("ssl://***REMOVED***:8883", "backend",
+                        defaultMqttPahoClientFactory,
                         "chat");
         adapter.setCompletionTimeout(30000);
         adapter.setConverter(new DefaultPahoMessageConverter());
