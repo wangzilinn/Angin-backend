@@ -40,6 +40,7 @@ public class Mqtt {
         options.setSocketFactory(socketFactory);
         DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
         defaultMqttPahoClientFactory.setConnectionOptions(options);
+
         MqttPahoMessageDrivenChannelAdapter adapter =
                 new MqttPahoMessageDrivenChannelAdapter("ssl://***REMOVED***:8883", "backend",
                         defaultMqttPahoClientFactory,
