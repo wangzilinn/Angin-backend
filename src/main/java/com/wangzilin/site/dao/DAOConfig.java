@@ -24,7 +24,7 @@ public class DAOConfig {
     private String chatMongoDBUserName;
     @Value("${chatMongoDB.authDB}")
     private String chatMongoDBAuthDB;
-    @Value("$chatMongoDB.password")
+    @Value("${chatMongoDB.password}")
     private String chatMongoDBPassword;
 
     //card mongoDB
@@ -36,7 +36,7 @@ public class DAOConfig {
     private String cardMongoDBUserName;
     @Value("${cardMongoDB.authDB}")
     private String cardMongoDBAuthDB;
-    @Value("$cardMongoDB.password")
+    @Value("${cardMongoDB.password}")
     private String cardMongoDBPassword;
 
     @Bean
@@ -51,6 +51,7 @@ public class DAOConfig {
 
     @Bean
     public MongoTemplate mongoTemplateForChat() {
+        System.out.println(chatMongoDBAuthDB + chatMongoDBUserName + chatMongoDBPassword);
         MongoCredential mongoCredential = MongoCredential.createCredential(chatMongoDBUserName, chatMongoDBAuthDB,
                 chatMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(chatMongoDBHost, chatMongoDBPort);
