@@ -23,7 +23,7 @@ public class SiteApplication implements CommandLineRunner {
         this.cardAccessor = cardAccessor;
     }
 
-    @Value("${env.data}")
+    @Value("${env}")
     private String env;
 
     @Override

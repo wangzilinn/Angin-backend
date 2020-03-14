@@ -7,6 +7,7 @@ import com.***REMOVED***.site.services.MessageService;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -28,6 +29,12 @@ public class Mqtt {
     @Autowired
     ObjectMapper mapper;
 
+    @Value("${mqtt.url}")
+    private String url;
+
+    @Value("${mqtt.clientId}")
+    private String clientId;
+
     @Bean
     public MessageChannel mqttInputChannel() {
         return new DirectChannel();
@@ -42,7 +49,7 @@ public class Mqtt {
         defaultMqttPahoClientFactory.setConnectionOptions(options);
 
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("ssl://***REMOVED***:8883", "backend",
+                new MqttPahoMessageDrivenChannelAdapter(url, clientId,
                         defaultMqttPahoClientFactory,
                         "chat");
         adapter.setCompletionTimeout(30000);

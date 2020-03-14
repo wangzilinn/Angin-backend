@@ -1,0 +1,59 @@
+{
+  "properties": [
+    {
+      "name": "env",
+      "type": "java.lang.String",
+      "description": "开发环境"
+    },
+    {
+      "name": "chatMongodb.host",
+      "type": "java.lang.String",
+      "description": "Description for chatMongodb.host."
+    },
+    {
+      "name": "chatMongodb.port",
+      "type": "java.lang.Integer",
+      "description": "Description for chatMongodb.port."
+    },
+    {
+      "name": "chatMongodb.userName",
+      "type": "java.lang.String",
+      "description": "Description for chatMongodb.userName."
+    },
+    {
+      "name": "chatMongodb.authDB",
+      "type": "java.lang.String",
+      "description": "Description for chatMongodb.authDB."
+    },
+    {
+      "name": "chatMongodb.password",
+      "type": "java.lang.String",
+      "description": "Description for chatMongodb.password."
+    },
+    {
+      "name": "CardMongodb.host",
+      "type": "java.lang.String",
+      "description": "Description for CardMongodb.host."
+    },
+    {
+      "name": "CardMongodb.port",
+      "type": "java.lang.Integer",
+      "description": "Description for CardMongodb.port."
+    },
+    {
+      "name": "CardMongodb.userName",
+      "type": "java.lang.String",
+      "description": "Description for CardMongodb.userName."
+    },
+    {
+      "name": "CardMongodb.authDB",
+      "type": "java.lang.String",
+      "description": "Description for CardMongodb.authDB."
+    },
+    {
+      "name": "CardMongodb.password",
+      "type": "java.lang.String",
+      "description": "Description for CardMongodb.password."
+    }
+  ]
+}
