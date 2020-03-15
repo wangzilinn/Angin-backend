@@ -15,6 +15,18 @@ import java.util.Collections;
 @Configuration
 public class DAOConfig {
 
+    //user mongoDB
+    @Value("${userMongoDB.host}")
+    private String userMongoDBHost;
+    @Value("${userMongoDB.port}")
+    private int userMongoDBPort;
+    @Value("${userMongoDB.userName}")
+    private String userMongoDBUserName;
+    @Value("${userMongoDB.authDB}")
+    private String userMongoDBAuthDB;
+    @Value("${userMongoDB.password}")
+    private String userMongoDBPassword;
+
     //chat mongoDB
     @Value("${chatMongoDB.host}")
     private String chatMongoDBHost;
@@ -56,6 +68,15 @@ public class DAOConfig {
                 chatMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(chatMongoDBHost, chatMongoDBPort);
         return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "chat");
+    }
+
+    @Bean
+    public MongoTemplate mongoTemplateForUser() {
+        System.out.println(userMongoDBAuthDB + userMongoDBUserName + userMongoDBPassword);
+        MongoCredential mongoCredential = MongoCredential.createCredential(userMongoDBUserName, userMongoDBAuthDB,
+                userMongoDBPassword.toCharArray());
+        ServerAddress serverAddress = new ServerAddress(userMongoDBHost, userMongoDBPort);
+        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "user");
     }
 
 }

@@ -14,17 +14,16 @@ import java.util.List;
 public class ChatDAO {
     @Resource
     private MongoTemplate mongoTemplateForChat;
-    final private String COLLECTION_NAME = "chat";
 
     ChatDAO() {
     }
 
-    public void saveMessage(MessageModel message) {
-        mongoTemplateForChat.save(message, COLLECTION_NAME);
+    public void saveMessage(String collectionName, MessageModel message) {
+        mongoTemplateForChat.save(message, collectionName);
     }
 
-    public List<MessageModel> findByDate(Date since, int limit) {
+    public List<MessageModel> findMessageByDate(Date since, int limit, String channelName) {
         Query query = new Query(Criteria.where("dateTime").lte(since));
-        return mongoTemplateForChat.find(query.limit(limit), MessageModel.class, COLLECTION_NAME);
+        return mongoTemplateForChat.find(query.limit(limit), MessageModel.class, channelName);
     }
 }

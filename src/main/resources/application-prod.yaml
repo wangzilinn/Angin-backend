@@ -23,6 +23,13 @@ cardMongoDB:
   authDB: admin
   password: ***REMOVED***
 
+userMongoDB:
+  host: ***REMOVED***
+  port: 27017
+  userName: ***REMOVED***
+  authDB: admin
+  password: ***REMOVED***
+
 mqtt:
   url: ssl://localhost:8883
   clientId: prod-backend

@@ -9,23 +9,21 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class MessageService {
+public class ChatService {
     private ChatDAO chatDAO;
 
+
     @Autowired
-    public MessageService(ChatDAO chatDAO) {
+    public ChatService(ChatDAO chatDAO) {
         this.chatDAO = chatDAO;
     }
 
-    public void saveMessage(MessageModel message) {
-        chatDAO.saveMessage(message);
-    }
-
     public void saveMessage(String channel, MessageModel message) {
-        //TODO:
+        //讲接收到的某个channel的消息存入数据库
+        chatDAO.saveMessage(channel, message);
     }
 
-    public List<MessageModel> getHistoryMessage() {
-        return chatDAO.findByDate(new Date(), 100);
+    public List<MessageModel> getHistoryMessage(String channelName) {
+        return chatDAO.findMessageByDate(new Date(), 100, channelName);
     }
 }

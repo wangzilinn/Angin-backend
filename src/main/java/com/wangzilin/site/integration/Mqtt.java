@@ -3,7 +3,7 @@ package com.***REMOVED***.site.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.MessageModel;
-import com.***REMOVED***.site.services.MessageService;
+import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import javax.net.ssl.SSLSocketFactory;
 @Configuration
 public class Mqtt {
     @Autowired
-    MessageService messageService;
+    ChatService chatService;
 
     @Autowired
     ObjectMapper mapper;
@@ -78,13 +78,14 @@ public class Mqtt {
                 if (topic.equals("addChannel")) {
                     String newChannelName = mapper.readTree(payLoadJson).path("channelName").asText();
                     adapter.addTopic(newChannelName, 2);
+                    LOG.info("add topic: " + newChannelName);
                 }
                 //处理所有的channel
                 else if (topic.startsWith("channel-")) {
                     //获得channel name: channel-前缀后面的内容就是channel的名字
                     String channelName = topic.substring(8);
                     MessageModel userMessage = mapper.readValue(payLoadJson, MessageModel.class);
-                    messageService.saveMessage(channelName, userMessage);
+                    chatService.saveMessage(channelName, userMessage);
                     LOG.info(channelName + " " + payLoadJson);
                 }
             } catch (JsonProcessingException e) {
