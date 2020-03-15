@@ -21,6 +21,10 @@ public class MessageService {
         chatDAO.saveMessage(message);
     }
 
+    public void saveMessage(String channel, MessageModel message) {
+        //TODO:
+    }
+
     public List<MessageModel> getHistoryMessage() {
         return chatDAO.findByDate(new Date(), 100);
     }

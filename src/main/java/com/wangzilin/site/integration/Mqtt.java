@@ -6,6 +6,8 @@ import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.services.MessageService;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +37,10 @@ public class Mqtt {
     @Value("${mqtt.clientId}")
     private String clientId;
 
+    MqttPahoMessageDrivenChannelAdapter adapter;
+
+    final Logger LOG = LoggerFactory.getLogger(Mqtt.class);
+
     @Bean
     public MessageChannel mqttInputChannel() {
         return new DirectChannel();
@@ -48,10 +54,10 @@ public class Mqtt {
         DefaultMqttPahoClientFactory defaultMqttPahoClientFactory = new DefaultMqttPahoClientFactory();
         defaultMqttPahoClientFactory.setConnectionOptions(options);
 
-        MqttPahoMessageDrivenChannelAdapter adapter =
+        adapter =
                 new MqttPahoMessageDrivenChannelAdapter(url, clientId,
                         defaultMqttPahoClientFactory,
-                        "chat");
+                        "addChannel");
         adapter.setCompletionTimeout(30000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(2);
@@ -63,14 +69,27 @@ public class Mqtt {
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
         return message -> {
-            String json = (String) message.getPayload();
+            String headerJson = message.getHeaders().toString();
+            String payLoadJson = (String) message.getPayload();
             try {
-                MessageModel messageModel = mapper.readValue(json, MessageModel.class);
-                messageService.saveMessage(messageModel);
+                //获得topic:
+                String topic = mapper.readTree(headerJson).path("mqtt_receivedTopic").asText();
+                //用户新增了一个聊天channel, 服务器应立刻订阅
+                if (topic.equals("addChannel")) {
+                    String newChannelName = mapper.readTree(payLoadJson).path("channelName").asText();
+                    adapter.addTopic(newChannelName, 2);
+                }
+                //处理所有的channel
+                else if (topic.startsWith("channel-")) {
+                    //获得channel name: channel-前缀后面的内容就是channel的名字
+                    String channelName = topic.substring(8);
+                    MessageModel userMessage = mapper.readValue(payLoadJson, MessageModel.class);
+                    messageService.saveMessage(channelName, userMessage);
+                    LOG.info(channelName + " " + payLoadJson);
+                }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            System.out.println(message.getPayload());
         };
     }
 }
