@@ -18,7 +18,7 @@ public class UserService {
     }
 
     public boolean AuthenticateUser(String userName, String password) {
-
+        return true;
     }
 
     public List<String> getUserChannels(String userName) {

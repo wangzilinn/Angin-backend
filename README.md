@@ -1,31 +1,64 @@
 ## IM用户操作流程
 
-主动:
+1. 直接使用channel:
+   1. 启动软件时,使用内嵌的用户名获得channel列表
+      1. /UserChannelList, post:用户名, 密码 返回用户订阅channel列表
+   2. 用户点击channel,进入聊天界面
+      1. 获得对应channel的历史记录
+         1. /ChannelHistory, post:用户名, 密码, channelName
+      2. mqtt订阅该channel(以后在考虑订阅安全性)
 
-1. 用户创建一个channel
-2. 用户为channel添加其他用户
-3. 多个用户通过channel聊天
+   2.创建channel:
 
-主动:
+   1. 用户创建一个channel
+      1. /NewChannel, post:用户名, 密码, channelName
+   2. mqtt订阅新的channel
 
-1. 用户搜索channel
-2. 用户请求加入channel
-3. 用户进入channel聊天
+3. 加入channel:
+   1. 用户搜索channel
+      1. /ChannelList, post:用户名, 密码 返回所有channel
+   2. 用户点击channel, 将该channel放入用户订阅的Channel列表中
+      1. /AddChannel, post:用户名, 密码, channelName
+   3. 即1.1
 
-被动:
+## IM服务器策略
 
-1. 用户被拉进一个channel
-2. 同意后, 用户进入channel聊天
+1. /UserChannelList, post:用户名, 密码 返回用户订阅channel列表
+   1. 验证用户
+   2. getUserChannelList(userName): 用户订阅channel列表
+2. /ChannelHistory
+   1. 验证用户
+   2. getChannelHistory(channelName): 消息记录
+3. /NewChannel
+   1. 验证用户
+   2. setNewChannel(channelName)
+      1. 订阅channelName
+      2. 再chat中创建channelName
+      3. 向user.channels添加channelName
+      4. 向user.profile对应用户添加channelName
 
-## IM用户储存策略
+## IM数据库策略
 
-使用一个collection储存每个用户的数据
+1. DB: chat
 
-每个document内容有:
+   1. 不使用以用户为中心的储存策略, 使用以channel为中心的储存策略, 每个一对一或多对多的channel使用一个collection
+   2. 每个collection是一个channel, collectionName是channelName
 
-1. 用户名
-2. channels(list)
+2. DB: user
 
-## IM消息储存策略
+   1. collection: profile 每个document是一个用户的所有数据
 
-不使用以用户为中心的储存策略, 使用以channel为中心的储存策略, 每个一对一或多对多的channel使用一个collection
+      ```json
+      {
+          "userName": "userName",
+          "password": "password",
+          "channels": ["channelName1", "channelName2]
+      }
+      ```
+
+   2. collection: channels 每个document是一个channelName
+
+   
+
+
+
