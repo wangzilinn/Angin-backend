@@ -1,6 +1,7 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.UserDAO;
+import com.***REMOVED***.site.model.ChannelModel;
 import com.***REMOVED***.site.model.UserProfileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,15 @@ public class UserService {
     public List<String> getUserChannels(String userName) {
         UserProfileModel userProfile = userDAO.findUser(userName);
         return userProfile.channels;
+    }
+
+
+    public void addUserChannel(String userName, String channelName) {
+        userDAO.addUserChannel(userName, channelName);
+    }
+
+    public void addChannel(String channelName) {
+        userDAO.addChannel(new ChannelModel(channelName));
     }
 
 

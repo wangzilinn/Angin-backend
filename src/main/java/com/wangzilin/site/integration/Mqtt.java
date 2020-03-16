@@ -79,8 +79,8 @@ public class Mqtt {
                     adapter.addTopic(newChannelName, 2);
                     LOG.info("add topic: " + newChannelName);
                 }
-                //处理所有的channel
-                else if (topic.startsWith("channel-")) {
+                //处理所有的用户channel
+                else if (topic.startsWith("user-")) {
                     //获得channel name: channel-前缀后面的内容就是channel的名字
                     String channelName = topic.substring(8);
                     MessageModel userMessage = mapper.readValue(payLoadJson, MessageModel.class);
