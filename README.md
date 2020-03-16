@@ -52,7 +52,7 @@
       {
           "userName": "userName",
           "password": "password",
-          "channels": ["channelName1", "channelName2]
+          "channels": ["channelName1", "channelName2"]
       }
       ```
 

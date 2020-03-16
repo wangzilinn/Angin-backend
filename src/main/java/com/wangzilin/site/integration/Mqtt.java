@@ -69,11 +69,10 @@ public class Mqtt {
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
         return message -> {
-            String headerJson = message.getHeaders().toString();
+            String topic = (String) message.getHeaders().get("mqtt_receivedTopic");
+            assert topic != null;
             String payLoadJson = (String) message.getPayload();
             try {
-                //获得topic:
-                String topic = mapper.readTree(headerJson).path("mqtt_receivedTopic").asText();
                 //用户新增了一个聊天channel, 服务器应立刻订阅
                 if (topic.equals("addChannel")) {
                     String newChannelName = mapper.readTree(payLoadJson).path("channelName").asText();
@@ -89,6 +88,7 @@ public class Mqtt {
                     LOG.info(channelName + " " + payLoadJson);
                 }
             } catch (JsonProcessingException e) {
+                LOG.info(topic + " " + payLoadJson);
                 e.printStackTrace();
             }
         };
