@@ -14,7 +14,7 @@ public class UserDAO {
     @Resource
     private MongoTemplate mongoTemplateForUser;
 
-    private String COLLECTION_NAME = "user";
+    private String COLLECTION_NAME = "profile";
 
     UserDAO() {
     }

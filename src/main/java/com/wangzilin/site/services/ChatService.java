@@ -26,4 +26,5 @@ public class ChatService {
     public List<MessageModel> getHistoryMessage(String channelName) {
         return chatDAO.findMessageByDate(new Date(), 100, channelName);
     }
+
 }

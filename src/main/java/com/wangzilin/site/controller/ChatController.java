@@ -2,6 +2,7 @@ package com.***REMOVED***.site.controller;
 
 import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.services.ChatService;
+import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,17 +15,31 @@ import java.util.Map;
 @RestController
 public class ChatController {
 
-    final private ChatService chatService;
+    @Autowired
+    private ChatService chatService;
 
     @Autowired
-    ChatController(ChatService chatService) {
-        this.chatService = chatService;
+    private UserService userService;
+
+
+    @RequestMapping(value = "/channelHistory", method = RequestMethod.POST)
+    public List<MessageModel> getHistory(@RequestBody Map params) {
+        String userName = (String) params.get("userName");
+        String password = (String) params.get("password");
+        if (userService.authenticateUser(userName, password)) {
+            String channelName = (String) params.get("channelName");
+            return chatService.getHistoryMessage(channelName);
+        }
+        return null;
     }
 
-
-    @RequestMapping(value = "/getHistory", method = RequestMethod.POST)
-    public List<MessageModel> getHistory(@RequestBody Map params) {
-        String channelName = (String) params.get("channelName");
-        return chatService.getHistoryMessage(channelName);
+    @RequestMapping(value = "/userChannelList", method = RequestMethod.POST)
+    public List<String> getUserChannelList(@RequestBody Map params) {
+        String userName = (String) params.get("userName");
+        String password = (String) params.get("password");
+        if (userService.authenticateUser(userName, password)) {
+            return userService.getUserChannels(userName);
+        }
+        return null;
     }
 }

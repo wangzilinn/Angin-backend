@@ -17,8 +17,9 @@ public class UserService {
 
     }
 
-    public boolean AuthenticateUser(String userName, String password) {
-        return true;
+    public boolean authenticateUser(String userName, String password) {
+        UserProfileModel userProfile = userDAO.findUser(userName);
+        return userProfile.password.equals(password);
     }
 
     public List<String> getUserChannels(String userName) {
