@@ -26,12 +26,12 @@ public class UserDAO {
     }
 
     public UserProfileModel findUser(String userName) {
-        return mongoTemplateForUser.findOne(new Query(Criteria.where("userName").is(userName)),
+        return mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userName)),
                 UserProfileModel.class, COLLECTION_NAME);
     }
 
     public void addUserChannel(String userName, String channelName) {
-        mongoTemplateForUser.updateFirst(new Query(Criteria.where("userName").is(userName)), new Update().addToSet(
+        mongoTemplateForUser.updateFirst(new Query(Criteria.where("userId").is(userName)), new Update().addToSet(
                 "channels", channelName), COLLECTION_NAME);
     }
 

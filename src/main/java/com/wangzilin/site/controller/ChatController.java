@@ -27,9 +27,9 @@ public class ChatController {
 
     @RequestMapping(value = "/channelHistory", method = RequestMethod.POST)
     public List<MessageModel> getHistory(@RequestBody Map params) {
-        String userName = (String) params.get("userName");
+        String userId = (String) params.get("userId");
         String password = (String) params.get("password");
-        if (userService.authenticateUser(userName, password)) {
+        if (userService.authenticateUser(userId, password)) {
             String channelName = (String) params.get("channelName");
             return chatService.getHistoryMessage(channelName);
         }
@@ -38,7 +38,7 @@ public class ChatController {
 
     @RequestMapping(value = "/userChannelList", method = RequestMethod.POST)
     public List<String> getUserChannelList(@RequestBody Map params) {
-        String userName = (String) params.get("userName");
+        String userName = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userName, password)) {
             return userService.getUserChannels(userName);
@@ -48,7 +48,7 @@ public class ChatController {
 
     @RequestMapping(value = "/newChannel", method = RequestMethod.POST)
     public ResponseEntity setNewChannel(@RequestBody Map params) {
-        String userName = (String) params.get("userName");
+        String userName = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userName, password)) {
             String channelName = (String) params.get("channelName");

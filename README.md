@@ -23,6 +23,8 @@
 
 ## IM服务器策略
 
+所有用户channelName以user-开头
+
 1. /UserChannelList, post:用户名, 密码 返回用户订阅channel列表
    1. 验证用户
    2. getUserChannelList(userName): 用户订阅channel列表
@@ -32,10 +34,10 @@
 3. /NewChannel
    1. 验证用户
    2. setNewChannel(channelName)
-      1. 订阅channelName
-      2. 再chat中创建channelName
-      3. 向user.channels添加channelName
-      4. 向user.profile对应用户添加channelName
+      1. 判断该channel是否存在, 若存在, 则使用户加入该channel, 若不存在, 则创建channel并加入
+         1. chat中创建channelName
+         2. 向user.channels添加channelName
+         3. 向user.profile对应用户添加channelName
 
 ## IM数据库策略
 

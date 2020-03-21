@@ -18,19 +18,19 @@ public class UserService {
 
     }
 
-    public boolean authenticateUser(String userName, String password) {
-        UserProfileModel userProfile = userDAO.findUser(userName);
+    public boolean authenticateUser(String userId, String password) {
+        UserProfileModel userProfile = userDAO.findUser(userId);
         return userProfile.password.equals(password);
     }
 
-    public List<String> getUserChannels(String userName) {
-        UserProfileModel userProfile = userDAO.findUser(userName);
+    public List<String> getUserChannels(String userId) {
+        UserProfileModel userProfile = userDAO.findUser(userId);
         return userProfile.channels;
     }
 
 
-    public void addUserChannel(String userName, String channelName) {
-        userDAO.addUserChannel(userName, channelName);
+    public void addUserChannel(String userId, String channelName) {
+        userDAO.addUserChannel(userId, channelName);
     }
 
     public void addChannel(String channelName) {
