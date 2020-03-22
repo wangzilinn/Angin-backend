@@ -61,7 +61,6 @@ public class ChatService {
         if (channelModel.members.size() == 1) {
             //仅有一人订阅, 且取定的话, 这个频道就可以消失了
             userDAO.deleteChannel(channelName);
-            // 如果是新创建的channel, 则服务器先订阅
             MqttPahoMessageDrivenChannelAdapter adapter =
                     BeanUtil.getBean(MqttPahoMessageDrivenChannelAdapter.class);
             adapter.removeTopic(channelName);

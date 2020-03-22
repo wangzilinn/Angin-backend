@@ -41,7 +41,7 @@ public class ChatController {
         return null;
     }
 
-    @RequestMapping(value = "/userChannelList", method = RequestMethod.POST)
+    @RequestMapping(value = "/userChannel", method = RequestMethod.GET)
     public List<ChannelModel> getUserChannelList(@RequestBody Map<String, Object> params) {
         String userName = (String) params.get("userId");
         String password = (String) params.get("password");
@@ -51,7 +51,7 @@ public class ChatController {
         return null;
     }
 
-    @RequestMapping(value = "/subscribeChannel", method = RequestMethod.POST)
+    @RequestMapping(value = "/userChannel", method = RequestMethod.POST)
     public ResponseEntity<String> subscribeChannel(@RequestBody Map<String, Object> params) {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");
@@ -68,7 +68,7 @@ public class ChatController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @RequestMapping(value = "/unsubscribeChannel", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/userChannel", method = RequestMethod.DELETE)
     public ResponseEntity<String> unsubscribeChannel(@RequestBody Map<String, Object> params) {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");

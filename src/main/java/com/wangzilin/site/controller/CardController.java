@@ -4,30 +4,36 @@ import com.***REMOVED***.site.model.DBCard;
 import com.***REMOVED***.site.model.DisplayedCard;
 import com.***REMOVED***.site.services.CardAccessor;
 import com.***REMOVED***.site.services.CardConverter;
+import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CardController {
 
     final private CardAccessor cardAccessor;
     final private CardConverter cardConverter;
+    final private UserService userService;
 
     @Autowired
-    CardController(CardAccessor cardAccessor, CardConverter cardConverter) {
+    CardController(CardAccessor cardAccessor, CardConverter cardConverter, UserService userService) {
         this.cardAccessor = cardAccessor;
         this.cardConverter = cardConverter;
+        this.userService = userService;
     }
 
 
-    @RequestMapping(value = "/getAllExpireCards", method = RequestMethod.GET)
-    public List<DisplayedCard> getAllExpireCards() {
+    @RequestMapping(value = "/expiredCards", method = RequestMethod.GET)
+    public List<DisplayedCard> getAllExpireCards(@RequestBody Map<String, String> params) {
+        String userId = params.get("userId");
+        String password = params.get("password");
         List<DBCard> DBCardList = cardAccessor.getAllExpiredCards();
         List<DisplayedCard> displayCards = new ArrayList<>();
-        for(DBCard DBCard : DBCardList){
+        for (DBCard DBCard : DBCardList) {
             displayCards.add(cardConverter.toDisplayedCard(DBCard));
         }
         return displayCards;
