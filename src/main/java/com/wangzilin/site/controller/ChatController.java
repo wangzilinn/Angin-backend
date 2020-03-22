@@ -1,5 +1,7 @@
 package com.***REMOVED***.site.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.***REMOVED***.site.model.ChannelModel;
 import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.services.UserService;
@@ -24,9 +26,12 @@ public class ChatController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    ObjectMapper mapper;
+
 
     @RequestMapping(value = "/channelHistory", method = RequestMethod.POST)
-    public List<MessageModel> getHistory(@RequestBody Map params) {
+    public List<MessageModel> getHistory(@RequestBody Map<String, Object> params) {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userId, password)) {
@@ -37,7 +42,7 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/userChannelList", method = RequestMethod.POST)
-    public List<String> getUserChannelList(@RequestBody Map params) {
+    public List<ChannelModel> getUserChannelList(@RequestBody Map<String, Object> params) {
         String userName = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userName, password)) {
@@ -46,20 +51,37 @@ public class ChatController {
         return null;
     }
 
-    @RequestMapping(value = "/newChannel", method = RequestMethod.POST)
-    public ResponseEntity setNewChannel(@RequestBody Map params) {
-        String userName = (String) params.get("userId");
+    @RequestMapping(value = "/subscribeChannel", method = RequestMethod.POST)
+    public ResponseEntity<String> subscribeChannel(@RequestBody Map<String, Object> params) {
+        String userId = (String) params.get("userId");
         String password = (String) params.get("password");
-        if (userService.authenticateUser(userName, password)) {
-            String channelName = (String) params.get("channelName");
+        if (userService.authenticateUser(userId, password)) {
+            ChannelModel channel = mapper.convertValue(params.get("channel"), ChannelModel.class);
             boolean isNewChannel = (boolean) params.get("newChannel");
             try {
-                chatService.addNewChannel(userName, channelName, isNewChannel);
-                return new ResponseEntity(HttpStatus.CREATED);
+                chatService.subscribeNewChannel(userId, channel, isNewChannel);
+                return new ResponseEntity<>(HttpStatus.CREATED);
             } catch (MessagingException m) {
-                return new ResponseEntity(m.toString(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(m.toString(), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @RequestMapping(value = "/unsubscribeChannel", method = RequestMethod.DELETE)
+    public ResponseEntity<String> unsubscribeChannel(@RequestBody Map<String, Object> params) {
+        String userId = (String) params.get("userId");
+        String password = (String) params.get("password");
+        if (userService.authenticateUser(userId, password)) {
+            try {
+                String channelName = (String) params.get("channelName");
+                chatService.unsubscribeChannel(userId, channelName);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204
+            } catch (MessagingException m) {
+                return new ResponseEntity<>(m.toString(), HttpStatus.NOT_FOUND);//404
+            }
+
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

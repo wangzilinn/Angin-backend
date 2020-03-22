@@ -6,6 +6,7 @@ import com.***REMOVED***.site.model.UserProfileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,19 +24,12 @@ public class UserService {
         return userProfile.password.equals(password);
     }
 
-    public List<String> getUserChannels(String userId) {
+    public List<ChannelModel> getUserChannels(String userId) {
         UserProfileModel userProfile = userDAO.findUser(userId);
-        return userProfile.channels;
+        ArrayList<ChannelModel> channels = new ArrayList<>();
+        for (String userChannel : userProfile.channels) {
+            channels.add(userDAO.findChannel(userChannel));
+        }
+        return channels;
     }
-
-
-    public void addUserChannel(String userId, String channelName) {
-        userDAO.addUserChannel(userId, channelName);
-    }
-
-    public void addChannel(String channelName) {
-        userDAO.addChannel(new ChannelModel(channelName));
-    }
-
-
 }

@@ -1,6 +1,8 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.ChatDAO;
+import com.***REMOVED***.site.dao.UserDAO;
+import com.***REMOVED***.site.model.ChannelModel;
 import com.***REMOVED***.site.model.MessageModel;
 import com.***REMOVED***.site.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ public class ChatService {
     private ChatDAO chatDAO;
 
     @Autowired
-    UserService userService;
+    UserDAO userDAO;
 
 
     @Autowired
@@ -33,19 +35,34 @@ public class ChatService {
         return chatDAO.findMessageByDate(new Date(), 100, channelName);
     }
 
-    public void addNewChannel(String userName, String channelName, boolean isNewChannel) {
-        if (channelName.startsWith("user-")) {
-            // 如果是新创建的channel, 则服务器先订阅
+    public void subscribeNewChannel(String userName, ChannelModel channel, boolean isNewChannel) {
+        if (channel.name.startsWith("user-")) {
             if (isNewChannel) {
+                // 如果是新创建的channel, 则服务器先订阅
                 MqttPahoMessageDrivenChannelAdapter adapter =
                         BeanUtil.getBean(MqttPahoMessageDrivenChannelAdapter.class);
-                adapter.getTopic();
+                adapter.addTopic(channel.name);
+                // 之后将channel加入到数据库
+                userDAO.addGlobalChannel(channel);
+            } else {
+                //否则仅更新原有的channel列表
+                userDAO.updateGlobalChannel(channel.name, userName);
             }
             // 将新的channel写入用户订阅列表
-            userService.addUserChannel(userName, channelName);
-            userService.addChannel(channelName);
+            userDAO.addUserChannel(userName, channel.name);
         } else {
             throw new MessagingException("用户channel必须以user-开头");
         }
+    }
+
+    public void unsubscribeChannel(String userId, String channelName) {
+        //判断该频道是否还有人订阅
+        ChannelModel channelModel = userDAO.findChannel(channelName);
+        if (channelModel.members.size() == 1) {
+            //仅有一人订阅, 且取定的话, 这个频道就可以消失了
+            userDAO.deleteChannel(channelName);
+        }
+        userDAO.removeGlobalChannelUser(userId, channelName);
+        userDAO.removeUserChannel(userId, channelName);
     }
 }
