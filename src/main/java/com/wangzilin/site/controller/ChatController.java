@@ -27,7 +27,7 @@ public class ChatController {
     private UserService userService;
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
 
     @RequestMapping(value = "/channelHistory", method = RequestMethod.POST)
