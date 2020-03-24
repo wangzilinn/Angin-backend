@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.dao;
 
-import com.***REMOVED***.site.model.MessageModel;
+import com.***REMOVED***.site.model.ChatMessage;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -18,12 +18,12 @@ public class ChatDAO {
     ChatDAO() {
     }
 
-    public void saveMessage(String collectionName, MessageModel message) {
+    public void saveMessage(String collectionName, ChatMessage message) {
         mongoTemplateForChat.save(message, collectionName);
     }
 
-    public List<MessageModel> findMessageByDate(Date since, int limit, String channelName) {
+    public List<ChatMessage> findMessageByDate(Date since, int limit, String channelName) {
         Query query = new Query(Criteria.where("dateTime").lte(since));
-        return mongoTemplateForChat.find(query.limit(limit), MessageModel.class, channelName);
+        return mongoTemplateForChat.find(query.limit(limit), ChatMessage.class, channelName);
     }
 }

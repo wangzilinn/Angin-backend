@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.UserDAO;
-import com.***REMOVED***.site.model.ChannelModel;
-import com.***REMOVED***.site.model.UserProfileModel;
+import com.***REMOVED***.site.model.ChatChannel;
+import com.***REMOVED***.site.model.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,13 @@ public class UserService {
     }
 
     public boolean authenticateUser(String userId, String password) {
-        UserProfileModel userProfile = userDAO.findUser(userId);
+        UserProfile userProfile = userDAO.findUser(userId);
         return userProfile.password.equals(password);
     }
 
-    public List<ChannelModel> getUserChannels(String userId) {
-        UserProfileModel userProfile = userDAO.findUser(userId);
-        ArrayList<ChannelModel> channels = new ArrayList<>();
+    public List<ChatChannel> getUserChannels(String userId) {
+        UserProfile userProfile = userDAO.findUser(userId);
+        ArrayList<ChatChannel> channels = new ArrayList<>();
         for (String userChannel : userProfile.channels) {
             channels.add(userDAO.findChannel(userChannel));
         }

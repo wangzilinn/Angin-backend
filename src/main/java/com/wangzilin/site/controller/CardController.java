@@ -9,10 +9,7 @@ import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +34,9 @@ public class CardController {
 
     //获得所有过期卡片
     @RequestMapping(value = "/expiredCards", method = RequestMethod.POST)
-    public ResponseEntity<List<DisplayedCard>> getAllExpireCards(@RequestBody Map<String, String> params) {
-        String userId = params.get("userId");
-        String password = params.get("password");
+    public ResponseEntity<List<DisplayedCard>> getAllExpireCards(@RequestHeader Map<String, String> headers) {
+        String userId = headers.get("userId");
+        String password = headers.get("password");
         if (!userService.authenticateUser(userId, password)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -58,14 +55,15 @@ public class CardController {
 
     //获得指定卡片
     @RequestMapping(value = "/card", method = RequestMethod.POST)
-    public ResponseEntity<DisplayedCard> getSpecificCard(@RequestBody Map<String, String> params) {
-        String userId = params.get("userId");
-        String password = params.get("password");
+    public ResponseEntity<DisplayedCard> getSpecificCard(@RequestHeader Map<String, String> headers,
+                                                         @RequestBody Map<String, String> body) {
+        String userId = headers.get("userId");
+        String password = headers.get("password");
         if (!userService.authenticateUser(userId, password)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         try {
-            String key = params.get("key");
+            String key = body.get("key");
             DBCard DBCard = cardAccessor.getSpecificCard(key);
             return new ResponseEntity<>(cardConverter.toDisplayedCard(DBCard), HttpStatus.OK);
         } catch (Exception e) {

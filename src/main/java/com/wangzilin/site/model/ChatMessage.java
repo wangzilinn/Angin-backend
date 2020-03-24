@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
-public class MessageModel {
+public class ChatMessage {
     @Id
     public String id;
     public String userId;

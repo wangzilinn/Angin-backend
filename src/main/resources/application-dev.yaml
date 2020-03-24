@@ -1,5 +1,7 @@
 env: dev
 
+
+
 server:
   port: 8443
   ssl:
@@ -34,5 +36,8 @@ mqtt:
   url: ssl://***REMOVED***:8883
   clientId: dev-backend
 
+jwt:
+  secret: ***REMOVED***
+  expiration: 1800
 
 

@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.util.Date;
 import java.util.Set;
 
-public class ChannelModel {
+public class ChatChannel {
     @Id
     public String id;
     public String name;

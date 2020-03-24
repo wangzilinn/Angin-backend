@@ -2,8 +2,8 @@ package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.ChatDAO;
 import com.***REMOVED***.site.dao.UserDAO;
-import com.***REMOVED***.site.model.ChannelModel;
-import com.***REMOVED***.site.model.MessageModel;
+import com.***REMOVED***.site.model.ChatChannel;
+import com.***REMOVED***.site.model.ChatMessage;
 import com.***REMOVED***.site.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
@@ -26,16 +26,16 @@ public class ChatService {
         this.chatDAO = chatDAO;
     }
 
-    public void saveMessage(String channel, MessageModel message) {
+    public void saveMessage(String channel, ChatMessage message) {
         //讲接收到的某个channel的消息存入数据库
         chatDAO.saveMessage(channel, message);
     }
 
-    public List<MessageModel> getHistoryMessage(String channelName) {
+    public List<ChatMessage> getHistoryMessage(String channelName) {
         return chatDAO.findMessageByDate(new Date(), 100, channelName);
     }
 
-    public void subscribeNewChannel(String userName, ChannelModel channel, boolean isNewChannel) {
+    public void subscribeNewChannel(String userName, ChatChannel channel, boolean isNewChannel) {
         if (channel.name.startsWith("user-")) {
             if (isNewChannel) {
                 // 如果是新创建的channel, 则服务器先订阅
@@ -57,8 +57,8 @@ public class ChatService {
 
     public void unsubscribeChannel(String userId, String channelName) {
         //判断该频道是否还有人订阅
-        ChannelModel channelModel = userDAO.findChannel(channelName);
-        if (channelModel.members.size() == 1) {
+        ChatChannel chatChannel = userDAO.findChannel(channelName);
+        if (chatChannel.members.size() == 1) {
             //仅有一人订阅, 且取定的话, 这个频道就可以消失了
             userDAO.deleteChannel(channelName);
             MqttPahoMessageDrivenChannelAdapter adapter =

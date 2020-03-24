@@ -2,8 +2,8 @@ package com.***REMOVED***.site.dao;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.***REMOVED***.site.model.ChannelModel;
-import com.***REMOVED***.site.model.UserProfileModel;
+import com.***REMOVED***.site.model.ChatChannel;
+import com.***REMOVED***.site.model.UserProfile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,13 +24,13 @@ public class UserDAO {
     UserDAO() {
     }
 
-    public void addUser(UserProfileModel userProfile) {
+    public void addUser(UserProfile userProfile) {
         mongoTemplateForUser.save(userProfile, "profile");
     }
 
-    public UserProfileModel findUser(String userName) {
+    public UserProfile findUser(String userName) {
         return mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userName)),
-                UserProfileModel.class, "profile");
+                UserProfile.class, "profile");
     }
 
     public void addUserChannel(String userName, String channelName) {
@@ -38,8 +38,8 @@ public class UserDAO {
                 "channels", channelName), "profile");
     }
 
-    public void addGlobalChannel(ChannelModel channel) {
-        if (mongoTemplateForUser.exists(new Query(Criteria.where("name").is(channel.name)), ChannelModel.class,
+    public void addGlobalChannel(ChatChannel channel) {
+        if (mongoTemplateForUser.exists(new Query(Criteria.where("name").is(channel.name)), ChatChannel.class,
                 "channels")) {
             throw new MessagingException("已存在相同用户名");
         }
@@ -51,8 +51,8 @@ public class UserDAO {
                 "members", newUserId), "channels");
     }
 
-    public ChannelModel findChannel(String name) {
-        return mongoTemplateForUser.findOne(new Query(Criteria.where("name").is(name)), ChannelModel.class, "channels");
+    public ChatChannel findChannel(String name) {
+        return mongoTemplateForUser.findOne(new Query(Criteria.where("name").is(name)), ChatChannel.class, "channels");
     }
 
 
@@ -76,7 +76,7 @@ public class UserDAO {
 
     public void deleteChannel(String channelName) {
         DeleteResult deleteResult = mongoTemplateForUser.remove(new Query(Criteria.where("name").is(channelName)),
-                ChannelModel.class, "channels");
+                ChatChannel.class, "channels");
         if (!deleteResult.wasAcknowledged()) {
             throw new MessagingException("deleteChannel failed");
         }

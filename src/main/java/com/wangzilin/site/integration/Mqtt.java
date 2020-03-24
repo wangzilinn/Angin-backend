@@ -2,7 +2,7 @@ package com.***REMOVED***.site.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.MessageModel;
+import com.***REMOVED***.site.model.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -83,7 +83,7 @@ public class Mqtt {
                 else if (topic.startsWith("user-")) {
                     //获得channel name: channel-前缀后面的内容就是channel的名字
                     String channelName = topic.substring(8);
-                    MessageModel userMessage = mapper.readValue(payLoadJson, MessageModel.class);
+                    ChatMessage userMessage = mapper.readValue(payLoadJson, ChatMessage.class);
                     chatService.saveMessage(channelName, userMessage);
                     LOG.info(channelName + " " + payLoadJson);
                 }

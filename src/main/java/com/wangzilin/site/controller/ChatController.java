@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.ChannelModel;
-import com.***REMOVED***.site.model.MessageModel;
+import com.***REMOVED***.site.model.ChatChannel;
+import com.***REMOVED***.site.model.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ChatController {
 
 
     @RequestMapping(value = "/channelHistory", method = RequestMethod.POST)
-    public List<MessageModel> getHistory(@RequestBody Map<String, Object> params) {
+    public List<ChatMessage> getHistory(@RequestBody Map<String, Object> params) {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userId, password)) {
@@ -42,7 +42,7 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/userChannel", method = RequestMethod.GET)
-    public List<ChannelModel> getUserChannelList(@RequestBody Map<String, Object> params) {
+    public List<ChatChannel> getUserChannelList(@RequestBody Map<String, Object> params) {
         String userName = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userName, password)) {
@@ -56,7 +56,7 @@ public class ChatController {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");
         if (userService.authenticateUser(userId, password)) {
-            ChannelModel channel = mapper.convertValue(params.get("channel"), ChannelModel.class);
+            ChatChannel channel = mapper.convertValue(params.get("channel"), ChatChannel.class);
             boolean isNewChannel = (boolean) params.get("newChannel");
             try {
                 chatService.subscribeNewChannel(userId, channel, isNewChannel);
