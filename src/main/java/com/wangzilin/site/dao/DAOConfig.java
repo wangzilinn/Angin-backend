@@ -4,6 +4,7 @@ package com.***REMOVED***.site.dao;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import java.util.Collections;
 
 @Configuration
 public class DAOConfig {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(DAOConfig.class);
 
     //user mongoDB
     @Value("${userMongoDB.host}")
@@ -54,6 +56,7 @@ public class DAOConfig {
     @Bean
     @Primary
     public MongoTemplate mongoTemplateForCard() {
+        log.info("inject mongoTemplateForCard");
         MongoCredential mongoCredential = MongoCredential.createCredential(cardMongoDBUserName, cardMongoDBAuthDB,
                 cardMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(cardMongoDBHost, cardMongoDBPort);
@@ -63,7 +66,7 @@ public class DAOConfig {
 
     @Bean
     public MongoTemplate mongoTemplateForChat() {
-        System.out.println(chatMongoDBAuthDB + chatMongoDBUserName + chatMongoDBPassword);
+        log.info("inject mongoTemplateForChat");
         MongoCredential mongoCredential = MongoCredential.createCredential(chatMongoDBUserName, chatMongoDBAuthDB,
                 chatMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(chatMongoDBHost, chatMongoDBPort);
@@ -73,6 +76,7 @@ public class DAOConfig {
     @Bean
     public MongoTemplate mongoTemplateForUser() {
         System.out.println(userMongoDBAuthDB + userMongoDBUserName + userMongoDBPassword);
+        log.info("inject mongoTemplateForUser");
         MongoCredential mongoCredential = MongoCredential.createCredential(userMongoDBUserName, userMongoDBAuthDB,
                 userMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(userMongoDBHost, userMongoDBPort);

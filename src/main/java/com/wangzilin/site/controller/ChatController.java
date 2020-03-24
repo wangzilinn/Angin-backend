@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.ChatChannel;
-import com.***REMOVED***.site.model.ChatMessage;
+import com.***REMOVED***.site.model.chat.ChatChannel;
+import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

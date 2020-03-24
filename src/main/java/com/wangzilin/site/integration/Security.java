@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.integration;
 
-import com.***REMOVED***.site.auth.AuthUserService;
 import com.***REMOVED***.site.auth.JwtAuthError;
 import com.***REMOVED***.site.auth.JwtAuthFilter;
+import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     //加载用户信息
     @Autowired
-    private AuthUserService myUserDetailsService;
+    private UserService userService;
 
     //权限不足错误信息处理:认证错误, 鉴权错误
     @Autowired
@@ -41,7 +41,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     // jwt校验过滤器，从http头部Authorization字段读取token并校验
     @Bean
-    public JwtAuthFilter authFilter() throws Exception {
+    public JwtAuthFilter authFilter() {
         return new JwtAuthFilter();
     }
 
@@ -54,7 +54,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(myUserDetailsService);
+        authenticationManagerBuilder.userDetailsService(userService);
     }
 
     //创建web过滤

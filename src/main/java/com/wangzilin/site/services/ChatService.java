@@ -2,8 +2,8 @@ package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.ChatDAO;
 import com.***REMOVED***.site.dao.UserDAO;
-import com.***REMOVED***.site.model.ChatChannel;
-import com.***REMOVED***.site.model.ChatMessage;
+import com.***REMOVED***.site.model.chat.ChatChannel;
+import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;

@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.controller;
 
-import com.***REMOVED***.site.auth.AuthService;
 import com.***REMOVED***.site.auth.Result;
 import com.***REMOVED***.site.model.LoginRequest;
+import com.***REMOVED***.site.services.AuthService;
 import com.***REMOVED***.site.util.MiscUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

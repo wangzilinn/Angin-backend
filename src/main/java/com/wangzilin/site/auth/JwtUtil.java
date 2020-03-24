@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.auth;
 
-import com.***REMOVED***.site.model.UserProfile;
+import com.***REMOVED***.site.model.user.UserForAuth;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,9 +19,6 @@ import java.util.function.Function;
 public class JwtUtil {
     private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_CREATED = "iat";
-    private static final long serialVersionUID = -3301605591108950415L;
     private io.jsonwebtoken.Clock clock = DefaultClock.INSTANCE;
 
     @Value("${jwt.secret}")
@@ -74,8 +71,9 @@ public class JwtUtil {
         return false;
     }
 
-    public String generateToken(UserProfile user) {
+    public String generateToken(UserForAuth user) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("role", user.getRole());
         return doGenerateToken(claims, user.getUserId());
     }

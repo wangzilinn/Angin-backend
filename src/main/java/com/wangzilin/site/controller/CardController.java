@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.DBCard;
-import com.***REMOVED***.site.model.DisplayedCard;
+import com.***REMOVED***.site.model.card.DBCard;
+import com.***REMOVED***.site.model.card.DisplayedCard;
 import com.***REMOVED***.site.services.CardAccessor;
 import com.***REMOVED***.site.services.CardConverter;
 import com.***REMOVED***.site.services.UserService;

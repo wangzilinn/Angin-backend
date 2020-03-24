@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model;
+package com.***REMOVED***.site.model.chat;
 
 import org.springframework.data.annotation.Id;
 

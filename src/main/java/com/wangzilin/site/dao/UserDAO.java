@@ -2,8 +2,8 @@ package com.***REMOVED***.site.dao;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.***REMOVED***.site.model.ChatChannel;
-import com.***REMOVED***.site.model.UserProfile;
+import com.***REMOVED***.site.model.chat.ChatChannel;
+import com.***REMOVED***.site.model.user.UserProfile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

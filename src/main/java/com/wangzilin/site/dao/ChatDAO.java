@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.dao;
 
-import com.***REMOVED***.site.model.ChatMessage;
+import com.***REMOVED***.site.model.chat.ChatMessage;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

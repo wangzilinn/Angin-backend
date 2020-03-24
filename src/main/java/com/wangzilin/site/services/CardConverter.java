@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.services;
 
-import com.***REMOVED***.site.model.DBCard;
-import com.***REMOVED***.site.model.DisplayedCard;
+import com.***REMOVED***.site.model.card.DBCard;
+import com.***REMOVED***.site.model.card.DisplayedCard;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;

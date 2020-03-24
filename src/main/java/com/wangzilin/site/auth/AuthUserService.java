@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.auth;
 
-import com.***REMOVED***.site.model.UserProfile;
+import com.***REMOVED***.site.model.user.UserProfile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.dao.CardDAO;
-import com.***REMOVED***.site.model.DBCard;
-import com.***REMOVED***.site.model.DisplayedCard;
+import com.***REMOVED***.site.model.card.DBCard;
+import com.***REMOVED***.site.model.card.DisplayedCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;

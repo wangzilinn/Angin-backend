@@ -1,10 +1,8 @@
-package com.***REMOVED***.site.model;
+package com.***REMOVED***.site.model.card;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
-
-import static org.springframework.context.i18n.LocaleContextHolder.setTimeZone;
 
 public class DisplayedCard extends Card {
     //之所以要显式的写出来而不是继承是因为restfulController必须这样才可以返回

@@ -2,7 +2,7 @@ package com.***REMOVED***.site.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.ChatMessage;
+import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
