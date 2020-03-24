@@ -36,7 +36,7 @@ public class CardController {
     }
 
     //获得所有过期卡片
-    @RequestMapping(value = "/expiredCards", method = RequestMethod.GET)
+    @RequestMapping(value = "/expiredCards", method = RequestMethod.POST)
     public ResponseEntity<List<DisplayedCard>> getAllExpireCards(@RequestBody Map<String, String> params) {
         String userId = params.get("userId");
         String password = params.get("password");
@@ -57,7 +57,7 @@ public class CardController {
     }
 
     //获得指定卡片
-    @RequestMapping(value = "/card", method = RequestMethod.GET)
+    @RequestMapping(value = "/card", method = RequestMethod.POST)
     public ResponseEntity<DisplayedCard> getSpecificCard(@RequestBody Map<String, String> params) {
         String userId = params.get("userId");
         String password = params.get("password");
@@ -75,7 +75,7 @@ public class CardController {
     }
 
     // 获得今日卡片
-    @RequestMapping(value = "/todayCards", method = RequestMethod.GET)
+    @RequestMapping(value = "/todayCards", method = RequestMethod.POST)
     public ResponseEntity<List<DisplayedCard>> getTodayCards(@RequestBody Map<String, Object> params) {
         String userId = (String) params.get("userId");
         String password = (String) params.get("password");
