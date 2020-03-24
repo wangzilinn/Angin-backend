@@ -1,5 +1,6 @@
 package com.***REMOVED***.site.integration;
 
+import com.***REMOVED***.site.auth.AuthUserService;
 import com.***REMOVED***.site.auth.JwtAuthError;
 import com.***REMOVED***.site.auth.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,7 +27,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     //加载用户信息
     @Autowired
-    private UserDetailsService myUserDetailsService;
+    private AuthUserService myUserDetailsService;
 
     //权限不足错误信息处理:认证错误, 鉴权错误
     @Autowired
@@ -78,13 +78,11 @@ public class Security extends WebSecurityConfigurerAdapter {
 
     }
 
-    //配置跨原访问
+    //配置跨源访问
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
-
-
 }

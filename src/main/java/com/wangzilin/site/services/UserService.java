@@ -21,13 +21,13 @@ public class UserService {
 
     public boolean authenticateUser(String userId, String password) {
         UserProfile userProfile = userDAO.findUser(userId);
-        return userProfile.password.equals(password);
+        return userProfile.getPassword().equals(password);
     }
 
     public List<ChatChannel> getUserChannels(String userId) {
         UserProfile userProfile = userDAO.findUser(userId);
         ArrayList<ChatChannel> channels = new ArrayList<>();
-        for (String userChannel : userProfile.channels) {
+        for (String userChannel : userProfile.getChannels()) {
             channels.add(userDAO.findChannel(userChannel));
         }
         return channels;

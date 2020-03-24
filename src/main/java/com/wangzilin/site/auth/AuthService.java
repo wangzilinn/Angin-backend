@@ -19,7 +19,7 @@ public class AuthService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
+    public AuthService(AuthenticationManager authenticationManager, AuthUserService userDetailsService,
                        JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
