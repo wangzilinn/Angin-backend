@@ -72,6 +72,16 @@ public class JwtUtil {
     // 用户名
     // 创建时间
     // 过期时间
+
+    /**
+     * 生成Token Token中放入:
+     * - 用户名
+     * - 创建时间
+     * - 过期时间
+     *
+     * @param user 验证用户实体
+     * @return token
+     */
     public String generateToken(UserForAuth user) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
@@ -116,6 +126,12 @@ public class JwtUtil {
         );
     }
 
+    /**
+     * 计算token过期时间
+     *
+     * @param createdDate 创建时间
+     * @return 过期时间
+     */
     private Date calculateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + expiration * 1000);
     }

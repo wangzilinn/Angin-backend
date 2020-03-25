@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthController {
+
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthController.class);
 
@@ -25,11 +27,12 @@ public class AuthController {
     private UserService userService;
 
     /**
-     * login
+     * 用户登录
      *
-     * @param authRequest
-     * @param bindingResult
-     * @return ResponseEntity<Result>
+     * @param authRequest   ..
+     * @param bindingResult ..
+     * @return 返回token
+     * @throws AuthenticationException ..
      */
     @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> SignIn(@Valid @RequestBody SignRequest authRequest, BindingResult bindingResult) throws AuthenticationException {
@@ -44,6 +47,15 @@ public class AuthController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+
+    /**
+     * 用户注册
+     *
+     * @param signRequest   ..
+     * @param bindingResult ..
+     * @return ..
+     * @throws AuthenticationException ..
+     */
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> SignUp(@Valid @RequestBody SignRequest signRequest, BindingResult bindingResult) throws AuthenticationException {
         if (bindingResult.hasErrors()) {

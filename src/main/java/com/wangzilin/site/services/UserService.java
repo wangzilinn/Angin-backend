@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * 这个类专门负责处理AuthController
+ */
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -32,7 +35,7 @@ public class UserService implements UserDetailsService {
         this.addUser(new UserProfile(signRequest.getUserId(), signRequest.getPassword()));
     }
 
-    //传入从网页来的json
+
     public void addUser(UserProfile userProfile) {
         userDAO.addUser(userProfile);
     }

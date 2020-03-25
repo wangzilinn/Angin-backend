@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping(value = "/card")
 public class CardController {
 
     final private CardAccessor cardAccessor;
@@ -52,7 +53,7 @@ public class CardController {
     }
 
     //获得指定卡片
-    @RequestMapping(value = "/card", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<DisplayedCard> getSpecificCard(@RequestBody Map<String, String> body) {
         try {
             String key = body.get("key");
@@ -109,7 +110,7 @@ public class CardController {
     }
 
     // 删除卡片
-    @RequestMapping(value = "/card", method = RequestMethod.DELETE)
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteCard(@RequestBody Map<String, String> params) {
         try {
             String key = params.get("key");

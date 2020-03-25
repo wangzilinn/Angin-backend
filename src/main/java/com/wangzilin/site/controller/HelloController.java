@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(value = "/hello")
 public class HelloController {
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    /**
+     * @return hello
+     */
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<String> hello() {
         return new ResponseEntity<>("hello", HttpStatus.OK);
     }
