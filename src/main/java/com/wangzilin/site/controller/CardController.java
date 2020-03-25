@@ -5,7 +5,6 @@ import com.***REMOVED***.site.model.card.DBCard;
 import com.***REMOVED***.site.model.card.DisplayedCard;
 import com.***REMOVED***.site.services.CardAccessor;
 import com.***REMOVED***.site.services.CardConverter;
-import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +23,22 @@ public class CardController {
 
     final private CardAccessor cardAccessor;
     final private CardConverter cardConverter;
-    final private UserService userService;
     final private ObjectMapper mapper;
 
     @Autowired
-    public CardController(CardAccessor cardAccessor, CardConverter cardConverter, UserService userService,
+    public CardController(CardAccessor cardAccessor, CardConverter cardConverter,
                           ObjectMapper mapper) {
         this.cardAccessor = cardAccessor;
         this.cardConverter = cardConverter;
-        this.userService = userService;
         this.mapper = mapper;
     }
 
-    //获得所有过期卡片
+
+    /**
+     * 获得所有过期卡片
+     *
+     * @return all expired cards.
+     */
     @RequestMapping(value = "/expiredCards", method = RequestMethod.GET)
     public ResponseEntity<List<DisplayedCard>> getAllExpireCards() {
         try {
@@ -52,7 +54,13 @@ public class CardController {
         }
     }
 
-    //获得指定卡片
+
+    /**
+     * 获得指定卡片
+     *
+     * @param body request body
+     * @return specific card
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<DisplayedCard> getSpecificCard(@RequestBody Map<String, String> body) {
         try {
@@ -65,12 +73,17 @@ public class CardController {
         }
     }
 
-    // 获得今日卡片
+    /**
+     * 获得今日卡片
+     *
+     * @param body request body
+     * @return today's card list.
+     */
     @RequestMapping(value = "/todayCards", method = RequestMethod.POST)
-    public ResponseEntity<List<DisplayedCard>> getTodayCards(@RequestBody Map<String, Object> params) {
+    public ResponseEntity<List<DisplayedCard>> getTodayCards(@RequestBody Map<String, Object> body) {
         try {
-            int expiredLimit = (int) params.get("expiredLimit");
-            int newLimit = (int) params.get("newLimit");
+            int expiredLimit = (int) body.get("expiredLimit");
+            int newLimit = (int) body.get("newLimit");
             List<DBCard> DBCardList = cardAccessor.getTodayCards(expiredLimit, newLimit);
             List<DisplayedCard> displayCards = new ArrayList<>();
             for (DBCard DBCard : DBCardList) {
@@ -83,12 +96,18 @@ public class CardController {
         }
     }
 
-    // 更新卡片状态
+
+    /**
+     * 更新卡片状态
+     *
+     * @param body request body
+     * @return display card.
+     */
     @RequestMapping(value = "/cardStatus", method = RequestMethod.PUT)
-    public ResponseEntity<DisplayedCard> updateCardStatus(@RequestBody Map<String, String> params) {
+    public ResponseEntity<DisplayedCard> updateCardStatus(@RequestBody Map<String, String> body) {
         try {
-            String key = params.get("key");
-            String status = params.get("status");
+            String key = body.get("key");
+            String status = body.get("status");
             return new ResponseEntity<>(cardAccessor.updateCardStatus(key, status), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,12 +115,18 @@ public class CardController {
         }
     }
 
-    // 更新卡片内容
+
+    /**
+     * 更新卡片内容
+     *
+     * @param body request body
+     * @return ..
+     */
     @RequestMapping(value = "/cardDetail", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateCardDetail(@RequestBody Map<String, Object> params) {
+    public ResponseEntity<String> updateCardDetail(@RequestBody Map<String, Object> body) {
         try {
-            String key = (String) params.get("key");
-            DisplayedCard displayedCard = mapper.convertValue(params.get("card"), DisplayedCard.class);
+            String key = (String) body.get("key");
+            DisplayedCard displayedCard = mapper.convertValue(body.get("card"), DisplayedCard.class);
             cardAccessor.updateCardFrontAndBack(key, displayedCard.front, displayedCard.back);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -109,11 +134,18 @@ public class CardController {
         }
     }
 
-    // 删除卡片
+    //
+
+    /**
+     * 删除卡片
+     *
+     * @param body request body
+     * @return ..
+     */
     @RequestMapping(value = "", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteCard(@RequestBody Map<String, String> params) {
+    public ResponseEntity<String> deleteCard(@RequestBody Map<String, String> body) {
         try {
-            String key = params.get("key");
+            String key = body.get("key");
             cardAccessor.deleteCard(key);
             return new ResponseEntity<>("delete" + key, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
