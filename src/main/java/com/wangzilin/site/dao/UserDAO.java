@@ -29,8 +29,15 @@ public class UserDAO {
     }
 
     public UserProfile findUser(String userName) {
-        return mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userName)),
-                UserProfile.class, "profile");
+        UserProfile userProfile = null;
+        try {
+            userProfile = mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userName)),
+                    UserProfile.class, "profile");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return userProfile;
     }
 
     public void addUserChannel(String userName, String channelName) {

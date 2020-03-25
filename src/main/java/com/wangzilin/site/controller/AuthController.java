@@ -1,9 +1,8 @@
 package com.***REMOVED***.site.controller;
 
-import com.***REMOVED***.site.auth.Result;
-import com.***REMOVED***.site.model.LoginRequest;
-import com.***REMOVED***.site.services.AuthService;
-import com.***REMOVED***.site.util.MiscUtil;
+import com.***REMOVED***.site.model.SignRequest;
+import com.***REMOVED***.site.services.UserService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(value = "/auth")
 public class AuthController {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
-    private AuthService authService;
+    private UserService userService;
 
     /**
      * login
@@ -30,19 +31,26 @@ public class AuthController {
      * @param bindingResult
      * @return ResponseEntity<Result>
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Result> login(@Valid @RequestBody LoginRequest authRequest, BindingResult bindingResult) throws AuthenticationException {
+    @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> SignIn(@Valid @RequestBody SignRequest authRequest, BindingResult bindingResult) throws AuthenticationException {
 
         if (bindingResult.hasErrors()) {
-            Result res = MiscUtil.getValidateError(bindingResult);
-            return new ResponseEntity<Result>(res, HttpStatus.UNPROCESSABLE_ENTITY);
+            bindingResult.getFieldErrors().forEach((fieldError) -> log.info(fieldError.getField()));
+            return new ResponseEntity<>("输入格式错误", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        final String token = authService.login(authRequest.getAccount(), authRequest.getPassword());
+        final String token = userService.signIn(authRequest.getUserId(), authRequest.getPassword());
 
-        // Return the token
-        Result res = new Result(200, "ok");
-        res.putData("token", token);
-        return ResponseEntity.ok(res);
+        return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<String> SignUp(@Valid @RequestBody SignRequest signRequest, BindingResult bindingResult) throws AuthenticationException {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors().forEach((fieldError) -> log.info(fieldError.getField()));
+            return new ResponseEntity<>("输入格式错误", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        userService.addUser(signRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

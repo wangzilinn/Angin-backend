@@ -75,7 +75,6 @@ public class DAOConfig {
 
     @Bean
     public MongoTemplate mongoTemplateForUser() {
-        System.out.println(userMongoDBAuthDB + userMongoDBUserName + userMongoDBPassword);
         log.info("inject mongoTemplateForUser");
         MongoCredential mongoCredential = MongoCredential.createCredential(userMongoDBUserName, userMongoDBAuthDB,
                 userMongoDBPassword.toCharArray());

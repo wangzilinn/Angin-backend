@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.auth;
+package com.***REMOVED***.site.util;
 
 import com.***REMOVED***.site.model.user.UserForAuth;
 import io.jsonwebtoken.Claims;
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Service
@@ -50,11 +48,10 @@ public class JwtUtil {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        Claims claims = Jwts.parser()
+        return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
-        return claims;
     }
 
     private Boolean isTokenExpired(String token) {
@@ -71,25 +68,22 @@ public class JwtUtil {
         return false;
     }
 
+    // 生成Token Token中放入:
+    // 用户名
+    // 创建时间
+    // 过期时间
     public String generateToken(UserForAuth user) {
-        Map<String, Object> claims = new HashMap<>();
-
-        claims.put("role", user.getRole());
-        return doGenerateToken(claims, user.getUserId());
-    }
-
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(user.getUsername())
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
+
 
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);

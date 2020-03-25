@@ -4,9 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class UserForAuth implements UserDetails {
 
@@ -77,8 +75,8 @@ public class UserForAuth implements UserDetails {
     }
 
     public String getAuthoritiesString() {
-        String authoritiesString = "";
-        //TODO
-//        String.join(",", )
+        List<String> authorityList = new ArrayList<>();
+        authorities.forEach((authority) -> authorityList.add(authority.getAuthority()));
+        return String.join(",", authorityList);
     }
 }

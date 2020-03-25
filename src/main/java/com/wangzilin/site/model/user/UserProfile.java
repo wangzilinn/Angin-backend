@@ -12,12 +12,20 @@ public class UserProfile {
     private List<String> channels;
     private String role;
 
+    //给mongoDB用
+    public UserProfile() {
+    }
+
     public UserProfile(String id, String userId, String password, List<String> channels, String role) {
         this.id = id;
         this.userId = userId;
         this.password = password;
         this.channels = channels;
         this.role = role;
+    }
+
+    public UserProfile(String userId, String password) {
+        this(null, userId, password, null, null);
     }
 
     public String getId() {

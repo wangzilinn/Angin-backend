@@ -9,7 +9,10 @@ import com.***REMOVED***.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +36,8 @@ public class CardController {
     }
 
     //获得所有过期卡片
-    @RequestMapping(value = "/expiredCards", method = RequestMethod.POST)
-    public ResponseEntity<List<DisplayedCard>> getAllExpireCards(@RequestHeader Map<String, String> headers) {
-        String userId = headers.get("userId");
-        String password = headers.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+    @RequestMapping(value = "/expiredCards", method = RequestMethod.GET)
+    public ResponseEntity<List<DisplayedCard>> getAllExpireCards() {
         try {
             List<DBCard> DBCardList = cardAccessor.getAllExpiredCards();
             List<DisplayedCard> displayCards = new ArrayList<>();
@@ -55,13 +53,7 @@ public class CardController {
 
     //获得指定卡片
     @RequestMapping(value = "/card", method = RequestMethod.POST)
-    public ResponseEntity<DisplayedCard> getSpecificCard(@RequestHeader Map<String, String> headers,
-                                                         @RequestBody Map<String, String> body) {
-        String userId = headers.get("userId");
-        String password = headers.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<DisplayedCard> getSpecificCard(@RequestBody Map<String, String> body) {
         try {
             String key = body.get("key");
             DBCard DBCard = cardAccessor.getSpecificCard(key);
@@ -75,11 +67,6 @@ public class CardController {
     // 获得今日卡片
     @RequestMapping(value = "/todayCards", method = RequestMethod.POST)
     public ResponseEntity<List<DisplayedCard>> getTodayCards(@RequestBody Map<String, Object> params) {
-        String userId = (String) params.get("userId");
-        String password = (String) params.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         try {
             int expiredLimit = (int) params.get("expiredLimit");
             int newLimit = (int) params.get("newLimit");
@@ -98,11 +85,6 @@ public class CardController {
     // 更新卡片状态
     @RequestMapping(value = "/cardStatus", method = RequestMethod.PUT)
     public ResponseEntity<DisplayedCard> updateCardStatus(@RequestBody Map<String, String> params) {
-        String userId = params.get("userId");
-        String password = params.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         try {
             String key = params.get("key");
             String status = params.get("status");
@@ -116,11 +98,6 @@ public class CardController {
     // 更新卡片内容
     @RequestMapping(value = "/cardDetail", method = RequestMethod.PUT)
     public ResponseEntity<String> updateCardDetail(@RequestBody Map<String, Object> params) {
-        String userId = (String) params.get("userId");
-        String password = (String) params.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         try {
             String key = (String) params.get("key");
             DisplayedCard displayedCard = mapper.convertValue(params.get("card"), DisplayedCard.class);
@@ -134,11 +111,6 @@ public class CardController {
     // 删除卡片
     @RequestMapping(value = "/card", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteCard(@RequestBody Map<String, String> params) {
-        String userId = params.get("userId");
-        String password = params.get("password");
-        if (!userService.authenticateUser(userId, password)) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         try {
             String key = params.get("key");
             cardAccessor.deleteCard(key);
@@ -148,11 +120,5 @@ public class CardController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @RequestMapping(value = "/updateCardExpirationDate/{key}/{date}", method = RequestMethod.GET)
-//    public void updateCardExpirationDate(@PathVariable String key, @PathVariable String date) throws ParseException {
-//        Date ExpirationDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(date);
-//        //TODO:单纯更新单词的过期时间
-//    }
 
 }

@@ -75,6 +75,8 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll();
 
         httpSecurity.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
+        // 禁用缓存
+        httpSecurity.headers().cacheControl();
 
     }
 

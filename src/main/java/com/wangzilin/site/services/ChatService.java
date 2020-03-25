@@ -10,21 +10,18 @@ import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannel
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class ChatService {
+    @Autowired
     private ChatDAO chatDAO;
 
     @Autowired
     UserDAO userDAO;
 
-
-    @Autowired
-    public ChatService(ChatDAO chatDAO) {
-        this.chatDAO = chatDAO;
-    }
 
     public void saveMessage(String channel, ChatMessage message) {
         //讲接收到的某个channel的消息存入数据库
@@ -59,7 +56,7 @@ public class ChatService {
         //判断该频道是否还有人订阅
         ChatChannel chatChannel = userDAO.findChannel(channelName);
         if (chatChannel.members.size() == 1) {
-            //仅有一人订阅, 且取定的话, 这个频道就可以消失了
+            //仅有一人订阅, 且取订的话, 这个频道就可以消失了
             userDAO.deleteChannel(channelName);
             MqttPahoMessageDrivenChannelAdapter adapter =
                     BeanUtil.getBean(MqttPahoMessageDrivenChannelAdapter.class);
@@ -67,5 +64,11 @@ public class ChatService {
         }
         userDAO.removeGlobalChannelUser(userId, channelName);
         userDAO.removeUserChannel(userId, channelName);
+    }
+
+    public List<ChatChannel> getUserChannels(String userId) {
+        List<ChatChannel> chatChannels = new ArrayList<>();
+        userDAO.findUser(userId).getChannels().forEach(stringChannel -> chatChannels.add(userDAO.findChannel(stringChannel)));
+        return chatChannels;
     }
 }
