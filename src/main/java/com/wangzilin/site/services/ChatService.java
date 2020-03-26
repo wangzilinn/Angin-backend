@@ -5,7 +5,6 @@ import com.***REMOVED***.site.dao.UserDAO;
 import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.util.BeanUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
@@ -16,12 +15,16 @@ import java.util.List;
 
 @Service
 public class ChatService {
-    @Autowired
-    private ChatDAO chatDAO;
 
-    @Autowired
-    UserDAO userDAO;
+    final private ChatDAO chatDAO;
 
+    final private UserDAO userDAO;
+
+
+    public ChatService(ChatDAO chatDAO, UserDAO userDAO) {
+        this.chatDAO = chatDAO;
+        this.userDAO = userDAO;
+    }
 
     public void saveMessage(String channel, ChatMessage message) {
         //讲接收到的某个channel的消息存入数据库

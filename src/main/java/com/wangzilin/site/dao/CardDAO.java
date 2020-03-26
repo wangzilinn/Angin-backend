@@ -14,21 +14,20 @@ import java.util.Map;
 
 @Repository
 public class CardDAO {
+
     @Resource
     private MongoTemplate mongoTemplateForCard;
     final private String COLLECTION_NAME = "card";
 
-
-//    CardDAO(MongoTemplate mongoTemplateForCard){
-//        this.mongoTemplateForCard = mongoTemplateForCard;
-//    }
-    CardDAO(){}
-
-    public List<DBCard> findByExpireDateLessThan(Date date) {
-        return mongoTemplateForCard.find(new Query(Criteria.where("expireDate").lte(date).and("status").ne(-1)), DBCard.class, COLLECTION_NAME);
+    public CardDAO() {
     }
 
-    public List<DBCard> findByExpireDateLessThan(Date date, int limit){
+    public List<DBCard> findByExpireDateLessThan(Date date) {
+        return mongoTemplateForCard.find(new Query(Criteria.where("expireDate").lte(date).and("status").ne(-1)),
+                DBCard.class, COLLECTION_NAME);
+    }
+
+    public List<DBCard> findByExpireDateLessThan(Date date, int limit) {
         Query query = new Query(Criteria.where("expireDate").lte(date).and("status").ne(-1));
         return mongoTemplateForCard.find(query.limit(limit), DBCard.class, COLLECTION_NAME);
     }

@@ -5,7 +5,6 @@ import com.***REMOVED***.site.model.card.DBCard;
 import com.***REMOVED***.site.model.card.DisplayedCard;
 import com.***REMOVED***.site.services.CardAccessor;
 import com.***REMOVED***.site.services.CardConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,6 @@ public class CardController {
     final private CardConverter cardConverter;
     final private ObjectMapper mapper;
 
-    @Autowired
     public CardController(CardAccessor cardAccessor, CardConverter cardConverter,
                           ObjectMapper mapper) {
         this.cardAccessor = cardAccessor;

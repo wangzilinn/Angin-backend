@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
@@ -17,10 +16,14 @@ import java.util.Map;
 @RequestMapping(value = "/chat")
 public class ChatController {
 
-    @Autowired
     private ChatService chatService;
-    @Autowired
+
     private ObjectMapper mapper;
+
+    public ChatController(ChatService chatService, ObjectMapper mapper) {
+        this.chatService = chatService;
+        this.mapper = mapper;
+    }
 
     /**
      * 获得频道历史消息

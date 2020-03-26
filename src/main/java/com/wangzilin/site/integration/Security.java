@@ -3,7 +3,6 @@ package com.***REMOVED***.site.integration;
 import com.***REMOVED***.site.auth.JwtAuthError;
 import com.***REMOVED***.site.auth.JwtAuthFilter;
 import com.***REMOVED***.site.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,14 +27,24 @@ public class Security extends WebSecurityConfigurerAdapter {
     /**
      * 加载用户信息
      */
-    @Autowired
-    private UserService userService;
+    final private UserService userService;
 
     /**
      * 权限不足错误信息处理:认证错误, 鉴权错误
      */
-    @Autowired
-    private JwtAuthError myAuthErrorHandler;
+    final private JwtAuthError myAuthErrorHandler;
+
+    /**
+     * 过滤器, jwt校验过滤器，从http头部Authorization字段读取token并校验
+     */
+    final private JwtAuthFilter jwtAuthFilter;
+
+    public Security(UserService userService, JwtAuthError myAuthErrorHandler, JwtAuthFilter jwtAuthFilter) {
+        this.userService = userService;
+        this.myAuthErrorHandler = myAuthErrorHandler;
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
+
 
     /**
      * 用户密码加密器
@@ -50,21 +59,10 @@ public class Security extends WebSecurityConfigurerAdapter {
 
 
     /**
-     * jwt校验过滤器，从http头部Authorization字段读取token并校验
-     *
-     * @return 过滤器
-     */
-    @Bean
-    public JwtAuthFilter authFilter() {
-        return new JwtAuthFilter();
-    }
-
-
-    /**
      * 获取AuthenticationManager（认证管理器），可以在其他地方使用
      *
-     * @return ..
-     * @throws Exception ..
+     * @return .
+     * @throws Exception .
      */
     @Bean(name = "authenticationMangerBean")
     @Override
@@ -75,21 +73,20 @@ public class Security extends WebSecurityConfigurerAdapter {
     /**
      * 返回一个userService, 用于导入用户数据
      *
-     * @param authenticationManagerBuilder ..
-     * @throws Exception ..
+     * @param authenticationManagerBuilder .
+     * @throws Exception .
      */
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userService);
     }
 
-    //创建web过滤
 
     /**
      * 配置过滤规则
      *
-     * @param httpSecurity ..
-     * @throws Exception ..
+     * @param httpSecurity .
+     * @throws Exception .
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -104,12 +101,12 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .and()
                 //下面开始设置权限
                 .authorizeRequests()
-                .antMatchers("/hello").authenticated()
-                .antMatchers("/chat").authenticated()
-                .antMatchers("/card").authenticated()
+                .antMatchers("/hello/**").authenticated()
+                .antMatchers("/chat/**").authenticated()
+                .antMatchers("/card/**").authenticated()
                 .anyRequest().permitAll();
 
-        httpSecurity.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         // 禁用缓存
         httpSecurity.headers().cacheControl();
 
@@ -119,7 +116,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     /**
      * 配置跨源访问
      *
-     * @return ..
+     * @return .
      */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

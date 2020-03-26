@@ -68,11 +68,6 @@ public class JwtUtil {
         return false;
     }
 
-    // 生成Token Token中放入:
-    // 用户名
-    // 创建时间
-    // 过期时间
-
     /**
      * 生成Token Token中放入:
      * - 用户名

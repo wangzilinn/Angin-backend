@@ -8,7 +8,6 @@ import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +24,10 @@ import javax.net.ssl.SSLSocketFactory;
 
 @Configuration
 public class Mqtt {
-    @Autowired
-    ChatService chatService;
 
-    @Autowired
-    ObjectMapper mapper;
+    final private ChatService chatService;
+
+    final private ObjectMapper mapper;
 
     @Value("${mqtt.url}")
     private String url;
@@ -39,7 +37,12 @@ public class Mqtt {
 
     MqttPahoMessageDrivenChannelAdapter adapter;
 
-    final Logger LOG = LoggerFactory.getLogger(Mqtt.class);
+    final private static Logger log = LoggerFactory.getLogger(Mqtt.class);
+
+    public Mqtt(ChatService chatService, ObjectMapper mapper) {
+        this.chatService = chatService;
+        this.mapper = mapper;
+    }
 
     @Bean
     public MessageChannel mqttInputChannel() {
@@ -77,7 +80,7 @@ public class Mqtt {
                 if (topic.equals("addChannel")) {
                     String newChannelName = mapper.readTree(payLoadJson).path("channelName").asText();
                     adapter.addTopic(newChannelName, 2);
-                    LOG.info("add topic: " + newChannelName);
+                    log.info("add topic: " + newChannelName);
                 }
                 //处理所有的用户channel
                 else if (topic.startsWith("user-")) {
@@ -85,10 +88,10 @@ public class Mqtt {
                     String channelName = topic.substring(8);
                     ChatMessage userMessage = mapper.readValue(payLoadJson, ChatMessage.class);
                     chatService.saveMessage(channelName, userMessage);
-                    LOG.info(channelName + " " + payLoadJson);
+                    log.info(channelName + " " + payLoadJson);
                 }
             } catch (JsonProcessingException e) {
-                LOG.info(topic + " " + payLoadJson);
+                log.info(topic + " " + payLoadJson);
                 e.printStackTrace();
             }
         };

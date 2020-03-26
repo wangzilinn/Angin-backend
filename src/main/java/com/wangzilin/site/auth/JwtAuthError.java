@@ -24,10 +24,10 @@ public class JwtAuthError implements AuthenticationEntryPoint, AccessDeniedHandl
     /**
      * 认证失败处理，返回401 json数据
      *
-     * @param request       ..
-     * @param response      ..
-     * @param authException ..
-     * @throws IOException ..
+     * @param request       .
+     * @param response      .
+     * @param authException .
+     * @throws IOException .
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -41,10 +41,10 @@ public class JwtAuthError implements AuthenticationEntryPoint, AccessDeniedHandl
     /**
      * 鉴权失败处理，返回403 json数据
      *
-     * @param request               ..
-     * @param response              ..
-     * @param accessDeniedException ..
-     * @throws IOException ..
+     * @param request               .
+     * @param response              .
+     * @param accessDeniedException .
+     * @throws IOException .
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,

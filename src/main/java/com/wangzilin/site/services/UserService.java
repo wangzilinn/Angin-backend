@@ -6,7 +6,6 @@ import com.***REMOVED***.site.model.user.UserForAuth;
 import com.***REMOVED***.site.model.user.UserProfile;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,16 +19,24 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
+
     private UserDAO userDAO;
-    @Autowired
+
     private AuthenticationManager authenticationManager;
-    @Autowired
+
     private UserService userService;
-    @Autowired
+
     private JwtUtil jwtUtil;
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
+
+    public UserService(UserDAO userDAO, AuthenticationManager authenticationManager, UserService userService,
+                       JwtUtil jwtUtil) {
+        this.userDAO = userDAO;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+    }
 
     public void addUser(SignRequest signRequest) {
         this.addUser(new UserProfile(signRequest.getUserId(), signRequest.getPassword()));

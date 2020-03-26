@@ -3,7 +3,6 @@ package com.***REMOVED***.site.controller;
 import com.***REMOVED***.site.model.SignRequest;
 import com.***REMOVED***.site.services.UserService;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -21,18 +20,21 @@ import javax.validation.Valid;
 public class AuthController {
 
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthController.class);
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    @Autowired
-    private UserService userService;
+    final private UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * 用户登录
      *
-     * @param authRequest   ..
-     * @param bindingResult ..
+     * @param authRequest   .
+     * @param bindingResult .
      * @return 返回token
-     * @throws AuthenticationException ..
+     * @throws AuthenticationException .
      */
     @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> SignIn(@Valid @RequestBody SignRequest authRequest, BindingResult bindingResult) throws AuthenticationException {
@@ -51,10 +53,10 @@ public class AuthController {
     /**
      * 用户注册
      *
-     * @param signRequest   ..
-     * @param bindingResult ..
-     * @return ..
-     * @throws AuthenticationException ..
+     * @param signRequest   .
+     * @param bindingResult .
+     * @return .
+     * @throws AuthenticationException .
      */
     @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<String> SignUp(@Valid @RequestBody SignRequest signRequest, BindingResult bindingResult) throws AuthenticationException {

@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 public class BeanUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
-    private static final Logger logger = LoggerFactory.getLogger(BeanUtil.class);
+    final private static Logger log = LoggerFactory.getLogger(BeanUtil.class);
 
     /**
      * Spring容器会在创建该Bean之后，自动调用该Bean的setApplicationContext方法
      *
-     * @param applicationContext
+     * @param applicationContext .
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {

@@ -17,7 +17,7 @@ public class CardConverter {
 
     @Data
     @AllArgsConstructor
-    class StatusAndOption {
+    static class StatusAndOption {
         int status;
         String option;
         int addMinuets;

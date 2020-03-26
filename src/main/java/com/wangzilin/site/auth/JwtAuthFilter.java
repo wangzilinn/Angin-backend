@@ -4,7 +4,6 @@ import com.***REMOVED***.site.model.user.UserForAuth;
 import com.***REMOVED***.site.services.UserService;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,13 +29,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    final private JwtUtil jwtUtil;
 
-    @Autowired
-    private UserService userService;
+    final private UserService userService;
 
     final private String tokenHeader = "Authorization";
+
+    public JwtAuthFilter(JwtUtil jwtUtil, UserService userService) {
+        this.jwtUtil = jwtUtil;
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
