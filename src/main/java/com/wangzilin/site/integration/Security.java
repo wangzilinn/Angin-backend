@@ -25,11 +25,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class Security extends WebSecurityConfigurerAdapter {
 
     /**
-     * 加载用户信息
-     */
-    final private UserService userService;
-
-    /**
      * 权限不足错误信息处理:认证错误, 鉴权错误
      */
     final private JwtAuthError myAuthErrorHandler;
@@ -38,11 +33,12 @@ public class Security extends WebSecurityConfigurerAdapter {
      * 过滤器, jwt校验过滤器，从http头部Authorization字段读取token并校验
      */
     final private JwtAuthFilter jwtAuthFilter;
+    final private UserService userService;
 
-    public Security(UserService userService, JwtAuthError myAuthErrorHandler, JwtAuthFilter jwtAuthFilter) {
-        this.userService = userService;
+    public Security(JwtAuthError myAuthErrorHandler, JwtAuthFilter jwtAuthFilter, UserService userService) {
         this.myAuthErrorHandler = myAuthErrorHandler;
         this.jwtAuthFilter = jwtAuthFilter;
+        this.userService = userService;
     }
 
 
