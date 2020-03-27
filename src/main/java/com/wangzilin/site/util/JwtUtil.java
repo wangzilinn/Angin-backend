@@ -8,24 +8,34 @@ import io.jsonwebtoken.impl.DefaultClock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.function.Function;
 
-@Service
+@Component
 public class JwtUtil {
     private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
-    private io.jsonwebtoken.Clock clock = DefaultClock.INSTANCE;
+    private static io.jsonwebtoken.Clock clock = DefaultClock.INSTANCE;
+
+    //    @Value("${jwt.secret}")
+    private static String secret;
+
+    //    @Value("${jwt.expiration}")
+    private static Long expiration;
 
     @Value("${jwt.secret}")
-    private String secret;
+    public void setSecret(String secret) {
+        JwtUtil.secret = secret;
+    }
 
     @Value("${jwt.expiration}")
-    private Long expiration;
+    public void setExpiration(Long expiration) {
+        JwtUtil.expiration = expiration;
+    }
 
-    public String getUsernameFromToken(String token) {
+    public static String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -37,7 +47,7 @@ public class JwtUtil {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+    public static <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
@@ -47,7 +57,7 @@ public class JwtUtil {
         return claims.get(claimName, requiredType);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    private static Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
@@ -77,7 +87,7 @@ public class JwtUtil {
      * @param user 验证用户实体
      * @return token
      */
-    public String generateToken(UserForAuth user) {
+    public static String generateToken(UserForAuth user) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
 
@@ -96,7 +106,7 @@ public class JwtUtil {
                 && (!isTokenExpired(token) || ignoreTokenExpiration(token));
     }
 
-    public String refreshToken(String token) {
+    public static String refreshToken(String token) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
 
@@ -127,7 +137,7 @@ public class JwtUtil {
      * @param createdDate 创建时间
      * @return 过期时间
      */
-    private Date calculateExpirationDate(Date createdDate) {
+    private static Date calculateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + expiration * 1000);
     }
 

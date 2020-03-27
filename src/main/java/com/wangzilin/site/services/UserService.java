@@ -23,13 +23,10 @@ public class UserService implements UserDetailsService {
 
     private UserDAO userDAO;
 
-    private JwtUtil jwtUtil;
-
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserDAO userDAO, JwtUtil jwtUtil) {
+    public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.jwtUtil = jwtUtil;
     }
 
 
@@ -61,14 +58,14 @@ public class UserService implements UserDetailsService {
 
         // 如果认证通过，再次访问数据库, 取出用户
         final UserForAuth userForAuth = loadUserByUsername(userId);
-        return jwtUtil.generateToken(userForAuth);
+        return JwtUtil.generateToken(userForAuth);
     }
 
     public String refresh(String oldToken) {
         String newToken = null;
 
         try {
-            newToken = jwtUtil.refreshToken(oldToken);
+            newToken = JwtUtil.refreshToken(oldToken);
         } catch (Exception e) {
             log.debug("异常详情", e);
             log.info("无效token");

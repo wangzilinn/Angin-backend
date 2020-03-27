@@ -17,9 +17,9 @@ import java.io.IOException;
  * 重写了这2个接口类的失败处理方法，其实JwtAuthError可以分为2个类，我们合二为一了
  */
 @Component
-public class JwtAuthError implements AuthenticationEntryPoint, AccessDeniedHandler {
+public class AuthErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(JwtAuthError.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthErrorHandler.class);
 
     /**
      * 认证失败处理，返回401 json数据

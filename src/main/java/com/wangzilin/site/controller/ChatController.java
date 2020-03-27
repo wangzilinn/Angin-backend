@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.services.ChatService;
+import com.***REMOVED***.site.util.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
@@ -33,7 +34,7 @@ public class ChatController {
      */
     @RequestMapping(value = "/channelHistory", method = RequestMethod.GET)
     public List<ChatMessage> getHistory(@RequestHeader Map<String, Object> headers) {
-        String channelName = (String) headers.get("channelName");
+        String channelName = (String) headers.get("channel-name");
         return chatService.getHistoryMessage(channelName);
     }
 
@@ -42,12 +43,13 @@ public class ChatController {
      * 获得用户订阅的频道
      *
      * @param headers include userId
-     * @return user channel list
+     * @return user channel list.
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.GET)
     public List<ChatChannel> getUserChannelList(@RequestHeader Map<String, Object> headers) {
-        String userName = (String) headers.get("userId");
-        return chatService.getUserChannels(userName);
+        //自定义的header均会被转为小写
+        String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
+        return chatService.getUserChannels(userId);
     }
 
 
@@ -58,8 +60,9 @@ public class ChatController {
      * @return ..
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.POST)
-    public ResponseEntity<String> subscribeChannel(@RequestBody Map<String, Object> body) {
-        String userId = (String) body.get("userId");
+    public ResponseEntity<String> subscribeChannel(@RequestHeader Map<String, Object> headers,
+                                                   @RequestBody Map<String, Object> body) {
+        String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
         ChatChannel channel = mapper.convertValue(body.get("channel"), ChatChannel.class);
         boolean isNewChannel = (boolean) body.get("newChannel");
         try {
@@ -78,8 +81,9 @@ public class ChatController {
      * @return ..
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.DELETE)
-    public ResponseEntity<String> unsubscribeChannel(@RequestBody Map<String, Object> body) {
-        String userId = (String) body.get("userId");
+    public ResponseEntity<String> unsubscribeChannel(@RequestHeader Map<String, Object> headers,
+                                                     @RequestBody Map<String, Object> body) {
+        String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
         try {
             String channelName = (String) body.get("channelName");
             chatService.unsubscribeChannel(userId, channelName);

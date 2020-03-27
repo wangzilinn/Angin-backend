@@ -1,7 +1,7 @@
 package com.***REMOVED***.site.integration;
 
-import com.***REMOVED***.site.auth.JwtAuthError;
-import com.***REMOVED***.site.auth.JwtAuthFilter;
+import com.***REMOVED***.site.auth.AuthErrorHandler;
+import com.***REMOVED***.site.auth.TokenAuthFilter;
 import com.***REMOVED***.site.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,17 +27,20 @@ public class Security extends WebSecurityConfigurerAdapter {
     /**
      * 权限不足错误信息处理:认证错误, 鉴权错误
      */
-    final private JwtAuthError myAuthErrorHandler;
+    final private AuthErrorHandler authErrorHandler;
 
     /**
      * 过滤器, jwt校验过滤器，从http头部Authorization字段读取token并校验
      */
-    final private JwtAuthFilter jwtAuthFilter;
+    final private TokenAuthFilter tokenAuthFilter;
+    /**
+     * 用户读取用户数据
+     */
     final private UserService userService;
 
-    public Security(JwtAuthError myAuthErrorHandler, JwtAuthFilter jwtAuthFilter, UserService userService) {
-        this.myAuthErrorHandler = myAuthErrorHandler;
-        this.jwtAuthFilter = jwtAuthFilter;
+    public Security(AuthErrorHandler authErrorHandler, TokenAuthFilter tokenAuthFilter, UserService userService) {
+        this.authErrorHandler = authErrorHandler;
+        this.tokenAuthFilter = tokenAuthFilter;
         this.userService = userService;
     }
 
@@ -93,7 +96,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // 设置myUnauthorizedHandler处理认证失败、鉴权失败
-                .exceptionHandling().authenticationEntryPoint(myAuthErrorHandler).accessDeniedHandler(myAuthErrorHandler)
+                .exceptionHandling().authenticationEntryPoint(authErrorHandler).accessDeniedHandler(authErrorHandler)
                 .and()
                 //下面开始设置权限
                 .authorizeRequests()
@@ -102,7 +105,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers("/card/**").authenticated()
                 .anyRequest().permitAll();
 
-        httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter.class);
         // 禁用缓存
         httpSecurity.headers().cacheControl();
 

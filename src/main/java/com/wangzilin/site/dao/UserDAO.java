@@ -26,10 +26,10 @@ public class UserDAO {
         mongoTemplateForUser.save(userProfile, "profile");
     }
 
-    public UserProfile findUser(String userName) {
+    public UserProfile findUser(String userId) {
         UserProfile userProfile = null;
         try {
-            userProfile = mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userName)),
+            userProfile = mongoTemplateForUser.findOne(new Query(Criteria.where("userId").is(userId)),
                     UserProfile.class, "profile");
         } catch (Exception e) {
             e.printStackTrace();

@@ -25,18 +25,16 @@ JWT过滤器每次请求应该只执行一次，所以继承OncePerRequestFilter
 */
 
 @Component
-public class JwtAuthFilter extends OncePerRequestFilter {
+public class TokenAuthFilter extends OncePerRequestFilter {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TokenAuthFilter.class);
 
-    final private JwtUtil jwtUtil;
 
     final private UserService userService;
 
     final private String tokenHeader = "Authorization";
 
-    public JwtAuthFilter(JwtUtil jwtUtil, UserService userService) {
-        this.jwtUtil = jwtUtil;
+    public TokenAuthFilter(UserService userService) {
         this.userService = userService;
     }
 
@@ -49,7 +47,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             UserForAuth userForAuth = null;
             // 从jwt中解出账号与角色信息
             try {
-                String username = jwtUtil.getUsernameFromToken(authToken);
+                //这里没有验证Token是否过期
+                String username = JwtUtil.getUsernameFromToken(authToken);
                 userForAuth = userService.loadUserByUsername(username);
             } catch (Exception e) {
                 log.debug("异常详情", e);
