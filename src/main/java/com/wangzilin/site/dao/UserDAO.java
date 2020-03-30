@@ -38,7 +38,7 @@ public class UserDAO {
         return userProfile;
     }
 
-    public void addUserChannel(String userName, String channelName) {
+    public void updateUserChannel(String userName, String channelName) {
         mongoTemplateForUser.updateFirst(new Query(Criteria.where("userId").is(userName)), new Update().addToSet(
                 "channels", channelName), "profile");
     }

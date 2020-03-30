@@ -43,7 +43,7 @@ public class ChatController {
 
 
     /**
-     * 获得用户订阅的频道
+     * 获得用户订阅的所有频道列表
      *
      * @param headers include userId
      * @return user channel list.
@@ -57,17 +57,35 @@ public class ChatController {
 
 
     /**
-     * 用户新建/加入频道
+     * 用户新建频道
      *
-     * @param body request body.
+     * @param headers .
      * @return .
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.POST)
-    public ResponseEntity<String> subscribeChannel(@RequestHeader Map<String, String> headers) {
+    public ResponseEntity<String> createAndSubscribeChannel(@RequestHeader Map<String, String> headers) {
         String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
         String channelName = headers.get("channel-name");
         try {
             chatService.createAndsSubscribeChannel(userId, channelName);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (MessagingException m) {
+            return new ResponseEntity<>(m.toString(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * 用户订阅频道
+     *
+     * @param headers .
+     * @return .
+     */
+    @RequestMapping(value = "/userChannel", method = RequestMethod.PUT)
+    public ResponseEntity<String> subscribeChannel(@RequestHeader Map<String, String> headers) {
+        String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
+        String channelName = headers.get("channel-name");
+        try {
+            chatService.subscribeChannel(userId, channelName);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (MessagingException m) {
             return new ResponseEntity<>(m.toString(), HttpStatus.BAD_REQUEST);

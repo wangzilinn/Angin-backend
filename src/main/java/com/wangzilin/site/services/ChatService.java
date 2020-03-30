@@ -45,14 +45,14 @@ public class ChatService {
         // 之后将channel加入到channel数据库
         userDAO.addGlobalChannels(channel);
         //最后更新用户订阅列表
-        userDAO.addUserChannel(userId, channel.name);
+        userDAO.updateUserChannel(userId, channel.name);
     }
 
     public void subscribeChannel(String userId, String channelName) {
         //更新原有的channel列表
         userDAO.updateGlobalChannels(channelName, userId);
         // 将新的channel写入用户订阅列表
-        userDAO.addUserChannel(userId, channelName);
+        userDAO.updateUserChannel(userId, channelName);
     }
 
     public void unsubscribeChannel(String userId, String channelName) {
