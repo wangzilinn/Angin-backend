@@ -6,7 +6,6 @@ import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.util.BeanUtil;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
-import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,24 +34,25 @@ public class ChatService {
         return chatDAO.findMessageByDate(new Date(), 100, channelName);
     }
 
-    public void subscribeNewChannel(String userName, ChatChannel channel, boolean isNewChannel) {
-        if (channel.name.startsWith("user-")) {
-            if (isNewChannel) {
-                // 如果是新创建的channel, 则服务器先订阅
-                MqttPahoMessageDrivenChannelAdapter adapter =
-                        BeanUtil.getBean(MqttPahoMessageDrivenChannelAdapter.class);
-                adapter.addTopic(channel.name);
-                // 之后将channel加入到数据库
-                userDAO.addGlobalChannel(channel);
-            } else {
-                //否则仅更新原有的channel列表
-                userDAO.updateGlobalChannel(channel.name, userName);
-            }
-            // 将新的channel写入用户订阅列表
-            userDAO.addUserChannel(userName, channel.name);
-        } else {
-            throw new MessagingException("用户channel必须以user-开头");
-        }
+
+    public void createAndsSubscribeChannel(String userId, String channelName) {
+        //创建一个空的channel
+        ChatChannel channel = new ChatChannel(channelName, userId);
+        // 新创建的channel, 服务器先订阅
+        MqttPahoMessageDrivenChannelAdapter adapter =
+                BeanUtil.getBean(MqttPahoMessageDrivenChannelAdapter.class);
+        adapter.addTopic(channel.name);
+        // 之后将channel加入到channel数据库
+        userDAO.addGlobalChannels(channel);
+        //最后更新用户订阅列表
+        userDAO.addUserChannel(userId, channel.name);
+    }
+
+    public void subscribeChannel(String userId, String channelName) {
+        //更新原有的channel列表
+        userDAO.updateGlobalChannels(channelName, userId);
+        // 将新的channel写入用户订阅列表
+        userDAO.addUserChannel(userId, channelName);
     }
 
     public void unsubscribeChannel(String userId, String channelName) {

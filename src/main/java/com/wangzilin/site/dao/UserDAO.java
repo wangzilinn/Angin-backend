@@ -43,7 +43,7 @@ public class UserDAO {
                 "channels", channelName), "profile");
     }
 
-    public void addGlobalChannel(ChatChannel channel) {
+    public void addGlobalChannels(ChatChannel channel) {
         if (mongoTemplateForUser.exists(new Query(Criteria.where("name").is(channel.name)), ChatChannel.class,
                 "channels")) {
             throw new MessagingException("已存在相同用户名");
@@ -51,7 +51,7 @@ public class UserDAO {
         mongoTemplateForUser.save(channel, "channels");
     }
 
-    public void updateGlobalChannel(String channelName, String newUserId) {
+    public void updateGlobalChannels(String channelName, String newUserId) {
         mongoTemplateForUser.updateFirst(new Query(Criteria.where("name").is(channelName)), new Update().addToSet(
                 "members", newUserId), "channels");
     }

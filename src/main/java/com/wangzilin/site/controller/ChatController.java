@@ -8,7 +8,10 @@ import com.***REMOVED***.site.util.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -54,19 +57,17 @@ public class ChatController {
 
 
     /**
-     * 用户新建频道
+     * 用户新建/加入频道
      *
-     * @param body request body
-     * @return ..
+     * @param body request body.
+     * @return .
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.POST)
-    public ResponseEntity<String> subscribeChannel(@RequestHeader Map<String, Object> headers,
-                                                   @RequestBody Map<String, Object> body) {
-        String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
-        ChatChannel channel = mapper.convertValue(body.get("channel"), ChatChannel.class);
-        boolean isNewChannel = (boolean) body.get("newChannel");
+    public ResponseEntity<String> subscribeChannel(@RequestHeader Map<String, String> headers) {
+        String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
+        String channelName = headers.get("channel-name");
         try {
-            chatService.subscribeNewChannel(userId, channel, isNewChannel);
+            chatService.createAndsSubscribeChannel(userId, channelName);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (MessagingException m) {
             return new ResponseEntity<>(m.toString(), HttpStatus.BAD_REQUEST);
@@ -75,17 +76,16 @@ public class ChatController {
 
 
     /**
-     * 用户删除频道
+     * 用户删除订阅的频道
      *
-     * @param body request body
-     * @return ..
+     * @param headers .
+     * @return .
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.DELETE)
-    public ResponseEntity<String> unsubscribeChannel(@RequestHeader Map<String, Object> headers,
-                                                     @RequestBody Map<String, Object> body) {
-        String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
+    public ResponseEntity<String> unsubscribeChannel(@RequestHeader Map<String, String> headers) {
+        String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
         try {
-            String channelName = (String) body.get("channelName");
+            String channelName = headers.get("channelName");
             chatService.unsubscribeChannel(userId, channelName);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204
         } catch (MessagingException m) {

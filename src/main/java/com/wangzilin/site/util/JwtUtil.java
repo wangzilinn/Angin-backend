@@ -13,16 +13,14 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.function.Function;
 
-@Component
+@Component//为了给static字段赋值
 public class JwtUtil {
     private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
 
     private static io.jsonwebtoken.Clock clock = DefaultClock.INSTANCE;
 
-    //    @Value("${jwt.secret}")
     private static String secret;
 
-    //    @Value("${jwt.expiration}")
     private static Long expiration;
 
     @Value("${jwt.secret}")
