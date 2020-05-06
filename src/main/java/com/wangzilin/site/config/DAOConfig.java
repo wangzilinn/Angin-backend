@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.dao;
+package com.***REMOVED***.site.config;
 
 
 import com.mongodb.MongoClient;
