@@ -62,5 +62,115 @@
 
    
 
+# Tumo
 
+数据库名:tumo
+
+储存位置:
+
+配置文件:/etc/mysql/conf.d/
+
+数据:/data/mysql/
+
+表结构:
+
+1. tb_article
+    | Field        | Type         | Null | Key | Default | Extra          |
+    |--------------|--------------|------|-----|---------|----------------|
+    | id           | bigint       | NO   | PRI | NULL    | auto_increment |
+    | title        | varchar(400) | YES  |     | NULL    |                |
+    | cover        | varchar(400) | YES  |     | NULL    |                |
+    | author       | varchar(100) | NO   |     | NULL    |                |
+    | content      | mediumtext   | YES  |     | NULL    |                |
+    | content_md   | mediumtext   | YES  |     | NULL    |                |
+    | category     | varchar(20)  | YES  |     | NULL    |                |
+    | state        | varchar(100) | NO   |     | NULL    |                |
+    | publish_time | datetime     | YES  |     | NULL    |                |
+    | edit_time    | datetime     | NO   |     | NULL    |                |
+    | create_time  | datetime     | NO   |     | NULL    |                |
+    | type         | int          | YES  |     | 0       |                |
+
+3. tb_article_category
+
+   | Field       | Type   | Null | Key | Default | Extra          |
+   |-------------|--------|------|-----|---------|----------------|
+   | id          | bigint | NO   | PRI | NULL    | auto_increment |
+   | article_id  | bigint | NO   |     | NULL    |                |
+   | category_id | bigint | NO   |     | NULL    |                |
+
+3. tb_article_tag
+
+    | Field      | Type   | Null | Key | Default | Extra          |
+    |------------|--------|------|-----|---------|----------------|
+    | id         | bigint | NO   | PRI | NULL    | auto_increment |
+    | article_id | bigint | NO   |     | NULL    |                |
+    | tag_id     | bigint | NO   |     | NULL    |                |
+
+4. tb_category
+
+    | Field | Type         | Null | Key | Default | Extra          |
+    |-------|--------------|------|-----|---------|----------------|
+    | id    | bigint       | NO   | PRI | NULL    | auto_increment |
+    | name  | varchar(100) | YES  |     | NULL    |                |
+
+5. tb_comment
+
+    | Field         | Type         | Null | Key | Default | Extra          |
+    |---------------|--------------|------|-----|---------|----------------|
+    | id            | bigint       | NO   | PRI | NULL    | auto_increment |
+    | p_id          | bigint       | YES  |     | 0       |                |
+    | c_id          | bigint       | YES  |     | 0       |                |
+    | article_title | varchar(200) | YES  |     | NULL    |                |
+    | article_id    | bigint       | YES  |     | NULL    |                |
+    | name          | varchar(20)  | YES  |     | NULL    |                |
+    | c_name        | varchar(20)  | YES  |     | NULL    |                |
+    | time          | datetime     | NO   |     | NULL    |                |
+    | content       | text         | YES  |     | NULL    |                |
+    | email         | varchar(100) | YES  |     | NULL    |                |
+    | url           | varchar(200) | YES  |     | NULL    |                |
+    | sort          | bigint       | YES  |     | 0       |                |
+    | ip            | varchar(20)  | YES  |     | NULL    |                |
+    | device        | varchar(100) | YES  |     | NULL    |                |
+    | address       | varchar(100) | YES  |     | NULL    |                |
+
+6. tb_link
+
+    | Field | Type         | Null | Key | Default | Extra          |
+    |-------|--------------|------|-----|---------|----------------|
+    | id    | bigint       | NO   | PRI | NULL    | auto_increment |
+    | name  | varchar(100) | YES  |     | NULL    |                |
+    | url   | varchar(200) | YES  |     | NULL    |                |
+
+7. tb_log
+
+    | Field       | Type         | Null | Key | Default | Extra          |
+    |-------------|--------------|------|-----|---------|----------------|
+    | id          | bigint       | NO   | PRI | NULL    | auto_increment |
+    | username    | varchar(20)  | YES  |     | NULL    |                |
+    | operation   | varchar(20)  | YES  |     | NULL    |                |
+    | time        | bigint       | YES  |     | NULL    |                |
+    | method      | varchar(100) | YES  |     | NULL    |                |
+    | params      | varchar(255) | YES  |     | NULL    |                |
+    | ip          | varchar(20)  | YES  |     | NULL    |                |
+    | create_time | datetime     | YES  |     | NULL    |                |
+    | location    | varchar(20)  | YES  |     | NULL    |                |
+
+8. tb_tag
+
+    | Field | Type         | Null | Key | Default | Extra          |
+    |-------|--------------|------|-----|---------|----------------|
+    | id    | bigint       | NO   | PRI | NULL    | auto_increment |
+    | name  | varchar(100) | YES  |     | NULL    |                |
+
+9. tb_user
+
+    | Field     | Type         | Null | Key | Default | Extra          |
+    |-----------|--------------|------|-----|---------|----------------|
+    | id        | bigint       | NO   | PRI | NULL    | auto_increment |
+    | username  | varchar(100) | NO   |     | NULL    |                |
+    | password  | varchar(100) | NO   |     | NULL    |                |
+    | salt      | varchar(200) | NO   |     | NULL    |                |
+    | avatar    | varchar(200) | YES  |     | NULL    |                |
+    | introduce | varchar(100) | YES  |     | NULL    |                |
+    | remark    | varchar(100) | YES  |     | NULL    |                |
 
