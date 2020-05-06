@@ -8,6 +8,15 @@ server:
     keyStoreType: PKCS12
     keyAlias: tomcat
 
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ***REMOVED***
+    url: jdbc:mysql://***REMOVED***:3306/tumo?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+
+
 chatMongoDB:
   host: ***REMOVED***
   port: 27017

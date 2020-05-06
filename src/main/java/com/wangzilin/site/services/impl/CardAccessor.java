@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.services;
+package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.CardDAO;
 import com.***REMOVED***.site.model.card.DBCard;

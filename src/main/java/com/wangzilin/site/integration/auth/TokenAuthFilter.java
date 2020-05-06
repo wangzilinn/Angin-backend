@@ -1,7 +1,7 @@
-package com.***REMOVED***.site.auth;
+package com.***REMOVED***.site.integration.auth;
 
 import com.***REMOVED***.site.model.user.UserForAuth;
-import com.***REMOVED***.site.services.UserService;
+import com.***REMOVED***.site.services.impl.UserService;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

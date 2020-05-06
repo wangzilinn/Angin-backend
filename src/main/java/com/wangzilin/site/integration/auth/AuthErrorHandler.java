@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.auth;
+package com.***REMOVED***.site.integration.auth;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;

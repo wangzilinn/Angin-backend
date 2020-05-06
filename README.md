@@ -64,6 +64,8 @@
 
 # Tumo
 
+## 数据库
+
 数据库名:tumo
 
 储存位置:
@@ -174,3 +176,38 @@
     | introduce | varchar(100) | YES  |     | NULL    |                |
     | remark    | varchar(100) | YES  |     | NULL    |                |
 
+## 请求
+
+### 管理界面登陆时:
+
+========================================== Start ==========================================
+URL            : http://127.0.0.1:8080/login
+Description    : 
+HTTP Method    : POST
+Class Method   : cn.tycoding.system.controller.LoginController.login
+IP             : 127.0.0.1
+Request Args   : ["tycoding","123456"]
+Response Args  : {"code":200,"msg":"success","data":{"token":"e77e2268-7252-4b29-b606-acbca981836d"}}
+Time-Consuming : 3793 ms
+=========================================== End ===========================================
+
+========================================== Start ==========================================
+========================================== Start ==========================================
+URL            : http://127.0.0.1:8080/api/comment/list
+URL            : http://127.0.0.1:8080/api/article/list
+Description    : 
+Description    : 
+HTTP Method    : POST
+HTTP Method    : POST
+Class Method   : cn.tycoding.system.controller.CommentController.list
+Class Method   : cn.tycoding.system.controller.ArticleController.findByPage
+IP             : 127.0.0.1
+IP             : 127.0.0.1
+Request Args   : [{},{"page":1,"limit":10}]
+Request Args   : [{},{"page":1,"limit":10}]
+Response Args  : {"code":200,"msg":"success","data":{"total":0,"rows":[]}}
+Time-Consuming : 680 ms
+=========================================== End ===========================================
+Response Args  : {"code":200,"msg":"success","data":{"total":1,"rows":[{"id":11,"title":"12345","aut
+Time-Consuming : 929 ms
+=========================================== End ===========================================

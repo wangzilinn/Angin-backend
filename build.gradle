@@ -47,12 +47,24 @@ dependencies {
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 
+//	MYSQL
+
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+
+
 //	swagger支持:
 
 	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+//mybatis-plus
+
+	// https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
+	compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.1'
+
 
 }
 

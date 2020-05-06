@@ -1,8 +1,8 @@
 package com.***REMOVED***.site.integration;
 
-import com.***REMOVED***.site.auth.AuthErrorHandler;
-import com.***REMOVED***.site.auth.TokenAuthFilter;
-import com.***REMOVED***.site.services.UserService;
+import com.***REMOVED***.site.integration.auth.AuthErrorHandler;
+import com.***REMOVED***.site.integration.auth.TokenAuthFilter;
+import com.***REMOVED***.site.services.impl.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,6 +1,6 @@
 //package com.***REMOVED***.site;
 //
-//import com.***REMOVED***.site.services.CardAccessor;
+//import com.***REMOVED***.site.services.impl.CardAccessor;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;

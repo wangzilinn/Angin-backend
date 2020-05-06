@@ -1,0 +1,7 @@
+mybatis-plus:
+  type-aliases-package: com.***REMOVED***.site.model.blog
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null
+  global-config:
+    banner: false

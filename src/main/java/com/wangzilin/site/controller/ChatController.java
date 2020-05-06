@@ -3,7 +3,7 @@ package com.***REMOVED***.site.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
-import com.***REMOVED***.site.services.ChatService;
+import com.***REMOVED***.site.services.impl.ChatService;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.***REMOVED***.site.services;
+package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.UserDAO;
-import com.***REMOVED***.site.model.reqresp.SignRequest;
+import com.***REMOVED***.site.model.DTO.SignRequest;
 import com.***REMOVED***.site.model.user.UserForAuth;
 import com.***REMOVED***.site.model.user.UserProfile;
 import com.***REMOVED***.site.util.BeanUtil;

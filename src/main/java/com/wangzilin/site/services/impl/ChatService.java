@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.services;
+package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.ChatDAO;
 import com.***REMOVED***.site.dao.UserDAO;

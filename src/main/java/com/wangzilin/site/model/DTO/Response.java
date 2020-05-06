@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.reqresp;
+package com.***REMOVED***.site.model.DTO;
 
 import com.***REMOVED***.site.constants.BlogConstant;
 import com.***REMOVED***.site.constants.BlogEnum;
