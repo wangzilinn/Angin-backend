@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.controller;
 
-import com.***REMOVED***.site.model.SignRequest;
+import com.***REMOVED***.site.model.reqresp.SignRequest;
 import com.***REMOVED***.site.services.UserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
