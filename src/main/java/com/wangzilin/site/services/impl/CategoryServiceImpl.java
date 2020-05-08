@@ -29,7 +29,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Autowired
     private ArticleCategoryService articleCategoryService;
 
-    //    这个干嘛用的???
+    //模糊查询用
     @Override
     public IPage<Category> list(Category category, QueryPage queryPage) {
         IPage<Category> page = new Page<>(queryPage.getPage(), queryPage.getLimit());

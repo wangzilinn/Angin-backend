@@ -15,7 +15,7 @@
 
     <!-- 根据标签名称查询关联的文章数据 -->
     <select id="findByTagName" resultType="com.***REMOVED***.site.model.blog.Article">
-        SELECT a.id, a.Category, a.publish_time, a.title, a.views
+        SELECT a.id, a.Category, a.publish_time, a.title
         FROM tb_article a,
              tb_category c,
              tb_article_category ac
