@@ -3,7 +3,7 @@ package com.***REMOVED***.site.controller;
 import com.***REMOVED***.site.model.DTO.Response;
 import com.***REMOVED***.site.model.DTO.SignRequest;
 import com.***REMOVED***.site.services.impl.UserService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/auth")
-@Api(value = "AuthController", tags = "鉴权接口")
+@Tag(name = "AuthController", description = "鉴权接口")
 public class AuthController {
 
 

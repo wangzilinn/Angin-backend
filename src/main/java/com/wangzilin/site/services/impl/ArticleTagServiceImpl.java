@@ -7,6 +7,7 @@ import com.***REMOVED***.site.model.blog.ArticleTag;
 import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleTagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @Date: Created in 10:08 PM 5/7/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
+@Service
 public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, ArticleTag> implements ArticleTagService {
     @Autowired
     private ArticleTagMapper articleTagMapper;

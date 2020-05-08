@@ -11,6 +11,7 @@ import com.***REMOVED***.site.model.blog.*;
 import com.***REMOVED***.site.services.*;
 import com.***REMOVED***.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.List;
  * @Date: Created in 10:56 PM 5/6/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
+@Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     @Autowired
     private ArticleMapper articleMapper;

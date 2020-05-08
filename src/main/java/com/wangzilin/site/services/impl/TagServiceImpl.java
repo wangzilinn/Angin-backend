@@ -12,6 +12,7 @@ import com.***REMOVED***.site.services.ArticleTagService;
 import com.***REMOVED***.site.services.TagService;
 import com.***REMOVED***.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @Date: Created in 9:45 PM 5/7/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
+@Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
     @Autowired
     private TagMapper tagMapper;

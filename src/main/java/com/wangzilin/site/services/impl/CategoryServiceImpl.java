@@ -11,6 +11,7 @@ import com.***REMOVED***.site.services.ArticleCategoryService;
 import com.***REMOVED***.site.services.CategoryService;
 import com.***REMOVED***.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
  * @Date: Created in 5:05 PM 5/7/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
+@Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;

@@ -6,6 +6,7 @@ import com.***REMOVED***.site.mapper.ArticleCategoryMapper;
 import com.***REMOVED***.site.model.blog.ArticleCategory;
 import com.***REMOVED***.site.services.ArticleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date: Created in 5:34 PM 5/7/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
+@Service
 public class ArticleCategoryServiceImpl extends ServiceImpl<ArticleCategoryMapper, ArticleCategory> implements ArticleCategoryService {
     @Autowired
     private ArticleCategoryMapper articleCategoryMapper;
