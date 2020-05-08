@@ -5,7 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
-
+//TODO:统一User
 public class UserForAuth implements UserDetails {
 
     private String userId;
