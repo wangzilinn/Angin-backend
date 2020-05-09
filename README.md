@@ -64,6 +64,8 @@
 
 # Tumo
 
+先照抄了一边这个:https://github.com/TyCoding/tumo-vue
+
 ## 数据库
 
 数据库名:tumo
@@ -211,3 +213,132 @@ Time-Consuming : 680 ms
 Response Args  : {"code":200,"msg":"success","data":{"total":1,"rows":[{"id":11,"title":"12345","aut
 Time-Consuming : 929 ms
 =========================================== End ===========================================
+
+# Blog数据库
+
+## MySQL:
+
+### common
+
+1. user:
+
+   | Field     | Type         | Null | Key  | Default | Extra          |
+   | --------- | ------------ | ---- | ---- | ------- | -------------- |
+   | id        | bigint       | NO   | PRI  | NULL    | auto_increment |
+   | username  | varchar(100) | NO   |      | NULL    |                |
+   | password  | varchar(100) | NO   |      | NULL    |                |
+   | salt      | varchar(200) | NO   |      | NULL    |                |
+   | avatar    | varchar(200) | YES  |      | NULL    |                |
+   | introduce | varchar(100) | YES  |      | NULL    |                |
+   | role      | varchar(100) | NO   |      | NULL    |                |
+   
+2. comment:
+
+   | Fidld       | Type   | Null | Key  | Default | Extra          |
+   | ----------- | ------ | ---- | ---- | ------- | -------------- |
+   | id          | brgint | NO   | PRI  | NULL    | auto_increment |
+   | article_id  |        |      |      |         |                |
+   | user_id     |        |      |      |         |                |
+   | user_avator |        |      |      |         |                |
+   | time        |        |      |      |         |                |
+   | content     |        |      |      |         |                |
+   | email       |        |      |      |         |                |
+
+### chat
+
+3. channel_name
+
+   | Fidld       | Type   | Null | Key  | Default | Extra          |
+| ----------- | ------ | ---- | ---- | ------- | -------------- |
+   | id          | brgint | NO   | PRI  | NULL    | auto_increment |
+   | content     |        |      |      |         |                |
+   | date        |        |      |      |         |                |
+   | user_id     |        |      |      |         |                |
+   | user_name   |        |      |      |         |                |
+   | user_avator |        |      |      |         |                |
+
+## MongoDB:
+
+### Chat
+
+1. channel:
+
+   ```json
+   {
+       "_id",
+       "channel_name",
+       "create_date",
+       "user"=[user_data.username]
+   }
+   ```
+
+2. user_channel:
+
+   ```json
+   {
+       "_id",
+       "user_id":user_data.id,
+       "channel":[channel.name]
+   }
+   ```
+
+### Blog
+
+1. article:
+
+   ```json
+   {
+       "_id",
+       "title",
+       "cover",
+       "author",
+       "content",
+       "content_md",
+       "category":[category.name],
+       "tag":[tag.name],
+       "state",
+       "publish_time",
+       "edit_time",
+       "create_time",
+       "type"
+   }
+   ```
+   
+5. category:
+
+   ```json
+   {
+       "_id",
+       "name",
+       "article":[article._id]
+   }
+   ```
+
+6. tag:
+
+   ```json
+   {
+       "_id",
+       "name",
+       "article":[article._id]
+   }
+   ```
+   
+### Card
+
+1. user_id
+
+   ```json
+   {
+       "_id",
+       "key",
+       "front_content_1",
+       ...,
+       "front_content_n",
+       "back_content",
+       "expire_date",
+       "status"
+   }
+   ```
+
+   
