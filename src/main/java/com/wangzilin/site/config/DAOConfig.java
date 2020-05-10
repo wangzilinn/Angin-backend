@@ -17,17 +17,17 @@ import java.util.Collections;
 public class DAOConfig {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(DAOConfig.class);
 
-    //user mongoDB
-    @Value("${userMongoDB.host}")
-    private String userMongoDBHost;
-    @Value("${userMongoDB.port}")
-    private int userMongoDBPort;
-    @Value("${userMongoDB.userName}")
-    private String userMongoDBUserName;
-    @Value("${userMongoDB.authDB}")
-    private String userMongoDBAuthDB;
-    @Value("${userMongoDB.password}")
-    private String userMongoDBPassword;
+    //blog mongoDB
+    @Value("${blogMongoDB.host}")
+    private String blogMongoDBHost;
+    @Value("${blogMongoDB.port}")
+    private int blogMongoDBPort;
+    @Value("${blogMongoDB.blogName}")
+    private String blogMongoDBblogName;
+    @Value("${blogMongoDB.authDB}")
+    private String blogMongoDBAuthDB;
+    @Value("${blogMongoDB.password}")
+    private String blogMongoDBPassword;
 
     //chat mongoDB
     @Value("${chatMongoDB.host}")
@@ -74,12 +74,12 @@ public class DAOConfig {
     }
 
     @Bean
-    public MongoTemplate mongoTemplateForUser() {
-        log.info("inject mongoTemplateForUser");
-        MongoCredential mongoCredential = MongoCredential.createCredential(userMongoDBUserName, userMongoDBAuthDB,
-                userMongoDBPassword.toCharArray());
-        ServerAddress serverAddress = new ServerAddress(userMongoDBHost, userMongoDBPort);
-        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "user");
+    public MongoTemplate mongoTemplateForBlog() {
+        log.info("inject mongoTemplateForBlog");
+        MongoCredential mongoCredential = MongoCredential.createCredential(blogMongoDBblogName, blogMongoDBAuthDB,
+                blogMongoDBPassword.toCharArray());
+        ServerAddress serverAddress = new ServerAddress(blogMongoDBHost, blogMongoDBPort);
+        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "blog");
     }
 
 }

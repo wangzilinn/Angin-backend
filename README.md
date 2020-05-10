@@ -182,37 +182,214 @@
 
 ### 管理界面登陆时:
 
-========================================== Start ==========================================
-URL            : http://127.0.0.1:8080/login
-Description    : 
-HTTP Method    : POST
-Class Method   : cn.tycoding.system.controller.LoginController.login
-IP             : 127.0.0.1
-Request Args   : ["tycoding","123456"]
-Response Args  : {"code":200,"msg":"success","data":{"token":"e77e2268-7252-4b29-b606-acbca981836d"}}
-Time-Consuming : 3793 ms
-=========================================== End ===========================================
+1. login
 
-========================================== Start ==========================================
-========================================== Start ==========================================
-URL            : http://127.0.0.1:8080/api/comment/list
-URL            : http://127.0.0.1:8080/api/article/list
-Description    : 
-Description    : 
-HTTP Method    : POST
-HTTP Method    : POST
-Class Method   : cn.tycoding.system.controller.CommentController.list
-Class Method   : cn.tycoding.system.controller.ArticleController.findByPage
-IP             : 127.0.0.1
-IP             : 127.0.0.1
-Request Args   : [{},{"page":1,"limit":10}]
-Request Args   : [{},{"page":1,"limit":10}]
-Response Args  : {"code":200,"msg":"success","data":{"total":0,"rows":[]}}
-Time-Consuming : 680 ms
-=========================================== End ===========================================
-Response Args  : {"code":200,"msg":"success","data":{"total":1,"rows":[{"id":11,"title":"12345","aut
-Time-Consuming : 929 ms
-=========================================== End ===========================================
+   POST:http://127.0.0.1:8080/login?username=tycoding&password=123456
+
+    ```json
+   {"code":200,"msg":"success","data":{"token":"d2956a3b-785c-403e-809c-aac364fb7669"}}
+    ```
+
+1. info: 
+
+   GET:http://127.0.0.1:8080/api/user/info
+
+   Authorization: d2956a3b-785c-403e-809c-aac364fb7669
+   
+   ```json
+{"code":200,"msg":"success","data":{"id":1,"username":"tycoding","password":"5f9059b3feff398c928c7c1239e64975","salt":"afbe4bd05b55b755d2a3e7df3bc25586","avatar":"http://img.api.tycoding.cn/1568958650973.jpeg","introduce":"兴趣使然的Coder","remark":"银河街角，时光路口"}}
+   ```
+
+**这里修改**
+
+使用/login请求时,直接返回全部用户数据,删除info请求
+
+1. list 
+
+   POST:http://127.0.0.1:8080/api/article/list?page=1&limit=10
+
+   Authorization: d2956a3b-785c-403e-809c-aac364fb7669
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":1,"rows":[{"id":11,"title":"12345","cover":null,"author":"tycoding","content":"<p>133423乳房犯得上示范点</p>\n","contentMd":"133423乳房犯得上示范点","category":"测试","state":"1","publishTime":null,"editTime":"2020-05-06 21:24:30","createTime":"2020-05-06 21:24:30","tags":[{"id":4,"name":"测试","count":null}]}]}}
+   ```
+
+1. list
+
+   POST:http://127.0.0.1:8080/api/comment/list?page=1&limit=10
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":0,"rows":[]}}
+   ```
+
+### 新建文章
+
+1. findAll
+
+   GET:http://127.0.0.1:8080/api/category/findAll
+
+   ```json
+   {"code":200,"msg":"success","data":[{"id":1,"name":"测试"},{"id":2,"name":"随笔"},{"id":3,"name":"心情"},{"id":4,"name":"springboot"}]}
+   ```
+
+2. findAll
+
+   GET:http://127.0.0.1:8080/api/tag/findAll
+
+   ```json
+   {"code":200,"msg":"success","data":[{"id":1,"name":"随笔","count":null},{"id":4,"name":"测试","count":null},{"id":5,"name":"博客日志","count":null}]}
+   ```
+
+3. article
+
+   POST:http://127.0.0.1:8080/api/article
+
+   ```json
+   {
+       category: 2
+   	content: "<p>范德萨范德萨范德萨范<strong>德萨范德萨</strong>发大水<br>↵广泛大使馆<i"
+   	contentMd: "范德萨范德萨范德萨范**德萨范德萨**发大水↵广泛大使馆![S80221-223450.jpg](d"
+   	state: 1
+   	tags: [{id: 1}, {id: 4}]
+   	title: "哈哈哈哈哈"
+   }
+   ```
+
+   ```json
+   {"code":200,"msg":"success","data":null}
+   ```
+
+   提交后直接跳转到`文章列表`页
+
+### 文章列表
+
+4. list
+
+   POST:http://127.0.0.1:8080/api/article/list?page=1&limit=20
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":2,"rows":[{"id":12,"title":"哈哈哈哈哈","cover":null,"author":"tycoding","content":"<p>范德萨范德萨范德萨范<strong>德萨范德萨</strong>发大水<br>\n广泛大使馆","category":"随笔","state":"1","publishTime":null,"editTime":"2020-05-10 11:50:03","createTime":"2020-05-10 11:50:03","tags":[{"id":1,"name":"随笔","count":null},{"id":4,"name":"测试","count":null}]},{"id":11,"title":"12345","cover":null,"author":"tycoding","content":"<p>133423乳房犯得上示范点</p>\n","contentMd":"133423乳房犯得上示范点","category":"测试","state":"1","publishTime":null,"editTime":"2020-05-06 21:24:30","createTime":"2020-05-06 21:24:30","tags":[{"id":4,"name":"测试","count":null}]}]}}
+   ```
+
+2. findAll
+
+   获得所有分类,以便查询文章
+
+   GET:http://127.0.0.1:8080/api/category/findAll
+
+   ```json
+   {"code":200,"msg":"success","data":[{"id":1,"name":"测试"},{"id":2,"name":"随笔"},{"id":3,"name":"心情"},{"id":4,"name":"springboot"}]}
+   ```
+
+3. 编辑文章:
+
+   GET http://127.0.0.1:8080/api/article/13 (文章ID)
+
+   ```json
+   {"code":200,"msg":"success","data":{"id":13,"title":"1233","cover":null,"author":"tycoding","content":"<p>321332131</p>\n","contentMd":"321332131","category":"测试","state":"1","publishTime":null,"editTime":"2020-05-10 11:56:47","createTime":"2020-05-10 11:56:47","tags":[{"id":1,"name":"随笔","count":null}]}}
+   ```
+
+   +新建文章的1.和2.
+
+4. 删除文章
+
+   DELETE:http://127.0.0.1:8080/api/article/13
+
+   ```json
+   {"code":200,"msg":"success","data":null}
+   ```
+
+### 分类管理
+
+1. list
+
+   POST:http://127.0.0.1:8080/api/category/list?page=1&limit=20
+
+   ```json
+   {}
+   ```
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":4,"rows":[{"id":4,"name":"springboot"},{"id":3,"name":"心情"},{"id":2,"name":"随笔"},{"id":1,"name":"测试"}]}}
+   ```
+
+2. edit:
+
+   PUT:http://127.0.0.1:8080/api/category
+
+   ```json
+   {"id":1,"name":"测试test"}
+   ```
+
+   ```json
+   {"code":200,"msg":"success","data":null}
+   ```
+
+   +本类1.
+
+3. delete
+
+   DELETE:http://127.0.0.1:8080/api/category/2
+
+   ```json
+   {"code":200,"msg":"success","data":null}
+   ```
+
+   +本类1.
+
+4. add
+
+   POST:http://127.0.0.1:8080/api/category
+
+   ```json
+   {"name":"测试"}
+   ```
+
+   ```json
+   {"code":200,"msg":"success","data":null}
+   ```
+
+5. 查询
+
+   POST:http://127.0.0.1:8080/api/category/list?page=1&limit=20
+
+   ```json
+   {"name":"测试"}
+   ```
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":2,"rows":[{"id":5,"name":"测试"},{"id":1,"name":"测试test"}]}}
+   ```
+
+### 日志管理
+
+1. POST:http://127.0.0.1:8080/api/log/list?page=1&limit=20
+
+   ```json
+   {"code":200,"msg":"success","data":{"total":20,"rows":[{"id":66,"username":"tycoding","operation":"新增分类","time":277,"method":"cn.tycoding.system.controller.CategoryController.save()","params":null,"ip":"127.0.0.1","createTime":"2020-05-10 13:01:34","location":"内网IP|0|0|内网IP|内网IP"},{"id":47,"username":"tycoding","operation":"新增文章","time":33,"method":"cn.tycoding.system.controller.ArticleController.save()","params":" sysArticle\"SysArticle(id=8, title=How to write an article?, cover=, author=tyco...","ip":"127.0.0.1","createTime":"2019-09-22 14:57:51","location":"内网IP|0|0|内网IP|内网IP"}]}}
+   ```
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Blog数据库
 
@@ -232,30 +409,16 @@ Time-Consuming : 929 ms
    | introduce | varchar(100) | YES  |      | NULL    |                |
    | role      | varchar(100) | NO   |      | NULL    |                |
    
-2. comment:
+2. channel_name
 
    | Fidld       | Type   | Null | Key  | Default | Extra          |
    | ----------- | ------ | ---- | ---- | ------- | -------------- |
    | id          | brgint | NO   | PRI  | NULL    | auto_increment |
-   | article_id  |        |      |      |         |                |
-   | user_id     |        |      |      |         |                |
-   | user_avator |        |      |      |         |                |
-   | time        |        |      |      |         |                |
-   | content     |        |      |      |         |                |
-   | email       |        |      |      |         |                |
-
-### chat
-
-3. channel_name
-
-   | Fidld       | Type   | Null | Key  | Default | Extra          |
-| ----------- | ------ | ---- | ---- | ------- | -------------- |
-   | id          | brgint | NO   | PRI  | NULL    | auto_increment |
-   | content     |        |      |      |         |                |
+   | content     |        |      |      | []()    |                |
    | date        |        |      |      |         |                |
    | user_id     |        |      |      |         |                |
    | user_name   |        |      |      |         |                |
-   | user_avator |        |      |      |         |                |
+   | user_avatar |        |      |      |         |                |
 
 ## MongoDB:
 
@@ -293,14 +456,13 @@ Time-Consuming : 929 ms
        "cover",
        "author",
        "content",
-       "content_md",
+       "contentMd",
        "category":[category.name],
        "tag":[tag.name],
        "state",
        "publish_time",
        "edit_time",
        "create_time",
-       "type"
    }
    ```
    
@@ -324,6 +486,21 @@ Time-Consuming : 929 ms
    }
    ```
    
+4. comment:
+
+   树结构:
+
+   ```json
+   {
+       "user_avator",
+       "user_id",
+       "time",
+       "content",
+       "others",
+   }
+   ```
+
+   ### 
 ### Card
 
 1. user_id

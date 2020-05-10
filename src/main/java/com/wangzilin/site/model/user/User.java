@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.Set;
  */
 @Data
 @TableName(value = "user")
+@NoArgsConstructor
 public class User implements UserDetails {
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -36,6 +38,11 @@ public class User implements UserDetails {
     private String introduce;
     private String role;
     private String token;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     /**
      * Returns the authorities granted to the user. Cannot return <code>null</code>.

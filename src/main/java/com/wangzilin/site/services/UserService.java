@@ -2,6 +2,7 @@ package com.***REMOVED***.site.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.***REMOVED***.site.model.user.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @Author: ***REMOVED***n@gmail.com
@@ -10,7 +11,7 @@ import com.***REMOVED***.site.model.user.User;
  * @Modified By:***REMOVED***n@gmail.com
  */
 //TODO:准备合并完User一起实现
-public interface UserService extends IService<User> {
+public interface UserService extends IService<User>, UserDetailsService {
     /**
      * 根据Name查询用户数据
      *

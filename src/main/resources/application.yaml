@@ -5,3 +5,11 @@ mybatis-plus:
     jdbc-type-for-null: null
   global-config:
     banner: false
+
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:certs/https.p12
+    key-store-password: ***REMOVED***
+    keyStoreType: PKCS12
+    keyAlias: tomcat

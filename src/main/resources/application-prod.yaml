@@ -1,13 +1,5 @@
 env: prod
 
-server:
-  port: 8443
-  ssl:
-    key-store: classpath:certs/https.p12
-    key-store-password: ***REMOVED***
-    keyStoreType: PKCS12
-    keyAlias: tomcat
-
 chatMongoDB:
   host: localhost
   port: 27017
@@ -23,7 +15,7 @@ cardMongoDB:
   authDB: admin
   password: ***REMOVED***
 
-userMongoDB:
+blogMongoDB:
   host: localhost
   port: 27017
   userName: ***REMOVED***

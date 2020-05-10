@@ -1,12 +1,6 @@
 env: dev
 
-server:
-  port: 8443
-  ssl:
-    key-store: classpath:certs/https.p12
-    key-store-password: ***REMOVED***
-    keyStoreType: PKCS12
-    keyAlias: tomcat
+
 
 spring:
   datasource:
@@ -32,7 +26,7 @@ cardMongoDB:
   authDB: admin
   password: ***REMOVED***
 
-userMongoDB:
+blogMongoDB:
   host: ***REMOVED***
   port: 27017
   userName: ***REMOVED***

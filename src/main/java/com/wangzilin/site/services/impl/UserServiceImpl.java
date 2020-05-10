@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,9 @@ import java.util.List;
  * 这个类专门负责处理用户相关
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService, UserDetailsService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserMapper userMapper;
 
     public UserServiceImpl(UserMapper userMapper) {
@@ -96,17 +95,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return findByName(username);
     }
 
-
-
-    public String refresh(String oldToken) {
-        String newToken = null;
-
-        try {
-            newToken = JwtUtil.refreshToken(oldToken);
-        } catch (Exception e) {
-            log.debug("异常详情", e);
-            log.info("无效token");
-        }
-        return newToken;
-    }
 }

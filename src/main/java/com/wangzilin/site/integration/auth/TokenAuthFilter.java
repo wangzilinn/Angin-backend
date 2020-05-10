@@ -1,6 +1,7 @@
 package com.***REMOVED***.site.integration.auth;
 
-import com.***REMOVED***.site.services.impl.UserServiceImpl;
+import com.***REMOVED***.site.model.user.User;
+import com.***REMOVED***.site.services.UserService;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,12 +30,12 @@ public class TokenAuthFilter extends OncePerRequestFilter {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(TokenAuthFilter.class);
 
 
-    final private UserServiceImpl userServiceImpl;
+    final private UserService userService;
 
     final private String tokenHeader = "Authorization";
 
-    public TokenAuthFilter(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public TokenAuthFilter(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -43,22 +44,22 @@ public class TokenAuthFilter extends OncePerRequestFilter {
         // 从http头部读取jwt
         String authToken = request.getHeader(this.tokenHeader);
         if (authToken != null) {
-            UserForAuth userForAuth = null;
+            User user = null;
             // 从jwt中解出账号与角色信息
             try {
                 //这里没有验证Token是否过期
                 String username = JwtUtil.getUsernameFromToken(authToken);
-                userForAuth = userServiceImpl.loadUserByUsername(username);
+                user = (User) userService.loadUserByUsername(username);
             } catch (Exception e) {
                 log.debug("异常详情", e);
                 log.info("无效token");
             }
 
             // 如果jwt正确解出账号信息，说明是合法用户，设置认证信息，认证通过
-            if (userForAuth != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        userForAuth.getUsername(), null, userForAuth.getAuthorities());
+                        user.getUsername(), null, user.getAuthorities());
 
                 // 把请求的信息设置到UsernamePasswordAuthenticationToken details对象里面，包括发请求的ip等
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
