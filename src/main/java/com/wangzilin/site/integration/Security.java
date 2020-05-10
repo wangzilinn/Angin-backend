@@ -2,7 +2,7 @@ package com.***REMOVED***.site.integration;
 
 import com.***REMOVED***.site.integration.auth.AuthErrorHandler;
 import com.***REMOVED***.site.integration.auth.TokenAuthFilter;
-import com.***REMOVED***.site.services.impl.UserService;
+import com.***REMOVED***.site.services.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,12 +36,13 @@ public class Security extends WebSecurityConfigurerAdapter {
     /**
      * 用户读取用户数据
      */
-    final private UserService userService;
+    final private UserServiceImpl userServiceImpl;
 
-    public Security(AuthErrorHandler authErrorHandler, TokenAuthFilter tokenAuthFilter, UserService userService) {
+    public Security(AuthErrorHandler authErrorHandler, TokenAuthFilter tokenAuthFilter,
+                    UserServiceImpl userServiceImpl) {
         this.authErrorHandler = authErrorHandler;
         this.tokenAuthFilter = tokenAuthFilter;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
     }
 
 
@@ -77,7 +78,7 @@ public class Security extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userService);
+        authenticationManagerBuilder.userDetailsService(userServiceImpl);
     }
 
 

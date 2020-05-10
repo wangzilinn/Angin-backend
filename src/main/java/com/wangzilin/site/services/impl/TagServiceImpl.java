@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.mapper.TagMapper;
+import com.***REMOVED***.site.dao.TagMapper;
 import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleTagService;
 import com.***REMOVED***.site.services.TagService;

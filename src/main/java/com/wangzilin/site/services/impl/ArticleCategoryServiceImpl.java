@@ -2,7 +2,7 @@ package com.***REMOVED***.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.mapper.ArticleCategoryMapper;
+import com.***REMOVED***.site.dao.ArticleCategoryMapper;
 import com.***REMOVED***.site.model.blog.ArticleCategory;
 import com.***REMOVED***.site.services.ArticleCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

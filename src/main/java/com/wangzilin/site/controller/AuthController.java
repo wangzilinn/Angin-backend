@@ -2,7 +2,7 @@ package com.***REMOVED***.site.controller;
 
 import com.***REMOVED***.site.model.DTO.Response;
 import com.***REMOVED***.site.model.DTO.SignRequest;
-import com.***REMOVED***.site.services.impl.UserService;
+import com.***REMOVED***.site.services.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,10 +27,10 @@ public class AuthController {
 
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    final private UserService userService;
+    final private UserServiceImpl userServiceImpl;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     /**
@@ -49,7 +49,7 @@ public class AuthController {
             return new Response<>(422, "输入格式错误");
         }
 
-        final String token = userService.signIn(authRequest.getUserId(), authRequest.getPassword());
+        final String token = userServiceImpl.signIn(authRequest.getUserId(), authRequest.getPassword());
 
         // 变为字典格式如:{"token":"e77e2268-7252-4b29-b606-acbca981836d"}} 输出
         Map<String, Object> map = new HashMap<>();
@@ -73,7 +73,7 @@ public class AuthController {
             bindingResult.getFieldErrors().forEach((fieldError) -> log.info(fieldError.getField()));
             return new ResponseEntity<>("输入格式错误", HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        userService.addUser(signRequest);
+        userServiceImpl.addUser(signRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.mapper.LinkMapper;
+import com.***REMOVED***.site.dao.LinkMapper;
 import com.***REMOVED***.site.model.blog.Link;
 import com.***REMOVED***.site.services.LinkService;
 import com.***REMOVED***.site.util.QueryPage;

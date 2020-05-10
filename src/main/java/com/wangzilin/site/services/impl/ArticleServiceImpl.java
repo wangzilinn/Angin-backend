@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.***REMOVED***.site.constants.BlogConstant;
-import com.***REMOVED***.site.mapper.ArticleMapper;
+import com.***REMOVED***.site.dao.ArticleMapper;
 import com.***REMOVED***.site.model.blog.*;
 import com.***REMOVED***.site.services.*;
 import com.***REMOVED***.site.util.QueryPage;

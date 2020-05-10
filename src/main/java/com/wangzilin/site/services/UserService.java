@@ -22,16 +22,16 @@ public interface UserService extends IService<User> {
     /**
      * 新增
      *
-     * @param User
+     * @param user
      */
-    void add(User User);
+    void add(User user);
 
     /**
      * 更新
      *
-     * @param User
+     * @param user
      */
-    void update(User User);
+    void update(User user);
 
     /**
      * 删除
@@ -39,4 +39,6 @@ public interface UserService extends IService<User> {
      * @param id
      */
     void delete(Long id);
+
+    User auth(String username, String password);
 }

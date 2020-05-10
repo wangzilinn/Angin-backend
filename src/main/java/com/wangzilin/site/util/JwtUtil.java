@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.util;
 
-import com.***REMOVED***.site.model.user.UserForAuth;
+import com.***REMOVED***.site.model.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -85,7 +85,7 @@ public class JwtUtil {
      * @param user 验证用户实体
      * @return token
      */
-    public static String generateToken(UserForAuth user) {
+    public static String generateToken(User user) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
 

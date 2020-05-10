@@ -2,7 +2,7 @@ package com.***REMOVED***.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.mapper.ArticleTagMapper;
+import com.***REMOVED***.site.dao.ArticleTagMapper;
 import com.***REMOVED***.site.model.blog.ArticleTag;
 import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleTagService;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.***REMOVED***.site.constants.BlogConstant;
-import com.***REMOVED***.site.mapper.CommentMapper;
+import com.***REMOVED***.site.dao.CommentMapper;
 import com.***REMOVED***.site.model.blog.Comment;
 import com.***REMOVED***.site.model.blog.CommentTree;
 import com.***REMOVED***.site.services.CommentService;

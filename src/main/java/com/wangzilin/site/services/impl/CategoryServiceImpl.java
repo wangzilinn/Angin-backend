@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.mapper.CategoryMapper;
+import com.***REMOVED***.site.dao.CategoryMapper;
 import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.services.ArticleCategoryService;
 import com.***REMOVED***.site.services.CategoryService;

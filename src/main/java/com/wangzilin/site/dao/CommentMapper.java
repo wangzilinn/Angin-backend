@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.mapper;
+package com.***REMOVED***.site.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.***REMOVED***.site.model.blog.Comment;

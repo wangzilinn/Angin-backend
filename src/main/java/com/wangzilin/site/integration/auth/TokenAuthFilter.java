@@ -1,7 +1,6 @@
 package com.***REMOVED***.site.integration.auth;
 
-import com.***REMOVED***.site.model.user.UserForAuth;
-import com.***REMOVED***.site.services.impl.UserService;
+import com.***REMOVED***.site.services.impl.UserServiceImpl;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,12 +29,12 @@ public class TokenAuthFilter extends OncePerRequestFilter {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(TokenAuthFilter.class);
 
 
-    final private UserService userService;
+    final private UserServiceImpl userServiceImpl;
 
     final private String tokenHeader = "Authorization";
 
-    public TokenAuthFilter(UserService userService) {
-        this.userService = userService;
+    public TokenAuthFilter(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -49,7 +48,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
             try {
                 //这里没有验证Token是否过期
                 String username = JwtUtil.getUsernameFromToken(authToken);
-                userForAuth = userService.loadUserByUsername(username);
+                userForAuth = userServiceImpl.loadUserByUsername(username);
             } catch (Exception e) {
                 log.debug("异常详情", e);
                 log.info("无效token");
