@@ -1,7 +1,6 @@
 package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.ChatDAO;
-import com.***REMOVED***.site.dao.UserDAO;
 import com.***REMOVED***.site.model.chat.ChatChannel;
 import com.***REMOVED***.site.model.chat.ChatMessage;
 import com.***REMOVED***.site.util.BeanUtil;
