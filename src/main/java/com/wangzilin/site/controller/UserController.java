@@ -34,8 +34,8 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signIn")
-    public Response SignIn(@RequestParam(value = "username", required = false) String username,
-                           @RequestParam(value = "password", required = false) String password) throws AuthenticationException {
+    public Response SignIn(@RequestParam(value = "username") String username,
+                           @RequestParam(value = "password") String password) throws AuthenticationException {
 
         final User user = userService.auth(username, password);
         if (user == null) {

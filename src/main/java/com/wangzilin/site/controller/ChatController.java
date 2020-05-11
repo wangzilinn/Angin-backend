@@ -1,9 +1,9 @@
 package com.***REMOVED***.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.chat.ChatChannel;
-import com.***REMOVED***.site.model.chat.ChatMessage;
-import com.***REMOVED***.site.services.impl.ChatService;
+import com.***REMOVED***.site.model.chat.Channel;
+import com.***REMOVED***.site.model.chat.Message;
+import com.***REMOVED***.site.services.ChatService;
 import com.***REMOVED***.site.util.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +36,9 @@ public class ChatController {
      * @return chatMassage list
      */
     @RequestMapping(value = "/channelHistory", method = RequestMethod.GET)
-    public List<ChatMessage> getHistory(@RequestHeader Map<String, Object> headers) {
+    public List<Message> getHistory(@RequestHeader Map<String, Object> headers) {
         String channelName = (String) headers.get("channel-name");
-        return chatService.getHistoryMessage(channelName);
+        return chatService.getChannelHistory(channelName);
     }
 
 
@@ -49,7 +49,7 @@ public class ChatController {
      * @return user channel list.
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.GET)
-    public List<ChatChannel> getUserChannelList(@RequestHeader Map<String, Object> headers) {
+    public List<Channel> getUserChannelList(@RequestHeader Map<String, Object> headers) {
         //自定义的header均会被转为小写
         String userId = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
         return chatService.getUserChannels(userId);
@@ -67,7 +67,7 @@ public class ChatController {
         String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
         String channelName = headers.get("channel-name");
         try {
-            chatService.createAndsSubscribeChannel(userId, channelName);
+            chatService.createAndSubscribeChannel(userId, channelName);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (MessagingException m) {
             return new ResponseEntity<>(m.toString(), HttpStatus.BAD_REQUEST);
@@ -101,10 +101,10 @@ public class ChatController {
      */
     @RequestMapping(value = "/userChannel", method = RequestMethod.DELETE)
     public ResponseEntity<String> unsubscribeChannel(@RequestHeader Map<String, String> headers) {
-        String userId = JwtUtil.getUsernameFromToken(headers.get("authorization"));
+        String username = JwtUtil.getUsernameFromToken((String) headers.get("authorization"));
         try {
-            String channelName = headers.get("channelName");
-            chatService.unsubscribeChannel(userId, channelName);
+            String channelName = headers.get("channelId");
+            chatService.unsubscribeChannel(username, channelName);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204
         } catch (MessagingException m) {
             return new ResponseEntity<>(m.toString(), HttpStatus.NOT_FOUND);//404

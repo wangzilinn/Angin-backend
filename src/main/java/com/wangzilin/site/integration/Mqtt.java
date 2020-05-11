@@ -2,8 +2,8 @@ package com.***REMOVED***.site.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.chat.ChatMessage;
-import com.***REMOVED***.site.services.impl.ChatService;
+import com.***REMOVED***.site.model.chat.Message;
+import com.***REMOVED***.site.services.impl.ChatServiceImpl;
 import com.***REMOVED***.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ import javax.net.ssl.SSLSocketFactory;
 @Configuration
 public class Mqtt {
 
-    final private ChatService chatService;
+    final private ChatServiceImpl chatServiceImpl;
 
     final private ObjectMapper mapper;
 
@@ -39,8 +39,8 @@ public class Mqtt {
 
     final private static Logger log = LoggerFactory.getLogger(Mqtt.class);
 
-    public Mqtt(ChatService chatService, ObjectMapper mapper) {
-        this.chatService = chatService;
+    public Mqtt(ChatServiceImpl chatServiceImpl, ObjectMapper mapper) {
+        this.chatServiceImpl = chatServiceImpl;
         this.mapper = mapper;
     }
 
@@ -86,8 +86,8 @@ public class Mqtt {
                 else if (topic.startsWith("user-")) {
                     //获得channel name: channel-前缀后面的内容就是channel的名字
                     String channelName = topic.substring(8);
-                    ChatMessage userMessage = mapper.readValue(payLoadJson, ChatMessage.class);
-                    chatService.saveMessage(channelName, userMessage);
+                    Message userMessage = mapper.readValue(payLoadJson, Message.class);
+                    chatServiceImpl.saveMessage(channelName, userMessage);
                     log.info(channelName + " " + payLoadJson);
                 }
             } catch (JsonProcessingException e) {

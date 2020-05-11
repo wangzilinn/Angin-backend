@@ -33,7 +33,7 @@ public class ArticleController {
      * @Param [id]
      **/
     @WebLog
-    @GetMapping("/")
+    @GetMapping
     public Response<Article> id(@RequestParam(value = "id") long id) {
         return new Response<>(articleService.findArticle(id));
     }
@@ -46,7 +46,7 @@ public class ArticleController {
      * @Param [article]
      **/
     @WebLog
-    @PostMapping("/")
+    @PostMapping
     public Response add(@RequestBody Article article) {
         articleService.addArticle(article);
         return new Response<>();
@@ -60,7 +60,7 @@ public class ArticleController {
      * @Param [id]
      **/
     @WebLog
-    @DeleteMapping("/")
+    @DeleteMapping
     public Response delete(@RequestParam(value = "id") long id) {
         articleService.deleteArticle(id);
         return new Response<>();
@@ -74,7 +74,7 @@ public class ArticleController {
      * @Param [article]
      **/
     @WebLog
-    @PutMapping("/")
+    @PutMapping
     public Response update(@RequestBody Article article) {
         articleService.updateArticle(article);
         return new Response<>();
@@ -143,6 +143,4 @@ public class ArticleController {
         }
         return new Response<>(articleService.listTag(new QueryPage(page, limit)));
     }
-
-
 }
