@@ -1,11 +1,14 @@
 package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.ArticleDAO;
+import com.***REMOVED***.site.dao.CategoryDAO;
 import com.***REMOVED***.site.model.blog.Article;
+import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.services.ArticleService;
 import com.***REMOVED***.site.util.QueryPage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,29 +20,44 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements ArticleService {
     ArticleDAO articleDAO;
+    CategoryDAO categoryDAO;
 
-    public ArticleServiceImpl(ArticleDAO articleDAO) {
+    public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO) {
         this.articleDAO = articleDAO;
+        this.categoryDAO = categoryDAO;
     }
 
     /**
-     * @param article
-     * @param queryPage
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.***REMOVED***.site.model.blog.Article>
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
      * @Author ***REMOVED***
-     * @Description 查询文章
-     * @Date 11:22 AM 5/11/2020
-     * @Param [article, page, limit]
+     * @Description 查询title
+     * @Date 1:19 PM 5/11/2020
+     * @Param [title, queryPage]
+     **/
+    @Override
+    public List<Article> listByTitle(String title, QueryPage queryPage) {
+        return articleDAO.findByTitle(title, queryPage);
+
+    }
+
+    /**
+     * @param categoryName
+     * @param queryPage
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
+     * @Author ***REMOVED***
+     * @Description 根据分类查询文章
+     * @Date 1:07 PM 5/11/2020
+     * @Param [category, queryPage]
      */
     @Override
-    public List<Article> list(Article article, QueryPage queryPage) {
-        if (article.getTitle() != null) {
-            return articleDAO.findByTitle(article.getTitle(), queryPage);
-        } else if (article.getCategory() != null) {
-            //先从categories表中获得文章的id list
-            //之后根据id返回列表
+    public List<Article> listByCategory(String categoryName, QueryPage queryPage) {
+        Category category = categoryDAO.findByName(categoryName);
+        List<Long> article_id = category.getArticle_id();
+        ArrayList<Article> articles = new ArrayList<>();
+        for (Long id : article_id) {
+            articles.add(articleDAO.findById(id));
         }
-        return null;
+        return articles;
     }
 
     /**

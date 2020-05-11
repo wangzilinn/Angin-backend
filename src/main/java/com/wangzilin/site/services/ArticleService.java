@@ -14,13 +14,22 @@ import java.util.List;
 public interface ArticleService {
 
     /**
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.***REMOVED***.site.model.blog.Article>
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
      * @Author ***REMOVED***
-     * @Description 查询文章
-     * @Date 11:22 AM 5/11/2020
-     * @Param [article, page, limit]
+     * @Description 根据标题查询文章
+     * @Date 1:05 PM 5/11/2020
+     * @Param [title, queryPage]
      **/
-    List<Article> list(Article article, QueryPage queryPage);
+    List<Article> listByTitle(String title, QueryPage queryPage);
+
+    /**
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
+     * @Author ***REMOVED***
+     * @Description 根据分类查询文章
+     * @Date 1:07 PM 5/11/2020
+     * @Param [category, queryPage]
+     **/
+    List<Article> listByCategory(String category, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>

@@ -1,13 +1,13 @@
 package com.***REMOVED***.site.model.blog;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: ***REMOVED***n@gmail.com
@@ -16,17 +16,19 @@ import java.io.Serializable;
  * @Modified By:***REMOVED***n@gmail.com
  */
 @Data
-@TableName("tb_category")
 @NoArgsConstructor
 public class Category implements Serializable {
-    @TableId(type = IdType.AUTO)
+    @Id
     private Long id;
 
     @NotNull
     private String name;
 
+    private List<Long> article_id;
+
     public Category(String name) {
         this.name = name;
+        this.article_id = new ArrayList<>();
     }
 
 }

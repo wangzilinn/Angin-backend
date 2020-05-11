@@ -26,14 +26,15 @@ import java.util.Map;
 public class ArticleDAO {
     @Resource
     private MongoTemplate mongoTemplateForArticle;
-    private String COLLECT_NAME = "article";
+    private final String ARTICLE_COLLECTION = "article";
+
 
     public List<Article> findAll(QueryPage queryPage) {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
         //创建查询对象
         Query query = new Query();
         query.with(pageableRequest);
-        return mongoTemplateForArticle.find(query, Article.class, COLLECT_NAME);
+        return mongoTemplateForArticle.find(query, Article.class, ARTICLE_COLLECTION);
     }
 
     public List<Article> findByTitle(String title, QueryPage queryPage) {
@@ -42,21 +43,23 @@ public class ArticleDAO {
         title = String.format("^.*%s.*$", title);
         Query query = new Query(Criteria.where("title").regex(title));
         query.with(pageableRequest);
-        return mongoTemplateForArticle.find(query, Article.class, COLLECT_NAME);
+        return mongoTemplateForArticle.find(query, Article.class, ARTICLE_COLLECTION);
     }
+
 
     public Article findById(Long id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        return mongoTemplateForArticle.findOne(query, Article.class, COLLECT_NAME);
+        return mongoTemplateForArticle.findOne(query, Article.class, ARTICLE_COLLECTION);
     }
 
+
     public void add(Article article) {
-        mongoTemplateForArticle.save(article, COLLECT_NAME);
+        mongoTemplateForArticle.save(article, ARTICLE_COLLECTION);
     }
 
     public void deleteById(Long id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForArticle.remove(query, COLLECT_NAME);
+        mongoTemplateForArticle.remove(query, ARTICLE_COLLECTION);
     }
 
     public void update(Long id, Map<String, Object> updateMap) {
@@ -65,7 +68,7 @@ public class ArticleDAO {
             update.set(item.getKey(), item.getValue());
         }
         Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForArticle.updateFirst(query, update, COLLECT_NAME);
+        mongoTemplateForArticle.updateFirst(query, update, ARTICLE_COLLECTION);
     }
 
     public void update(Article article) {
