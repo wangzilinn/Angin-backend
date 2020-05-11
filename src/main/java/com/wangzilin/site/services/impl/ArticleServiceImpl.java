@@ -2,6 +2,7 @@ package com.***REMOVED***.site.services.impl;
 
 import com.***REMOVED***.site.dao.ArticleDAO;
 import com.***REMOVED***.site.dao.CategoryDAO;
+import com.***REMOVED***.site.dao.TagDAO;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.model.blog.Tag;
@@ -22,10 +23,12 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     ArticleDAO articleDAO;
     CategoryDAO categoryDAO;
+    TagDAO tagDAO;
 
-    public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO) {
+    public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO, TagDAO tagDAO) {
         this.articleDAO = articleDAO;
         this.categoryDAO = categoryDAO;
+        this.tagDAO = tagDAO;
     }
 
     /**
@@ -53,9 +56,27 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
-        List<Long> article_id = category.getArticle_id();
         ArrayList<Article> articles = new ArrayList<>();
-        for (Long id : article_id) {
+        for (Long id : category.getArticle_id()) {
+            articles.add(articleDAO.findById(id));
+        }
+        return articles;
+    }
+
+    /**
+     * @param tagName
+     * @param queryPage
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
+     * @Author ***REMOVED***
+     * @Description 根据tag查询文章
+     * @Date 3:20 PM 5/11/2020
+     * @Param [tag, queryPage]
+     */
+    @Override
+    public List<Article> listArticleByTag(String tagName, QueryPage queryPage) {
+        Tag tag = tagDAO.findByName(tagName);
+        ArrayList<Article> articles = new ArrayList<>();
+        for (Long id : tag.getArticle_id()) {
             articles.add(articleDAO.findById(id));
         }
         return articles;
@@ -123,11 +144,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<Tag> listTag(QueryPage queryPage) {
-        return null;
+        return tagDAO.findAll(queryPage);
     }
 
     @Override
     public List<Tag> listTag() {
-        return null;
+        return tagDAO.findAll(null);
     }
 }

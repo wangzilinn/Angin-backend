@@ -93,13 +93,17 @@ public class ArticleController {
     public Response<List<Article>> list(@RequestParam(value = "page") int page,
                                         @RequestParam(value = "limit") int limit,
                                         @RequestParam(value = "title", required = false) String title,
-                                        @RequestParam(value = "category", required = false) String category) {
+                                        @RequestParam(value = "category", required = false) String category,
+                                        @RequestParam(value = "tag", required = false) String tag) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (title != null) {
             return new Response<>(articleService.listArticleByTitle(title, queryPage));
         }
         if (category != null) {
             return new Response<>(articleService.listArticleByCategory(category, queryPage));
+        }
+        if (tag != null) {
+            return new Response<>(articleService.listArticleByTag(tag, queryPage));
         }
         return new Response<>(articleService.listArticle(queryPage));
     }

@@ -36,6 +36,15 @@ public interface ArticleService {
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
      * @Author ***REMOVED***
+     * @Description 根据tag查询文章
+     * @Date 3:20 PM 5/11/2020
+     * @Param [tagName, queryPage]
+     **/
+    List<Article> listArticleByTag(String tagName, QueryPage queryPage);
+
+    /**
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
+     * @Author ***REMOVED***
      * @Description 分页列出文章
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
