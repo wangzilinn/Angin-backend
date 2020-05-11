@@ -2,11 +2,7 @@ package com.***REMOVED***.site.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.***REMOVED***.site.model.blog.Comment;
-import com.***REMOVED***.site.util.QueryPage;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * @Author: ***REMOVED***n@gmail.com
@@ -16,5 +12,4 @@ import java.util.List;
  */
 @Mapper
 public interface CommentMapper extends BaseMapper<Comment> {
-    List<Comment> findAll(@Param("state") String state, @Param("queryPage") QueryPage queryPage);
 }

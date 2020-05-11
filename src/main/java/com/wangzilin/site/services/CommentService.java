@@ -1,12 +1,10 @@
 package com.***REMOVED***.site.services;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.***REMOVED***.site.model.blog.Comment;
 import com.***REMOVED***.site.util.QueryPage;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: ***REMOVED***n@gmail.com
@@ -15,57 +13,51 @@ import java.util.Map;
  * @Modified By:***REMOVED***n@gmail.com
  */
 public interface CommentService extends IService<Comment> {
-    /**
-     * 查询最新的8条评论
-     *
-     * @return
-     */
-    List<Comment> findAll();
+
 
     /**
-     * 分页查询
-     *
-     * @param comment
-     * @param queryPage
-     * @return
-     */
-    IPage<Comment> list(Comment comment, QueryPage queryPage);
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
+     * @Author ***REMOVED***
+     * @Description 分页列出所有comment
+     * @Date 3:56 PM 5/11/2020
+     * @Param [queryPage]
+     **/
+    List<Comment> list(QueryPage queryPage);
 
     /**
-     * 分页查询并过滤留言数据
-     *
-     * @param articleId 当前访问的文章ID
-     * @param sort      分类，规定：sort=0表示文章详情页的评论信息；sort=1表示友链页的评论信息；sort=2表示关于我页的评论信息
-     * @return
-     */
-    Map<String, Object> findCommentsList(QueryPage queryPage, String articleId, int sort);
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
+     * @Author ***REMOVED***
+     * @Description 分页列出about评论
+     * @Date 3:56 PM 5/11/2020
+     * @Param [queryPage]
+     **/
+    List<Comment> listAbout(QueryPage queryPage);
 
     /**
-     * 查询指定文章下的评论量
-     *
-     * @param articleId
-     * @return
-     */
-    int findCountByArticle(Long articleId);
+     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
+     * @Author ***REMOVED***
+     * @Description 根据文章列出评论
+     * @Date 3:57 PM 5/11/2020
+     * @Param [id]
+     **/
+    List<Comment> listByArticleId(Long id);
 
     /**
-     * 新增
-     *
-     * @param comment
-     */
+     * @return void
+     * @Author ***REMOVED***
+     * @Description 添加评论
+     * @Date 3:57 PM 5/11/2020
+     * @Param [comment]
+     **/
     void add(Comment comment);
 
     /**
-     * 更新
-     *
-     * @param comment
-     */
-    void update(Comment comment);
-
-    /**
-     * 删除
-     *
-     * @param id
-     */
+     * @return void
+     * @Author ***REMOVED***
+     * @Description 删除评论
+     * @Date 3:57 PM 5/11/2020
+     * @Param [id]
+     **/
     void delete(Long id);
+
 }

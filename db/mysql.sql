@@ -1,3 +1,5 @@
+use `common`;
+
 set names utf8;
 drop table if exists `user`;
 create table `user`
@@ -27,5 +29,23 @@ create table `channel_name`
 ) engine = InnoDB
   auto_increment = 1
   default charset = utf8;
+
+drop table if exists `comment`;
+create table `comment`
+(
+    `id`            bigint(20)   not null auto_increment,
+    `article_title` varchar(100) default null,
+    `article_id`    bigint(20)   default null,
+    `reply_id`      bigint(20)   default null,
+    `username`      varchar(100) not null,
+    `avatar`        varchar(200) default null,
+    `date`          datetime     not null,
+    `content`       varchar(300) not null,
+    primary key (`id`)
+)
+    engine = InnoDB
+    auto_increment = 1
+    default charset = utf8
+
 
 
