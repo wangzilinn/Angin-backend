@@ -1,6 +1,8 @@
 package com.***REMOVED***.site.services;
 
 import com.***REMOVED***.site.model.blog.Article;
+import com.***REMOVED***.site.model.blog.Category;
+import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.util.QueryPage;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public interface ArticleService {
      * @Date 1:05 PM 5/11/2020
      * @Param [title, queryPage]
      **/
-    List<Article> listByTitle(String title, QueryPage queryPage);
+    List<Article> listArticleByTitle(String title, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
@@ -29,7 +31,7 @@ public interface ArticleService {
      * @Date 1:07 PM 5/11/2020
      * @Param [category, queryPage]
      **/
-    List<Article> listByCategory(String category, QueryPage queryPage);
+    List<Article> listArticleByCategory(String category, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
@@ -38,7 +40,9 @@ public interface ArticleService {
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
      **/
-    List<Article> list(QueryPage queryPage);
+    List<Article> listArticle(QueryPage queryPage);
+
+    Article findArticle(Long id);
 
     /**
      * @return void
@@ -47,7 +51,7 @@ public interface ArticleService {
      * @Date 4:47 PM 5/7/2020
      * @Param [article]
      **/
-    void add(Article article);
+    void addArticle(Article article);
 
     /**
      * @return void
@@ -56,9 +60,17 @@ public interface ArticleService {
      * @Date 4:36 PM 5/7/2020
      * @Param [article]
      **/
-    void update(Article article);
+    void updateArticle(Article article);
 
 
-    void delete(Long id);
+    void deleteArticle(Long id);
+
+    List<Category> listCategory(QueryPage queryPage);
+
+    List<Category> listCategory();
+
+    List<Tag> listTag(QueryPage queryPage);
+
+    List<Tag> listTag();
 
 }

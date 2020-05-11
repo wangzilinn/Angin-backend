@@ -1,6 +1,6 @@
 package com.***REMOVED***.site.dao;
 
-import com.***REMOVED***.site.model.blog.Category;
+import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.util.QueryPage;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -16,35 +16,28 @@ import java.util.List;
 /**
  * @Author: ***REMOVED***n@gmail.com
  * @Description:
- * @Date: Created in 12:55 PM 5/11/2020
+ * @Date: Created in 3:08 PM 5/11/2020
  * @Modified By:***REMOVED***n@gmail.com
  */
 @Repository
 @NoArgsConstructor
-public class CategoryDAO {
+public class TagDAO {
     @Resource
     private MongoTemplate mongoTemplateForArticle;
-    private final String CATEGORY_COLLECTION = "category";
+    private final String TAG_COLLECTION = "tag";
 
-    public List<Category> findAll(QueryPage queryPage) {
-
-        //创建查询对象
+    public List<Tag> findAll(QueryPage queryPage) {
         if (queryPage != null) {
             Query query = new Query();
             final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
             query.with(pageableRequest);
-            return mongoTemplateForArticle.find(query, Category.class, CATEGORY_COLLECTION);
+            return mongoTemplateForArticle.find(query, Tag.class, TAG_COLLECTION);
         }
-        return mongoTemplateForArticle.findAll(Category.class, CATEGORY_COLLECTION);
+        return mongoTemplateForArticle.findAll(Tag.class, TAG_COLLECTION);
     }
 
-    public Category findById(Long id) {
-        Query query = new Query(Criteria.where("_id").is(id));
-        return mongoTemplateForArticle.findOne(query, Category.class, CATEGORY_COLLECTION);
-    }
-
-    public Category findByName(String name) {
+    public Tag findByName(String name) {
         Query query = new Query(Criteria.where("name").is(name));
-        return mongoTemplateForArticle.findOne(query, Category.class, CATEGORY_COLLECTION);
+        return mongoTemplateForArticle.findOne(query, Tag.class, TAG_COLLECTION);
     }
 }

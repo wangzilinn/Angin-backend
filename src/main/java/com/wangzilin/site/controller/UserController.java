@@ -6,14 +6,14 @@ import com.***REMOVED***.site.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 @Tag(name = "UserController", description = "鉴权接口")
 public class UserController {
 
@@ -33,7 +33,7 @@ public class UserController {
      * @Date 11:39 PM 5/10/2020
      * @Param [username, password]
      **/
-    @RequestMapping(value = "/signIn", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping("/signIn")
     public Response SignIn(@RequestParam(value = "username", required = false) String username,
                            @RequestParam(value = "password", required = false) String password) throws AuthenticationException {
 
@@ -52,7 +52,7 @@ public class UserController {
      * @Date 11:47 PM 5/10/2020
      * @Param [username, password]
      **/
-    @RequestMapping(value = "/signUp", method = RequestMethod.POST, produces = "application/json")
+    @PostMapping("/signUp")
     public Response SignUp(@RequestParam(value = "username", required = false) String username,
                            @RequestParam(value = "password", required = false) String password) throws AuthenticationException {
         userService.add(new User(username, password));

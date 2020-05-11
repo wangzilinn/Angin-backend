@@ -4,6 +4,7 @@ import com.***REMOVED***.site.dao.ArticleDAO;
 import com.***REMOVED***.site.dao.CategoryDAO;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.model.blog.Category;
+import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleService;
 import com.***REMOVED***.site.util.QueryPage;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [title, queryPage]
      **/
     @Override
-    public List<Article> listByTitle(String title, QueryPage queryPage) {
+    public List<Article> listArticleByTitle(String title, QueryPage queryPage) {
         return articleDAO.findByTitle(title, queryPage);
 
     }
@@ -50,7 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [category, queryPage]
      */
     @Override
-    public List<Article> listByCategory(String categoryName, QueryPage queryPage) {
+    public List<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
         List<Long> article_id = category.getArticle_id();
         ArrayList<Article> articles = new ArrayList<>();
@@ -69,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [queryPage]
      */
     @Override
-    public List<Article> list(QueryPage queryPage) {
+    public List<Article> listArticle(QueryPage queryPage) {
         return articleDAO.findAll(queryPage);
     }
 
@@ -83,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [article]
      */
     @Override
-    public void add(Article article) {
+    public void addArticle(Article article) {
         articleDAO.add(article);
     }
 
@@ -96,13 +97,37 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [article]
      */
     @Override
-    public void update(Article article) {
+    public void updateArticle(Article article) {
         articleDAO.update(article);
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteArticle(Long id) {
         articleDAO.deleteById(id);
     }
 
+    @Override
+    public Article findArticle(Long id) {
+        return articleDAO.findById(id);
+    }
+
+    @Override
+    public List<Category> listCategory(QueryPage queryPage) {
+        return categoryDAO.findAll(queryPage);
+    }
+
+    @Override
+    public List<Category> listCategory() {
+        return categoryDAO.findAll(null);
+    }
+
+    @Override
+    public List<Tag> listTag(QueryPage queryPage) {
+        return null;
+    }
+
+    @Override
+    public List<Tag> listTag() {
+        return null;
+    }
 }
