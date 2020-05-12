@@ -1,15 +1,16 @@
 package com.***REMOVED***.site.controller;
 
+import com.***REMOVED***.site.annotation.WebLog;
 import com.***REMOVED***.site.model.DTO.Response;
 import com.***REMOVED***.site.model.user.User;
 import com.***REMOVED***.site.services.UserService;
+import com.***REMOVED***.site.util.JwtUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -34,6 +35,7 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signIn")
+    @WebLog
     public Response SignIn(@RequestParam(value = "username") String username,
                            @RequestParam(value = "password") String password) throws AuthenticationException {
 
@@ -44,6 +46,14 @@ public class UserController {
         return new Response<>(user);
     }
 
+    @PostMapping("/info")
+    @WebLog
+    public Response getInfo(@RequestHeader Map<String, String> headers) {
+        String userName = JwtUtil.getUsernameFromToken(headers.get("authorization"));
+        final User user = userService.findByName(userName);
+        log.debug(userName);
+        return new Response<>(user);
+    }
 
     /**
      * @return com.***REMOVED***.site.model.DTO.Response
