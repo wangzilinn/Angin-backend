@@ -1,6 +1,7 @@
 package com.***REMOVED***.site.model.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -37,6 +38,8 @@ public class User implements UserDetails {
     private String avatar;
     private String introduce;
     private String role;
+
+    @TableField(exist = false)
     private String token;
 
     public User(String username, String password) {

@@ -25,6 +25,7 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
+
     private final UserMapper userMapper;
 
     public UserServiceImpl(UserMapper userMapper) {
@@ -42,6 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername, username);
         List<User> list = userMapper.selectList(queryWrapper);
+        System.out.println(list);
         return list.size() > 0 ? list.get(0) : null;
     }
 

@@ -1,6 +1,6 @@
 ###
 # sign in
-POST https://{{host}}:8443/auth/signIn
+POST https://{{host}}:8443/api/user/signIn
 Content-Type: application/x-www-form-urlencoded
 
 username=***REMOVED***&password=123456
