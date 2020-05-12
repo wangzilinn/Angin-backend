@@ -53,8 +53,8 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signUp")
-    public Response SignUp(@RequestParam(value = "username", required = false) String username,
-                           @RequestParam(value = "password", required = false) String password) throws AuthenticationException {
+    public Response SignUp(@RequestParam(value = "username") String username,
+                           @RequestParam(value = "password") String password) throws AuthenticationException {
         userService.add(new User(username, password));
         return new Response<>();
     }

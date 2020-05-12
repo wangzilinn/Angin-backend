@@ -7,7 +7,7 @@ create table `user`
     `id`        bigint(20)   not null auto_increment,
     `username`  varchar(100) not null,
     `password`  varchar(100) not null,
-    `salt`      varchar(200) not null,
+    `salt`      varchar(200) default null,
     `avatar`    varchar(200) default null,
     `introduce` varchar(100) default null,
     `role`      varchar(100) default 'user',

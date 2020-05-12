@@ -1,0 +1,76 @@
+###
+# 获得所有过期卡片
+# 200
+POST https://{{host}}:8443/expiredCards
+Content-Type: application/json
+
+{
+  "userId": "***REMOVED***",
+  "password": "***REMOVED***"
+}
+
+
+###
+# 获得指定卡片
+# 200
+POST https://{{host}}:8443/card
+Content-Type: application/json
+
+{
+  "userId": "***REMOVED***",
+  "password": "***REMOVED***",
+  "key": "exact"
+}
+
+###
+# 获得今日卡片
+# 200
+POST https://{{host}}:8443/todayCards
+Content-Type: application/json
+
+{
+  "userId": "***REMOVED***",
+  "password": "***REMOVED***",
+  "expiredLimit": 10,
+  "newLimit": 5
+}
+
+###
+# 更新卡片状态
+# 200
+PUT https://{{host}}:8443/cardStatus
+Content-Type: application/json
+
+{
+  "userId": "***REMOVED***",
+  "password": "***REMOVED***",
+  "key": "exact",
+  "status": "status"
+}
+
+###
+# 更新卡片内容
+# 200
+PUT https://{{host}}:8443/cardDetail
+Content-Type: application/json
+# TODO
+
+{
+  "userId": "***REMOVED***",
+  c
+  "password": "***REMOVED***",
+  "card": {
+  }
+}
+
+###
+# 删除卡片
+# 204
+DELETE https://{{host}}:8443/card
+Content-Type: application/json
+
+{
+  "userId": "***REMOVED***",
+  "password": "***REMOVED***",
+  "key": "exact"
+}

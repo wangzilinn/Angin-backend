@@ -22,8 +22,8 @@ public class DAOConfig {
     private String blogMongoDBHost;
     @Value("${blogMongoDB.port}")
     private int blogMongoDBPort;
-    @Value("${blogMongoDB.blogName}")
-    private String blogMongoDBblogName;
+    @Value("${blogMongoDB.userName}")
+    private String blogMongoDBUserName;
     @Value("${blogMongoDB.authDB}")
     private String blogMongoDBAuthDB;
     @Value("${blogMongoDB.password}")
@@ -76,7 +76,7 @@ public class DAOConfig {
     @Bean
     public MongoTemplate mongoTemplateForBlog() {
         log.info("inject mongoTemplateForBlog");
-        MongoCredential mongoCredential = MongoCredential.createCredential(blogMongoDBblogName, blogMongoDBAuthDB,
+        MongoCredential mongoCredential = MongoCredential.createCredential(blogMongoDBUserName, blogMongoDBAuthDB,
                 blogMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(blogMongoDBHost, blogMongoDBPort);
         return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "blog");

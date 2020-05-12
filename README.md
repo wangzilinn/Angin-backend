@@ -371,26 +371,6 @@
 
    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Blog数据库
 
 ## MySQL:
@@ -517,5 +497,13 @@
        "status"
    }
    ```
+
+## RESTful
+
+### UserController
+
+/api/user
+
+1.  /signUp
 
    

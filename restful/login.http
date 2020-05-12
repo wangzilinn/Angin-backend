@@ -1,0 +1,21 @@
+###
+# sign in
+POST https://{{host}}:8443/auth/signIn
+Content-Type: application/x-www-form-urlencoded
+
+username=***REMOVED***&password=123456
+
+<> 2020-03-30T115624.200.json
+<> 2020-03-30T114056.200.json
+<> 2020-03-28T011613.200.json
+<> 2020-03-27T075222.200.json
+<> 2020-03-27T060804.200.json
+
+###
+# sign up
+POST https://{{host}}:8443/api/user/signUp
+Content-Type: application/x-www-form-urlencoded
+
+username=***REMOVED***&password=123456
+
+###

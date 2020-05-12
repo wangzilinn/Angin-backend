@@ -1,0 +1,49 @@
+###
+# 获得频道历史消息
+GET https://{{host}}:8443/channelHistory
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzMDM2ODksImV4cCI6MTU4NTMwNTQ4OX0.DZ9-Wd3C9VRjzVS5UQw9BZUcbItinb9ORTGbCZAyhRafwKOOoEdFUbQnxwcCaoUrys2TXbc-xwTVtexqqv8BpQ
+channel-name: user-***REMOVED***-huangyiqin
+
+<> 2020-03-21T052443.200.json
+
+
+###
+# 获得用户订阅的所有频道
+GET https://{{host}}:8443/chat/userChannel
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzNzI1NzMsImV4cCI6MTU4NTM3NDM3M30.DuAV5s5UP4LGXE7sxYnpCVGxjL1wqhh05vsu-Vgsrz0v9TG5VHg0Pe8FCTzoTUwmwK-LnxHj4_3G1W8FKZIvMw
+
+<> 2020-03-28T011714.200.json
+<> 2020-03-28T011629.401.json
+<> 2020-03-27T075452.200.json
+<> 2020-03-27T075332.200.json
+
+
+###
+# 用户新建并订阅频道
+POST https://{{host}}:8443/userChannel
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzMDM2ODksImV4cCI6MTU4NTMwNTQ4OX0.DZ9-Wd3C9VRjzVS5UQw9BZUcbItinb9ORTGbCZAyhRafwKOOoEdFUbQnxwcCaoUrys2TXbc-xwTVtexqqv8BpQ
+channel-name: user-test2
+
+###
+#订阅一个已存在的频道
+PUT https://{{host}}:8443/userChannel
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzMDM2ODksImV4cCI6MTU4NTMwNTQ4OX0.DZ9-Wd3C9VRjzVS5UQw9BZUcbItinb9ORTGbCZAyhRafwKOOoEdFUbQnxwcCaoUrys2TXbc-xwTVtexqqv8BpQ
+channel-name: user-test
+
+
+<> 2020-03-16T055232.500.json
+
+###
+# 用户删除频道
+DELETE https://{{host}}:8443/userChannel
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzMDM2ODksImV4cCI6MTU4NTMwNTQ4OX0.DZ9-Wd3C9VRjzVS5UQw9BZUcbItinb9ORTGbCZAyhRafwKOOoEdFUbQnxwcCaoUrys2TXbc-xwTVtexqqv8BpQ
+channel-name: user-test
+
+<> 2020-03-22T055337.400.txt
+
+
+
+
+
+
