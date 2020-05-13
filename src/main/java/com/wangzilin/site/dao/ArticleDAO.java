@@ -1,6 +1,5 @@
 package com.***REMOVED***.site.dao;
 
-import com.***REMOVED***.site.model.DTO.Page;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.util.QueryPage;
 import lombok.NoArgsConstructor;
@@ -30,15 +29,18 @@ public class ArticleDAO {
     private final String ARTICLE_COLLECTION = "article";
 
 
-    public Page<Article> findAll(QueryPage queryPage) {
+    public List<Article> findAll(QueryPage queryPage) {
         //这里减一是因为请求时第一个页面是1而mongodb内部第一个页面是0
         final Pageable pageableRequest = PageRequest.of(queryPage.getPage() - 1, queryPage.getLimit());
-        //创建查询对象
+        //创建查询对
         Query query = new Query();
-        long totalNumber = mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
         query.with(pageableRequest);
-        List<Article> articleList = mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
-        return new Page<>(articleList, queryPage, totalNumber);
+        return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
+    }
+
+    public long total() {
+        Query query = new Query();
+        return mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
     }
 
     public List<Article> findByTitle(String title, QueryPage queryPage) {

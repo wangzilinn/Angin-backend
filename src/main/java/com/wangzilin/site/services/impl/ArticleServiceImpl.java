@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [title, queryPage]
      **/
     @Override
-    public List<Article> listArticleByTitle(String title, QueryPage queryPage) {
+    public Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
         return articleDAO.findByTitle(title, queryPage);
 
     }
@@ -55,13 +55,9 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [category, queryPage]
      */
     @Override
-    public List<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
+    public Page<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
-        ArrayList<Article> articles = new ArrayList<>();
-        for (String id : category.getArticle_id()) {
-            articles.add(articleDAO.findById(id));
-        }
-        return articles;
+        return getArticlePage(queryPage, category.getArticle_id());
     }
 
     /**
@@ -74,13 +70,18 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [tag, queryPage]
      */
     @Override
-    public List<Article> listArticleByTag(String tagName, QueryPage queryPage) {
+    public Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
         Tag tag = tagDAO.findByName(tagName);
+        return getArticlePage(queryPage, tag.getArticle_id());
+    }
+
+    private Page<Article> getArticlePage(QueryPage queryPage, List<String> article_id) {
         ArrayList<Article> articles = new ArrayList<>();
-        for (String id : tag.getArticle_id()) {
+        for (int i = 0; i < queryPage.getLimit(); i++) {
+            String id = article_id.get((queryPage.getPage() - 1) * queryPage.getLimit() + i);
             articles.add(articleDAO.findById(id));
         }
-        return articles;
+        return new Page<>(articles, queryPage, article_id.size());
     }
 
     /**
@@ -92,9 +93,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [queryPage]
      */
     @Override
-    public Page listArticle(QueryPage queryPage) {
-
-        return articleDAO.findAll(queryPage);
+    public Page<Article> listArticle(QueryPage queryPage) {
+        List<Article> articleList = articleDAO.findAll(queryPage);
+        long totalNumber = articleDAO.total();
+        return new Page<>(articleList, queryPage, totalNumber);
     }
 
 

@@ -23,7 +23,7 @@ public interface ArticleService {
      * @Date 1:05 PM 5/11/2020
      * @Param [title, queryPage]
      **/
-    List<Article> listArticleByTitle(String title, QueryPage queryPage);
+    Page<Article> listArticleByTitle(String title, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
@@ -32,7 +32,7 @@ public interface ArticleService {
      * @Date 1:07 PM 5/11/2020
      * @Param [category, queryPage]
      **/
-    List<Article> listArticleByCategory(String category, QueryPage queryPage);
+    Page<Article> listArticleByCategory(String category, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
@@ -41,7 +41,7 @@ public interface ArticleService {
      * @Date 3:20 PM 5/11/2020
      * @Param [tagName, queryPage]
      **/
-    List<Article> listArticleByTag(String tagName, QueryPage queryPage);
+    Page<Article> listArticleByTag(String tagName, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
@@ -50,7 +50,7 @@ public interface ArticleService {
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
      **/
-    Page listArticle(QueryPage queryPage);
+    Page<Article> listArticle(QueryPage queryPage);
 
     Article findArticle(String id);
 
@@ -75,13 +75,21 @@ public interface ArticleService {
 
     void deleteArticle(String id);
 
-    List<Category> listCategory(QueryPage queryPage);
+    Page<Category> listCategory(QueryPage queryPage);
 
     List<Category> listCategory();
 
-    List<Tag> listTag(QueryPage queryPage);
+    void updateCategory(String categoryName);
+
+    void deleteCategory(String categoryName);
+
+    Page<Tag> listTag(QueryPage queryPage);
 
     List<Tag> listTag();
+
+    void updateTag(String tagName);
+
+    void deleteTag(String tagName);
 
 
 }
