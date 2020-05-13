@@ -4,13 +4,14 @@ import com.***REMOVED***.site.annotation.WebLog;
 import com.***REMOVED***.site.model.DTO.Response;
 import com.***REMOVED***.site.model.user.User;
 import com.***REMOVED***.site.services.UserService;
-import com.***REMOVED***.site.util.JwtUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -48,10 +49,8 @@ public class UserController {
 
     @PostMapping("/info")
     @WebLog
-    public Response getInfo(@RequestHeader Map<String, String> headers) {
-        String userName = JwtUtil.getUsernameFromToken(headers.get("authorization"));
-        final User user = userService.findByName(userName);
-        log.debug(userName);
+    public Response getInfo() {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getDetails();
         return new Response<>(user);
     }
 

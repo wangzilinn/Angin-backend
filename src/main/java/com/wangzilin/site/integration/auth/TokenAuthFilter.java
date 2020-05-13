@@ -6,7 +6,6 @@ import com.***REMOVED***.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -60,12 +59,12 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         user.getUsername(), null, user.getAuthorities());
-
                 // 把请求的信息设置到UsernamePasswordAuthenticationToken details对象里面，包括发请求的ip等
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+//                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                auth.setDetails(user);
                 // 设置认证信息
                 SecurityContextHolder.getContext().setAuthentication(auth);
+
             }
         }
 
