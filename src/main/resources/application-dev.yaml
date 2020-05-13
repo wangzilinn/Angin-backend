@@ -39,6 +39,8 @@ mqtt:
 
 jwt:
   secret: ***REMOVED***
-  expiration: 1800
+  expiration: 18000000
 
-
+logging:
+  level:
+    org.springframework.web: DEBUG

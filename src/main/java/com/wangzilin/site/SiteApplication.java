@@ -1,7 +1,6 @@
 package com.***REMOVED***.site;
 
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -10,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
-@MapperScan("com.***REMOVED***.site.dao")
 public class SiteApplication implements CommandLineRunner {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SiteApplication.class);

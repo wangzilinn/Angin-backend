@@ -7,9 +7,11 @@ import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleService;
 import com.***REMOVED***.site.util.QueryPage;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleController.class);
 
     /**
      * @return com.***REMOVED***.site.model.DTO.Response<com.***REMOVED***.site.model.blog.Article>
@@ -34,7 +37,7 @@ public class ArticleController {
      **/
     @WebLog
     @GetMapping
-    public Response<Article> id(@RequestParam(value = "id") long id) {
+    public Response<Article> id(@RequestParam(value = "id") String id) {
         return new Response<>(articleService.findArticle(id));
     }
 
@@ -48,6 +51,9 @@ public class ArticleController {
     @WebLog
     @PostMapping
     public Response add(@RequestBody Article article) {
+        //添加文档上传时间
+        article.setCreateTime(new Date());
+        article.setEditTime(new Date());
         articleService.addArticle(article);
         return new Response<>();
     }
@@ -61,7 +67,7 @@ public class ArticleController {
      **/
     @WebLog
     @DeleteMapping
-    public Response delete(@RequestParam(value = "id") long id) {
+    public Response delete(@RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
         return new Response<>();
     }
@@ -88,6 +94,7 @@ public class ArticleController {
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]
      **/
+    //TODO:list返回的不需要有文章内容,最好再多一个total字段
     @WebLog
     @GetMapping("/list")
     public Response<List<Article>> list(@RequestParam(value = "page") int page,

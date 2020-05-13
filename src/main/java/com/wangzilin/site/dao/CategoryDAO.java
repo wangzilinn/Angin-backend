@@ -3,6 +3,7 @@ package com.***REMOVED***.site.dao;
 import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.util.QueryPage;
 import lombok.NoArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,28 +24,31 @@ import java.util.List;
 @NoArgsConstructor
 public class CategoryDAO {
     @Resource
-    private MongoTemplate mongoTemplateForArticle;
+    private MongoTemplate mongoTemplateForBlog;
     private final String CATEGORY_COLLECTION = "category";
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(CategoryDAO.class);
 
     public List<Category> findAll(QueryPage queryPage) {
-
+        log.info("findAll");
         //创建查询对象
         if (queryPage != null) {
             Query query = new Query();
             final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
             query.with(pageableRequest);
-            return mongoTemplateForArticle.find(query, Category.class, CATEGORY_COLLECTION);
+            return mongoTemplateForBlog.find(query, Category.class, CATEGORY_COLLECTION);
         }
-        return mongoTemplateForArticle.findAll(Category.class, CATEGORY_COLLECTION);
+        List<Category> result = mongoTemplateForBlog.findAll(Category.class, CATEGORY_COLLECTION);
+        log.info(result.toString());
+        return result;
     }
 
     public Category findById(Long id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        return mongoTemplateForArticle.findOne(query, Category.class, CATEGORY_COLLECTION);
+        return mongoTemplateForBlog.findOne(query, Category.class, CATEGORY_COLLECTION);
     }
 
     public Category findByName(String name) {
         Query query = new Query(Criteria.where("name").is(name));
-        return mongoTemplateForArticle.findOne(query, Category.class, CATEGORY_COLLECTION);
+        return mongoTemplateForBlog.findOne(query, Category.class, CATEGORY_COLLECTION);
     }
 }

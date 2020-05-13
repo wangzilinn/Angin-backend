@@ -1,0 +1,27 @@
+###
+# 获得所有分类
+GET https://{{host}}:8443/api/article/category
+Authorization:{{auth}}
+
+###
+# 获得所有tag
+GET https://{{host}}:8443/api/article/tag
+Authorization: {{auth}}
+
+###
+# 上传新文章
+POST https://{{host}}:8443/api/article
+Content-Type: application/json
+
+{
+  "id": 999,
+  "value": "content"
+}
+
+###
+# 获得文章列表
+GET https://{{host}}:8443/api/article/list?page=1&limit=8
+Authorization: {{auth}}
+Content-Type: application/x-www-form-urlencoded
+
+###

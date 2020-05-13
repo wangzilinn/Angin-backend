@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TagDAO {
     @Resource
-    private MongoTemplate mongoTemplateForArticle;
+    private MongoTemplate mongoTemplateForBlog;
     private final String TAG_COLLECTION = "tag";
 
     public List<Tag> findAll(QueryPage queryPage) {
@@ -31,13 +31,13 @@ public class TagDAO {
             Query query = new Query();
             final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
             query.with(pageableRequest);
-            return mongoTemplateForArticle.find(query, Tag.class, TAG_COLLECTION);
+            return mongoTemplateForBlog.find(query, Tag.class, TAG_COLLECTION);
         }
-        return mongoTemplateForArticle.findAll(Tag.class, TAG_COLLECTION);
+        return mongoTemplateForBlog.findAll(Tag.class, TAG_COLLECTION);
     }
 
     public Tag findByName(String name) {
         Query query = new Query(Criteria.where("name").is(name));
-        return mongoTemplateForArticle.findOne(query, Tag.class, TAG_COLLECTION);
+        return mongoTemplateForBlog.findOne(query, Tag.class, TAG_COLLECTION);
     }
 }

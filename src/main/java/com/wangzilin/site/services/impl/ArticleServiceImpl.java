@@ -3,6 +3,7 @@ package com.***REMOVED***.site.services.impl;
 import com.***REMOVED***.site.dao.ArticleDAO;
 import com.***REMOVED***.site.dao.CategoryDAO;
 import com.***REMOVED***.site.dao.TagDAO;
+import com.***REMOVED***.site.model.DTO.Page;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.model.blog.Tag;
@@ -57,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
         ArrayList<Article> articles = new ArrayList<>();
-        for (Long id : category.getArticle_id()) {
+        for (String id : category.getArticle_id()) {
             articles.add(articleDAO.findById(id));
         }
         return articles;
@@ -76,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> listArticleByTag(String tagName, QueryPage queryPage) {
         Tag tag = tagDAO.findByName(tagName);
         ArrayList<Article> articles = new ArrayList<>();
-        for (Long id : tag.getArticle_id()) {
+        for (String id : tag.getArticle_id()) {
             articles.add(articleDAO.findById(id));
         }
         return articles;
@@ -91,7 +92,8 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [queryPage]
      */
     @Override
-    public List<Article> listArticle(QueryPage queryPage) {
+    public Page listArticle(QueryPage queryPage) {
+
         return articleDAO.findAll(queryPage);
     }
 
@@ -123,12 +125,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteArticle(Long id) {
+    public void deleteArticle(String id) {
         articleDAO.deleteById(id);
     }
 
     @Override
-    public Article findArticle(Long id) {
+    public Article findArticle(String id) {
         return articleDAO.findById(id);
     }
 

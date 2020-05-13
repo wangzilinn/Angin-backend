@@ -1,5 +1,6 @@
 package com.***REMOVED***.site.services;
 
+import com.***REMOVED***.site.model.DTO.Page;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.model.blog.Category;
 import com.***REMOVED***.site.model.blog.Tag;
@@ -49,9 +50,9 @@ public interface ArticleService {
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
      **/
-    List<Article> listArticle(QueryPage queryPage);
+    Page listArticle(QueryPage queryPage);
 
-    Article findArticle(Long id);
+    Article findArticle(String id);
 
     /**
      * @return void
@@ -72,7 +73,7 @@ public interface ArticleService {
     void updateArticle(Article article);
 
 
-    void deleteArticle(Long id);
+    void deleteArticle(String id);
 
     List<Category> listCategory(QueryPage queryPage);
 

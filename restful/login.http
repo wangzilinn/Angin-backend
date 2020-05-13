@@ -14,4 +14,4 @@ username=***REMOVED***&password=123456
 
 ###
 POST https://{{host}}:8443/api/user/info
-Authorization:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODkzNTYxNzksImV4cCI6MTU4OTM1Nzk3OX0.aSla3SfWhWBtUKazPzClj9noJOSouTk22yxEl12dUUMajLEPO581ffJzCyQDIBgLxCLYX0V3C47wMH7PFy3Z2g
+Authorization:eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODkzNTk2NTksImV4cCI6MTYwNzM1OTY1OX0.3CF1vFi51LwH7_D33ERSgaMqXYe_JnyHZBjKdHLIsnQ522y6agHgeBVkHiX4QUxUkZ1X3OMx-HLHbS2brnAbaw

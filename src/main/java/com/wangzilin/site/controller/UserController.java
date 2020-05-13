@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/info")
     @WebLog
     public Response getInfo() {
-        Object user = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return new Response<>(user);
     }
 

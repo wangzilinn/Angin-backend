@@ -16,6 +16,8 @@ create table `user`
   auto_increment = 1
   default charset = utf8;
 
+
+
 drop table if exists `channel_name`;
 create table `channel_name`
 (

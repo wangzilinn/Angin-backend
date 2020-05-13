@@ -13,3 +13,4 @@ server:
     key-store-password: ***REMOVED***
     keyStoreType: PKCS12
     keyAlias: tomcat
+

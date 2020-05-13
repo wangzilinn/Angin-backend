@@ -19,12 +19,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Category implements Serializable {
     @Id
-    private Long id;
+    private String id;
 
     @NotNull
     private String name;
 
-    private List<Long> article_id;
+    private List<String> article_id;
 
     public Category(String name) {
         this.name = name;

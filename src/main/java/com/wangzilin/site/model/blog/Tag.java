@@ -19,12 +19,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Tag implements Serializable {
     @Id
-    private Long id;
+    private String id;
 
     @NotNull
     private String name;
 
-    private List<Long> article_id;
+    private List<String> article_id;
 
     public Tag(String name) {
         this.name = name;

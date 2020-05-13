@@ -1,5 +1,6 @@
 package com.***REMOVED***.site.dao;
 
+import com.***REMOVED***.site.model.DTO.Page;
 import com.***REMOVED***.site.model.blog.Article;
 import com.***REMOVED***.site.util.QueryPage;
 import lombok.NoArgsConstructor;
@@ -25,16 +26,19 @@ import java.util.Map;
 @NoArgsConstructor
 public class ArticleDAO {
     @Resource
-    private MongoTemplate mongoTemplateForArticle;
+    private MongoTemplate mongoTemplateForBlog;
     private final String ARTICLE_COLLECTION = "article";
 
 
-    public List<Article> findAll(QueryPage queryPage) {
-        final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
+    public Page<Article> findAll(QueryPage queryPage) {
+        //这里减一是因为请求时第一个页面是1而mongodb内部第一个页面是0
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPage() - 1, queryPage.getLimit());
         //创建查询对象
         Query query = new Query();
+        long totalNumber = mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
         query.with(pageableRequest);
-        return mongoTemplateForArticle.find(query, Article.class, ARTICLE_COLLECTION);
+        List<Article> articleList = mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
+        return new Page<>(articleList, queryPage, totalNumber);
     }
 
     public List<Article> findByTitle(String title, QueryPage queryPage) {
@@ -43,32 +47,32 @@ public class ArticleDAO {
         title = String.format("^.*%s.*$", title);
         Query query = new Query(Criteria.where("title").regex(title));
         query.with(pageableRequest);
-        return mongoTemplateForArticle.find(query, Article.class, ARTICLE_COLLECTION);
+        return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
     }
 
 
-    public Article findById(Long id) {
+    public Article findById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        return mongoTemplateForArticle.findOne(query, Article.class, ARTICLE_COLLECTION);
+        return mongoTemplateForBlog.findOne(query, Article.class, ARTICLE_COLLECTION);
     }
 
 
     public void add(Article article) {
-        mongoTemplateForArticle.save(article, ARTICLE_COLLECTION);
+        mongoTemplateForBlog.save(article, ARTICLE_COLLECTION);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForArticle.remove(query, ARTICLE_COLLECTION);
+        mongoTemplateForBlog.remove(query, ARTICLE_COLLECTION);
     }
 
-    public void update(Long id, Map<String, Object> updateMap) {
+    public void update(String id, Map<String, Object> updateMap) {
         Update update = new Update();
         for (Map.Entry<String, Object> item : updateMap.entrySet()) {
             update.set(item.getKey(), item.getValue());
         }
         Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForArticle.updateFirst(query, update, ARTICLE_COLLECTION);
+        mongoTemplateForBlog.updateFirst(query, update, ARTICLE_COLLECTION);
     }
 
     public void update(Article article) {
