@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.annotation;
+package com.wangzilin.site.annotation;
 
 import java.lang.annotation.*;
 

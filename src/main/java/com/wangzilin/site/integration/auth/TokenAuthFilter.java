@@ -1,8 +1,8 @@
-package com.***REMOVED***.site.integration.auth;
+package com.wangzilin.site.integration.auth;
 
-import com.***REMOVED***.site.model.user.User;
-import com.***REMOVED***.site.services.UserService;
-import com.***REMOVED***.site.util.JwtUtil;
+import com.wangzilin.site.model.user.User;
+import com.wangzilin.site.services.UserService;
+import com.wangzilin.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

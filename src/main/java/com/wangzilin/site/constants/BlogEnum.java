@@ -1,13 +1,13 @@
-package com.***REMOVED***.site.constants;
+package com.wangzilin.site.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 10:08 PM 5/6/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Getter
 @AllArgsConstructor

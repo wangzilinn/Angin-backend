@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.blog;
+package com.wangzilin.site.model.blog;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description: 文章映射实体
  * @Date: Created in 3:51 PM 5/7/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @NoArgsConstructor

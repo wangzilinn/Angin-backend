@@ -1,6 +1,6 @@
-package com.***REMOVED***.site.util;
+package com.wangzilin.site.util;
 
-import com.***REMOVED***.site.model.user.User;
+import com.wangzilin.site.model.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

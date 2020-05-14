@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.user;
+package com.wangzilin.site.model.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -16,10 +16,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 12:03 AM 5/9/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @TableName(value = "user")

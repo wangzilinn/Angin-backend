@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.util;
+package com.wangzilin.site.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 4:32 PM 5/7/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @NoArgsConstructor
@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class QueryPage implements Serializable {
 
     /**
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description 当前页
      * @Date 4:33 PM 5/7/2020
      * @Param
@@ -27,7 +27,7 @@ public class QueryPage implements Serializable {
     private int page;
 
     /**
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description 每一页的记录数
      * @Date 4:33 PM 5/7/2020
      * @Param

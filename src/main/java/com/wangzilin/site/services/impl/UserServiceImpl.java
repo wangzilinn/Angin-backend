@@ -1,12 +1,12 @@
-package com.***REMOVED***.site.services.impl;
+package com.wangzilin.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.dao.UserMapper;
-import com.***REMOVED***.site.model.user.User;
-import com.***REMOVED***.site.services.UserService;
-import com.***REMOVED***.site.util.BeanUtil;
-import com.***REMOVED***.site.util.JwtUtil;
+import com.wangzilin.site.dao.UserMapper;
+import com.wangzilin.site.model.user.User;
+import com.wangzilin.site.services.UserService;
+import com.wangzilin.site.util.BeanUtil;
+import com.wangzilin.site.util.JwtUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

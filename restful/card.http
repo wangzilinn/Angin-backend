@@ -5,8 +5,8 @@ POST https://{{host}}:8443/expiredCards
 Content-Type: application/json
 
 {
-  "userId": "***REMOVED***",
-  "password": "***REMOVED***"
+  "userId": "wangzilin",
+  "password": "19961112w"
 }
 
 
@@ -17,8 +17,8 @@ POST https://{{host}}:8443/card
 Content-Type: application/json
 
 {
-  "userId": "***REMOVED***",
-  "password": "***REMOVED***",
+  "userId": "wangzilin",
+  "password": "19961112w",
   "key": "exact"
 }
 
@@ -29,8 +29,8 @@ POST https://{{host}}:8443/todayCards
 Content-Type: application/json
 
 {
-  "userId": "***REMOVED***",
-  "password": "***REMOVED***",
+  "userId": "wangzilin",
+  "password": "19961112w",
   "expiredLimit": 10,
   "newLimit": 5
 }
@@ -42,8 +42,8 @@ PUT https://{{host}}:8443/cardStatus
 Content-Type: application/json
 
 {
-  "userId": "***REMOVED***",
-  "password": "***REMOVED***",
+  "userId": "wangzilin",
+  "password": "19961112w",
   "key": "exact",
   "status": "status"
 }
@@ -56,9 +56,9 @@ Content-Type: application/json
 # TODO
 
 {
-  "userId": "***REMOVED***",
+  "userId": "wangzilin",
   c
-  "password": "***REMOVED***",
+  "password": "19961112w",
   "card": {
   }
 }
@@ -70,7 +70,7 @@ DELETE https://{{host}}:8443/card
 Content-Type: application/json
 
 {
-  "userId": "***REMOVED***",
-  "password": "***REMOVED***",
+  "userId": "wangzilin",
+  "password": "19961112w",
   "key": "exact"
 }

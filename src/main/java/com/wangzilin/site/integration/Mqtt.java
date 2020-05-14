@@ -1,10 +1,10 @@
-package com.***REMOVED***.site.integration;
+package com.wangzilin.site.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.chat.Message;
-import com.***REMOVED***.site.services.impl.ChatServiceImpl;
-import com.***REMOVED***.site.util.SslUtil;
+import com.wangzilin.site.model.chat.Message;
+import com.wangzilin.site.services.impl.ChatServiceImpl;
+import com.wangzilin.site.util.SslUtil;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

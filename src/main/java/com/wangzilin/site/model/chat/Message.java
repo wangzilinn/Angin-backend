@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.chat;
+package com.wangzilin.site.model.chat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

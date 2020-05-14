@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.config;
+package com.wangzilin.site.config;
 
 
 import com.mongodb.MongoClient;

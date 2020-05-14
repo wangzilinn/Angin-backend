@@ -1,4 +1,4 @@
-package com.***REMOVED***.site;
+package com.wangzilin.site;
 
 
 public class AccessCardsTest {

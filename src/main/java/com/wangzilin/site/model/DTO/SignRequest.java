@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.DTO;
+package com.wangzilin.site.model.DTO;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

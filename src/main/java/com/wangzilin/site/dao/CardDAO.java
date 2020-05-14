@@ -1,6 +1,6 @@
-package com.***REMOVED***.site.dao;
+package com.wangzilin.site.dao;
 
-import com.***REMOVED***.site.model.card.DBCard;
+import com.wangzilin.site.model.card.DBCard;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

@@ -1,7 +1,7 @@
-package com.***REMOVED***.site.aspect;
+package com.wangzilin.site.aspect;
 
 import com.google.gson.Gson;
-import com.***REMOVED***.site.annotation.WebLog;
+import com.wangzilin.site.annotation.WebLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -36,7 +36,7 @@ public class WebLogAspect {
     /**
      * 以自定义 @WebLog 注解为切点
      */
-    @Pointcut("@annotation(com.***REMOVED***.site.annotation.WebLog)")
+    @Pointcut("@annotation(com.wangzilin.site.annotation.WebLog)")
     public void webLog() {
     }
 

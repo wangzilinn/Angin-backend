@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.card;
+package com.wangzilin.site.model.card;
 
 import java.util.Date;
 

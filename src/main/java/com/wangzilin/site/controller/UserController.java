@@ -1,9 +1,9 @@
-package com.***REMOVED***.site.controller;
+package com.wangzilin.site.controller;
 
-import com.***REMOVED***.site.annotation.WebLog;
-import com.***REMOVED***.site.model.DTO.Response;
-import com.***REMOVED***.site.model.user.User;
-import com.***REMOVED***.site.services.UserService;
+import com.wangzilin.site.annotation.WebLog;
+import com.wangzilin.site.model.DTO.Response;
+import com.wangzilin.site.model.user.User;
+import com.wangzilin.site.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -29,8 +29,8 @@ public class UserController {
     }
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response
+     * @Author wangzilin
      * @Description 用户登录
      * @Date 11:39 PM 5/10/2020
      * @Param [username, password]
@@ -55,8 +55,8 @@ public class UserController {
     }
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response
+     * @Author wangzilin
      * @Description 用户注册
      * @Date 11:47 PM 5/10/2020
      * @Param [username, password]

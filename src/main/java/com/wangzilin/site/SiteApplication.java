@@ -1,4 +1,4 @@
-package com.***REMOVED***.site;
+package com.wangzilin.site;
 
 
 import org.slf4j.LoggerFactory;

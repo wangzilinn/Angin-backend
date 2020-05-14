@@ -1,6 +1,6 @@
-package com.***REMOVED***.site.dao;
+package com.wangzilin.site.dao;
 
-import com.***REMOVED***.site.model.chat.Message;
+import com.wangzilin.site.model.chat.Message;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

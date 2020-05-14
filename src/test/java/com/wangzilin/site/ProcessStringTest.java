@@ -1,6 +1,6 @@
-//package com.***REMOVED***.site;
+//package com.wangzilin.site;
 //
-//import com.***REMOVED***.site.services.impl.CardAccessor;
+//import com.wangzilin.site.services.impl.CardAccessor;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;

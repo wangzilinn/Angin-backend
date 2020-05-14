@@ -1,21 +1,21 @@
-package com.***REMOVED***.site.services;
+package com.wangzilin.site.services;
 
-import com.***REMOVED***.site.model.chat.Channel;
-import com.***REMOVED***.site.model.chat.Message;
+import com.wangzilin.site.model.chat.Channel;
+import com.wangzilin.site.model.chat.Message;
 
 import java.util.List;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 5:39 PM 5/11/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 public interface ChatService {
 
     /**
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description 保存一条消息
      * @Date 5:46 PM 5/11/2020
      * @Param [channelName, message]

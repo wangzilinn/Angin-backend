@@ -1,10 +1,10 @@
-package com.***REMOVED***.site.controller;
+package com.wangzilin.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.chat.Channel;
-import com.***REMOVED***.site.model.chat.Message;
-import com.***REMOVED***.site.services.ChatService;
-import com.***REMOVED***.site.util.JwtUtil;
+import com.wangzilin.site.model.chat.Channel;
+import com.wangzilin.site.model.chat.Message;
+import com.wangzilin.site.services.ChatService;
+import com.wangzilin.site.util.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;

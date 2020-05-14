@@ -1,7 +1,7 @@
-package com.***REMOVED***.site.dao;
+package com.wangzilin.site.dao;
 
-import com.***REMOVED***.site.model.blog.Article;
-import com.***REMOVED***.site.util.QueryPage;
+import com.wangzilin.site.model.blog.Article;
+import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 11:57 PM 5/10/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Repository
 @NoArgsConstructor

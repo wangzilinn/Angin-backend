@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.aspect;
+package com.wangzilin.site.aspect;
 
 import org.springframework.stereotype.Component;
 
@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 10:48 PM 5/12/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Component
 public class CORSAspect implements Filter {

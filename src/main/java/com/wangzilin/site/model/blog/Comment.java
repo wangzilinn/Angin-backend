@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.blog;
+package com.wangzilin.site.model.blog;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -14,10 +14,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: 2020-05-11 15:40 by Wang Zilin
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @NoArgsConstructor

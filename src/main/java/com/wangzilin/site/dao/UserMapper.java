@@ -1,14 +1,14 @@
-package com.***REMOVED***.site.dao;
+package com.wangzilin.site.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.***REMOVED***.site.model.user.User;
+import com.wangzilin.site.model.user.User;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 12:09 AM 5/9/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {

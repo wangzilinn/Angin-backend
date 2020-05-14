@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.chat;
+package com.wangzilin.site.model.chat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

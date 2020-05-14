@@ -1,16 +1,16 @@
-package com.***REMOVED***.site.model.DTO;
+package com.wangzilin.site.model.DTO;
 
-import com.***REMOVED***.site.util.QueryPage;
+import com.wangzilin.site.util.QueryPage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 11:19 PM 5/13/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @NoArgsConstructor

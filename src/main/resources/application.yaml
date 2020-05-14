@@ -1,5 +1,5 @@
 mybatis-plus:
-  type-aliases-package: com.***REMOVED***.site.model.blog
+  type-aliases-package: com.wangzilin.site.model.blog
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null

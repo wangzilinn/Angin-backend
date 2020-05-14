@@ -1,8 +1,8 @@
-package com.***REMOVED***.site.integration;
+package com.wangzilin.site.integration;
 
-import com.***REMOVED***.site.integration.auth.AuthErrorHandler;
-import com.***REMOVED***.site.integration.auth.TokenAuthFilter;
-import com.***REMOVED***.site.services.UserService;
+import com.wangzilin.site.integration.auth.AuthErrorHandler;
+import com.wangzilin.site.integration.auth.TokenAuthFilter;
+import com.wangzilin.site.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

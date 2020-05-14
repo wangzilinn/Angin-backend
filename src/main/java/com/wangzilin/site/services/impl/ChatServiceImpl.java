@@ -1,11 +1,11 @@
-package com.***REMOVED***.site.services.impl;
+package com.wangzilin.site.services.impl;
 
-import com.***REMOVED***.site.dao.ChannelDAO;
-import com.***REMOVED***.site.dao.ChatDAO;
-import com.***REMOVED***.site.model.chat.Channel;
-import com.***REMOVED***.site.model.chat.Message;
-import com.***REMOVED***.site.services.ChatService;
-import com.***REMOVED***.site.util.BeanUtil;
+import com.wangzilin.site.dao.ChannelDAO;
+import com.wangzilin.site.dao.ChatDAO;
+import com.wangzilin.site.model.chat.Channel;
+import com.wangzilin.site.model.chat.Message;
+import com.wangzilin.site.services.ChatService;
+import com.wangzilin.site.util.BeanUtil;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.stereotype.Service;
 

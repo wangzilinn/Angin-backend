@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.util;
+package com.wangzilin.site.util;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.core.io.ClassPathResource;

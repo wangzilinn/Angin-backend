@@ -1,10 +1,10 @@
-package com.***REMOVED***.site.controller;
+package com.wangzilin.site.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.***REMOVED***.site.model.card.DBCard;
-import com.***REMOVED***.site.model.card.DisplayedCard;
-import com.***REMOVED***.site.services.impl.CardAccessor;
-import com.***REMOVED***.site.services.impl.CardConverter;
+import com.wangzilin.site.model.card.DBCard;
+import com.wangzilin.site.model.card.DisplayedCard;
+import com.wangzilin.site.services.impl.CardAccessor;
+import com.wangzilin.site.services.impl.CardConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

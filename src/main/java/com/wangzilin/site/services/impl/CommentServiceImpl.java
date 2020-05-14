@@ -1,23 +1,23 @@
-package com.***REMOVED***.site.services.impl;
+package com.wangzilin.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.***REMOVED***.site.dao.CommentMapper;
-import com.***REMOVED***.site.model.blog.Comment;
-import com.***REMOVED***.site.services.CommentService;
-import com.***REMOVED***.site.util.QueryPage;
+import com.wangzilin.site.dao.CommentMapper;
+import com.wangzilin.site.model.blog.Comment;
+import com.wangzilin.site.services.CommentService;
+import com.wangzilin.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 11:23 PM 5/8/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
@@ -26,8 +26,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     /**
      * @param queryPage
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Comment>
+     * @Author wangzilin
      * @Description 分页列出所有comment
      * @Date 3:56 PM 5/11/2020
      * @Param [queryPage]
@@ -41,8 +41,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     /**
      * @param queryPage
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Comment>
+     * @Author wangzilin
      * @Description 分页列出about评论
      * @Date 3:56 PM 5/11/2020
      * @Param [queryPage]
@@ -57,8 +57,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     /**
      * @param id
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Comment>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Comment>
+     * @Author wangzilin
      * @Description 根据文章列出评论
      * @Date 3:57 PM 5/11/2020
      * @Param [id]

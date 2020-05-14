@@ -1,24 +1,24 @@
-package com.***REMOVED***.site.services.impl;
+package com.wangzilin.site.services.impl;
 
-import com.***REMOVED***.site.dao.ArticleDAO;
-import com.***REMOVED***.site.dao.CategoryDAO;
-import com.***REMOVED***.site.dao.TagDAO;
-import com.***REMOVED***.site.model.DTO.Page;
-import com.***REMOVED***.site.model.blog.Article;
-import com.***REMOVED***.site.model.blog.Category;
-import com.***REMOVED***.site.model.blog.Tag;
-import com.***REMOVED***.site.services.ArticleService;
-import com.***REMOVED***.site.util.QueryPage;
+import com.wangzilin.site.dao.ArticleDAO;
+import com.wangzilin.site.dao.CategoryDAO;
+import com.wangzilin.site.dao.TagDAO;
+import com.wangzilin.site.model.DTO.Page;
+import com.wangzilin.site.model.blog.Article;
+import com.wangzilin.site.model.blog.Category;
+import com.wangzilin.site.model.blog.Tag;
+import com.wangzilin.site.services.ArticleService;
+import com.wangzilin.site.util.QueryPage;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 10:56 PM 5/6/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -33,8 +33,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
      * @Description 查询title
      * @Date 1:19 PM 5/11/2020
      * @Param [title, queryPage]
@@ -49,8 +49,8 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * @param categoryName
      * @param queryPage
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
      * @Description 根据分类查询文章
      * @Date 1:07 PM 5/11/2020
      * @Param [category, queryPage]
@@ -64,8 +64,8 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * @param tagName
      * @param queryPage
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
      * @Description 根据tag查询文章
      * @Date 3:20 PM 5/11/2020
      * @Param [tag, queryPage]
@@ -87,8 +87,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * @param queryPage
-     * @return java.util.List<com.***REMOVED***.site.model.blog.Article>
-     * @Author ***REMOVED***
+     * @return java.util.List<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
      * @Description 分页列出文章
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
@@ -104,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * @param article
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description 添加
      * @Date 4:47 PM 5/7/2020
      * @Param [article]
@@ -117,7 +117,7 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * @param article
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description 删改
      * @Date 4:36 PM 5/7/2020
      * @Param [article]

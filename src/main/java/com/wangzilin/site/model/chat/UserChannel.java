@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.model.chat;
+package com.wangzilin.site.model.chat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 5:32 PM 5/11/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Data
 @NoArgsConstructor

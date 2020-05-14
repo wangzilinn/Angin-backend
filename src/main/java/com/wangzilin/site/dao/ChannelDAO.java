@@ -1,7 +1,7 @@
-package com.***REMOVED***.site.dao;
+package com.wangzilin.site.dao;
 
-import com.***REMOVED***.site.model.chat.Channel;
-import com.***REMOVED***.site.model.chat.UserChannel;
+import com.wangzilin.site.model.chat.Channel;
+import com.wangzilin.site.model.chat.UserChannel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 5:16 PM 5/11/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @NoArgsConstructor
 @Repository
@@ -31,7 +31,7 @@ public class ChannelDAO {
 
     /**
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description
      * @Date 7:26 PM 5/11/2020
      * @Param [chatChannel]
@@ -76,7 +76,7 @@ public class ChannelDAO {
 
     /**
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description userChannel表中指定用户增加频道
      * @Date 7:28 PM 5/11/2020
      * @Param [userName, channelName]
@@ -91,7 +91,7 @@ public class ChannelDAO {
 
     /**
      * @return void
-     * @Author ***REMOVED***
+     * @Author wangzilin
      * @Description userChannel表中指定用户删除频道
      * @Date 7:31 PM 5/11/2020
      * @Param [username, channelName]

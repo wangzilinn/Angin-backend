@@ -2,7 +2,7 @@
 # 获得频道历史消息
 GET https://{{host}}:8443/channelHistory
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3YW5nemlsaW4iLCJpYXQiOjE1ODUzMDM2ODksImV4cCI6MTU4NTMwNTQ4OX0.DZ9-Wd3C9VRjzVS5UQw9BZUcbItinb9ORTGbCZAyhRafwKOOoEdFUbQnxwcCaoUrys2TXbc-xwTVtexqqv8BpQ
-channel-name: user-***REMOVED***-huangyiqin
+channel-name: user-wangzilin-huangyiqin
 
 <> 2020-03-21T052443.200.json
 

@@ -1,11 +1,11 @@
-package com.***REMOVED***.site.controller;
+package com.wangzilin.site.controller;
 
-import com.***REMOVED***.site.annotation.WebLog;
-import com.***REMOVED***.site.model.DTO.Page;
-import com.***REMOVED***.site.model.DTO.Response;
-import com.***REMOVED***.site.model.blog.Article;
-import com.***REMOVED***.site.services.ArticleService;
-import com.***REMOVED***.site.util.QueryPage;
+import com.wangzilin.site.annotation.WebLog;
+import com.wangzilin.site.model.DTO.Page;
+import com.wangzilin.site.model.DTO.Response;
+import com.wangzilin.site.model.blog.Article;
+import com.wangzilin.site.services.ArticleService;
+import com.wangzilin.site.util.QueryPage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 10:54 PM 5/6/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @RestController
 @RequestMapping("/api/article")
@@ -27,8 +27,8 @@ public class ArticleController {
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleController.class);
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response<com.***REMOVED***.site.model.blog.Article>
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
      * @Description 根据id返回文章
      * @Date 2:46 PM 5/11/2020
      * @Param [id]
@@ -40,8 +40,8 @@ public class ArticleController {
     }
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response
+     * @Author wangzilin
      * @Description 添加新文章
      * @Date 2:46 PM 5/11/2020
      * @Param [article]
@@ -57,8 +57,8 @@ public class ArticleController {
     }
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response
+     * @Author wangzilin
      * @Description 根据id删除文章
      * @Date 2:47 PM 5/11/2020
      * @Param [id]
@@ -71,8 +71,8 @@ public class ArticleController {
     }
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response
+     * @Author wangzilin
      * @Description 更新文章
      * @Date 2:47 PM 5/11/2020
      * @Param [article]
@@ -86,8 +86,8 @@ public class ArticleController {
 
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response<java.util.List < com.***REMOVED***.site.model.blog.Article>>
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Article>>
+     * @Author wangzilin
      * @Description 分页列出文章, 可以带查询条件
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]
@@ -115,8 +115,8 @@ public class ArticleController {
 
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response<java.util.List < com.***REMOVED***.site.model.blog.Category>>
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Category>>
+     * @Author wangzilin
      * @Description 列出所有分类, 有参数则分页, 无参数则不分页
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]
@@ -133,8 +133,8 @@ public class ArticleController {
 
 
     /**
-     * @return com.***REMOVED***.site.model.DTO.Response<java.util.List < com.***REMOVED***.site.model.blog.Tag>>
-     * @Author ***REMOVED***
+     * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Tag>>
+     * @Author wangzilin
      * @Description 分页列出所有tag, , 有参数则分页, 无参数则不分页
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]

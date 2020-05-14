@@ -1,10 +1,10 @@
-package com.***REMOVED***.site.constants;
+package com.wangzilin.site.constants;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 9:52 PM 5/6/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 public interface BlogConstant {
     /**

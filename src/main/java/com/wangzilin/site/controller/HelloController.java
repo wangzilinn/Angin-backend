@@ -1,4 +1,4 @@
-package com.***REMOVED***.site.controller;
+package com.wangzilin.site.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,16 +1,16 @@
-package com.***REMOVED***.site.model.DTO;
+package com.wangzilin.site.model.DTO;
 
-import com.***REMOVED***.site.constants.BlogConstant;
-import com.***REMOVED***.site.constants.BlogEnum;
+import com.wangzilin.site.constants.BlogConstant;
+import com.wangzilin.site.constants.BlogEnum;
 import lombok.*;
 
 import java.io.Serializable;
 
 /**
- * @Author: ***REMOVED***n@gmail.com
+ * @Author: wangzilinn@gmail.com
  * @Description:
  * @Date: Created in 9:56 PM 5/6/2020
- * @Modified By:***REMOVED***n@gmail.com
+ * @Modified By:wangzilinn@gmail.com
  */
 @Builder
 @ToString
