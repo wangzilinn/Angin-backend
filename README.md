@@ -398,7 +398,19 @@
    | date        |        |      |      |         |                |
    | user_id     |        |      |      |         |                |
    | user_name   |        |      |      |         |                |
-   | user_avatar |        |      |      |         |                |
+   | user_avatar |        |      |      |         | comment:       |
+   
+3. 树结构:
+
+   ```json
+   {
+       "user_avator",
+       "user_id",
+       "time",
+       "content",
+       "others",
+   }
+   ```
 
 ## MongoDB:
 
@@ -466,21 +478,6 @@
    }
    ```
    
-4. comment:
-
-   树结构:
-
-   ```json
-   {
-       "user_avator",
-       "user_id",
-       "time",
-       "content",
-       "others",
-   }
-   ```
-
-   ### 
 ### Card
 
 1. user_id
@@ -505,5 +502,7 @@
 /api/user
 
 1.  /signUp
+
+所有带list的都返回简要内容+页面信息
 
    

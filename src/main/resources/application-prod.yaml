@@ -1,5 +1,21 @@
 env: prod
 
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ***REMOVED***
+    url: jdbc:mysql://localhost:3306/common?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:certs/zilinn-wang-tomcat-0514140907.jks
+    key-store-password: cptbtptp***REMOVED***
+    keyStoreType: JKS
+    keyAlias: 1
+
 chatMongoDB:
   host: localhost
   port: 27017

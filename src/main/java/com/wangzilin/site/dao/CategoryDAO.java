@@ -42,6 +42,11 @@ public class CategoryDAO {
         return result;
     }
 
+    public long total() {
+        Query query = new Query();
+        return mongoTemplateForBlog.count(query, Category.class, CATEGORY_COLLECTION);
+    }
+
     public Category findById(Long id) {
         Query query = new Query(Criteria.where("_id").is(id));
         return mongoTemplateForBlog.findOne(query, Category.class, CATEGORY_COLLECTION);

@@ -36,6 +36,11 @@ public class TagDAO {
         return mongoTemplateForBlog.findAll(Tag.class, TAG_COLLECTION);
     }
 
+    public long total() {
+        Query query = new Query();
+        return mongoTemplateForBlog.count(query, Tag.class, TAG_COLLECTION);
+    }
+
     public Tag findByName(String name) {
         Query query = new Query(Criteria.where("name").is(name));
         return mongoTemplateForBlog.findOne(query, Tag.class, TAG_COLLECTION);

@@ -1,7 +1,5 @@
 env: dev
 
-
-
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
@@ -10,6 +8,13 @@ spring:
     password: ***REMOVED***
     url: jdbc:mysql://***REMOVED***:3306/common?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
 
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:certs/https.p12
+    key-store-password: ***REMOVED***
+    keyStoreType: PKCS12
+    keyAlias: tomcat
 
 chatMongoDB:
   host: ***REMOVED***

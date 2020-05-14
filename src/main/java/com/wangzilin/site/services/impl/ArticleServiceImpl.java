@@ -41,7 +41,8 @@ public class ArticleServiceImpl implements ArticleService {
      **/
     @Override
     public Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
-        return articleDAO.findByTitle(title, queryPage);
+        List<Article> articleList = articleDAO.findByTitle(title, queryPage);
+        return new Page<>(articleList, queryPage, articleList.size());
 
     }
 
@@ -137,8 +138,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Category> listCategory(QueryPage queryPage) {
-        return categoryDAO.findAll(queryPage);
+    public Page<Category> listCategory(QueryPage queryPage) {
+        List<Category> categoryList = categoryDAO.findAll(queryPage);
+        long total = categoryDAO.total();
+        return new Page<>(categoryList, queryPage, total);
     }
 
     @Override
@@ -147,12 +150,34 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Tag> listTag(QueryPage queryPage) {
-        return tagDAO.findAll(queryPage);
+    public void updateCategory(String categoryName) {
+
+    }
+
+    @Override
+    public void deleteCategory(String categoryName) {
+
+    }
+
+    @Override
+    public Page<Tag> listTag(QueryPage queryPage) {
+        List<Tag> tagList = tagDAO.findAll(queryPage);
+        long total = tagDAO.total();
+        return new Page<>(tagList, queryPage, total);
     }
 
     @Override
     public List<Tag> listTag() {
         return tagDAO.findAll(null);
+    }
+
+    @Override
+    public void updateTag(String tagName) {
+
+    }
+
+    @Override
+    public void deleteTag(String tagName) {
+
     }
 }

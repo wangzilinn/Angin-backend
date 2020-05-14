@@ -1,10 +1,9 @@
 package com.***REMOVED***.site.controller;
 
 import com.***REMOVED***.site.annotation.WebLog;
+import com.***REMOVED***.site.model.DTO.Page;
 import com.***REMOVED***.site.model.DTO.Response;
 import com.***REMOVED***.site.model.blog.Article;
-import com.***REMOVED***.site.model.blog.Category;
-import com.***REMOVED***.site.model.blog.Tag;
 import com.***REMOVED***.site.services.ArticleService;
 import com.***REMOVED***.site.util.QueryPage;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Author: ***REMOVED***n@gmail.com
@@ -97,7 +95,7 @@ public class ArticleController {
     //TODO:list返回的不需要有文章内容,最好再多一个total字段
     @WebLog
     @GetMapping("/list")
-    public Response<List<Article>> list(@RequestParam(value = "page") int page,
+    public Response<Page<Article>> list(@RequestParam(value = "page") int page,
                                         @RequestParam(value = "limit") int limit,
                                         @RequestParam(value = "title", required = false) String title,
                                         @RequestParam(value = "category", required = false) String category,
@@ -125,8 +123,8 @@ public class ArticleController {
      **/
     @WebLog
     @GetMapping("/category")
-    public Response<List<Category>> category(@RequestParam(value = "page", required = false) Integer page,
-                                             @RequestParam(value = "limit", required = false) Integer limit) {
+    public Response category(@RequestParam(value = "page", required = false) Integer page,
+                             @RequestParam(value = "limit", required = false) Integer limit) {
         if (page == null) {
             return new Response<>(articleService.listCategory());
         }
@@ -143,8 +141,8 @@ public class ArticleController {
      **/
     @WebLog
     @GetMapping("/tag")
-    public Response<List<Tag>> tag(@RequestParam(value = "page", required = false) Integer page,
-                                   @RequestParam(value = "limit", required = false) Integer limit) {
+    public Response tag(@RequestParam(value = "page", required = false) Integer page,
+                        @RequestParam(value = "limit", required = false) Integer limit) {
         if (page == null) {
             return new Response<>(articleService.listTag());
         }
