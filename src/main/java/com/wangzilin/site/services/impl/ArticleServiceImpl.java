@@ -140,12 +140,65 @@ public class ArticleServiceImpl implements ArticleService {
     @Service
     static class CategoryServiceImpl implements ArticleService.CategoryService {
 
+        private final CategoryDAO categoryDAO;
+
+        private Long totalCategorys;
+
         @Autowired
-        CategoryDAO categoryDAO;
+        public CategoryServiceImpl(CategoryDAO categoryDAO) {
+            this.categoryDAO = categoryDAO;
+            this.totalCategorys = categoryDAO.total();
+        }
 
         @Override
         public void add(Category category) {
-            categoryDAO.
+            categoryDAO.add(category);
+            totalCategorys++;
+        }
+
+        @Override
+        public void delete(String name) {
+            categoryDAO.deleteByName(name);
+            totalCategorys--;
+        }
+
+        @Override
+        public void update(String from, String to) {
+            categoryDAO.updateName(from, to);
+        }
+
+        @Override
+        public Page<Category> list(QueryPage queryPage) {
+            List<Category> categoryList = categoryDAO.findAll(queryPage);
+            return new Page<>(categoryList, queryPage, totalCategorys);
+        }
+
+        @Override
+        public List<Category> list() {
+            return categoryDAO.findAll(null);
+        }
+
+        @Override
+        public Category find(String name) {
+            return categoryDAO.findByName(name);
+        }
+    }
+
+    @Service
+    static class TagServiceImpl implements ArticleService.TagService {
+
+        private final TagDAO tagDAO;
+        private Long totalTags;
+
+        @Autowired
+        public TagServiceImpl(TagDAO tagDAO) {
+            this.tagDAO = tagDAO;
+            this.totalTags = tagDAO.total();
+        }
+
+        @Override
+        public void add(Tag tag) {
+
         }
 
         @Override
@@ -159,72 +212,19 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         @Override
-        public Page<Category> list(QueryPage queryPage) {
+        public Page<Tag> list(QueryPage queryPage) {
+            return new Page<>(tagDAO.findAll(queryPage), queryPage, totalTags);
+        }
+
+        @Override
+        public List<Tag> list() {
             return null;
         }
 
         @Override
-        public List<Category> list() {
-            return null;
-        }
-
-        @Override
-        public Category find(String name) {
+        public Tag find(String name) {
             return null;
         }
     }
 
-    @Override
-    public Page<Category> listCategory(QueryPage queryPage) {
-        List<Category> categoryList = categoryDAO.findAll(queryPage);
-        long total = categoryDAO.total();
-        return new Page<>(categoryList, queryPage, total);
-    }
-
-    @Override
-    public List<Category> listCategory() {
-        return categoryDAO.findAll(null);
-    }
-
-    @Override
-    public void addCategory(Category category) {
-
-    }
-
-    @Override
-    public void updateCategory(String from, String to) {
-
-    }
-
-    @Override
-    public void deleteCategory(String categoryName) {
-
-    }
-
-    @Override
-    public Page<Tag> listTag(QueryPage queryPage) {
-        List<Tag> tagList = tagDAO.findAll(queryPage);
-        long total = tagDAO.total();
-        return new Page<>(tagList, queryPage, total);
-    }
-
-    @Override
-    public List<Tag> listTag() {
-        return tagDAO.findAll(null);
-    }
-
-    @Override
-    public void addTag(Tag tag) {
-
-    }
-
-    @Override
-    public void updateTag(String from, String to) {
-
-    }
-
-    @Override
-    public void deleteTag(String tagName) {
-
-    }
 }

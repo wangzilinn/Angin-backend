@@ -1,6 +1,5 @@
 package com.wangzilin.site.dao;
 
-import com.mongodb.client.result.DeleteResult;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -40,13 +40,27 @@ public class CategoryDAO {
         return mongoTemplateForBlog.save(category, CATEGORY_COLLECTION);
     }
 
-    public boolean delete(String name) {
-        DeleteResult deleteResult = mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name)));
-        return deleteResult.wasAcknowledged();
+    public boolean addArticle(String categoryName, String articleId) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(categoryName)),
+                new Update().addToSet("article_id", articleId),
+                CATEGORY_COLLECTION
+        ).wasAcknowledged();
     }
 
-    public void updateName(String from, String to) {
+    public boolean deleteByName(String name) {
+        return mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name))).wasAcknowledged();
+    }
 
+    public boolean deleteArticle(String categoryName, String articleId) {
+        return true;
+    }
+
+    public boolean updateName(String from, String to) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(from)),
+                new Update().set("name", to),
+                CATEGORY_COLLECTION).wasAcknowledged();
     }
 
     public List<Category> findAll(QueryPage queryPage) {

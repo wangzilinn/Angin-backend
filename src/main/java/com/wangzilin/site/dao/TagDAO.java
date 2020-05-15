@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -25,6 +26,46 @@ public class TagDAO {
     @Resource
     private MongoTemplate mongoTemplateForBlog;
     private final String TAG_COLLECTION = "tag";
+
+    public Tag add(Tag tag) {
+        return mongoTemplateForBlog.save(tag, TAG_COLLECTION);
+    }
+
+    public boolean addArticle(String tagName, String articleId) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(tagName)),
+                new Update().addToSet("article_id", articleId),
+                TAG_COLLECTION
+        ).wasAcknowledged();
+    }
+
+    /**
+     * @return boolean 成功返回true
+     * @Author wangzilin
+     * @Description
+     * @Date 12:34 AM 5/16/2020
+     * @Param [name]
+     **/
+    public boolean deleteByName(String name) {
+        return mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name)), TAG_COLLECTION).wasAcknowledged();
+    }
+
+    public boolean deleteArticle(String tagName, String articleId) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(tagName)),
+                new Update().addToSet("article_id", articleId),
+                TAG_COLLECTION
+        ).wasAcknowledged();
+    }
+
+    public boolean updateName(String from, String to) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(from)),
+                new Update().set("name", to),
+                TAG_COLLECTION
+        ).wasAcknowledged();
+    }
+
 
     public List<Tag> findAll(QueryPage queryPage) {
         if (queryPage != null) {
