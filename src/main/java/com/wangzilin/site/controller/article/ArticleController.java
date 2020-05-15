@@ -1,6 +1,5 @@
-package com.wangzilin.site.controller;
+package com.wangzilin.site.controller.article;
 
-import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.model.DTO.Page;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
@@ -26,18 +25,6 @@ public class ArticleController {
     private ArticleService articleService;
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleController.class);
 
-    /**
-     * @return com.wangzilin.site.model.DTO.Response<com.wangzilin.site.model.blog.Article>
-     * @Author wangzilin
-     * @Description 根据id返回文章
-     * @Date 2:46 PM 5/11/2020
-     * @Param [id]
-     **/
-    @WebLog
-    @GetMapping
-    public Response<Article> id(@RequestParam(value = "id") String id) {
-        return new Response<>(articleService.findArticle(id));
-    }
 
     /**
      * @return com.wangzilin.site.model.DTO.Response
@@ -46,7 +33,7 @@ public class ArticleController {
      * @Date 2:46 PM 5/11/2020
      * @Param [article]
      **/
-    @WebLog
+
     @PostMapping
     public Response add(@RequestBody Article article) {
         //添加文档上传时间
@@ -63,7 +50,7 @@ public class ArticleController {
      * @Date 2:47 PM 5/11/2020
      * @Param [id]
      **/
-    @WebLog
+
     @DeleteMapping
     public Response delete(@RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
@@ -77,13 +64,25 @@ public class ArticleController {
      * @Date 2:47 PM 5/11/2020
      * @Param [article]
      **/
-    @WebLog
+
     @PutMapping
     public Response update(@RequestBody Article article) {
         articleService.updateArticle(article);
         return new Response<>();
     }
 
+    /**
+     * @return com.wangzilin.site.model.DTO.Response<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
+     * @Description 根据id返回文章
+     * @Date 2:46 PM 5/11/2020
+     * @Param [id]
+     **/
+
+    @GetMapping
+    public Response<Article> id(@RequestParam(value = "id") String id) {
+        return new Response<>(articleService.findArticle(id));
+    }
 
     /**
      * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Article>>
@@ -93,7 +92,6 @@ public class ArticleController {
      * @Param [page, limit]
      **/
     //TODO:list返回的不需要有文章内容,最好再多一个total字段
-    @WebLog
     @GetMapping("/list")
     public Response<Page<Article>> list(@RequestParam(value = "page") int page,
                                         @RequestParam(value = "limit") int limit,
@@ -114,38 +112,4 @@ public class ArticleController {
     }
 
 
-    /**
-     * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Category>>
-     * @Author wangzilin
-     * @Description 列出所有分类, 有参数则分页, 无参数则不分页
-     * @Date 2:48 PM 5/11/2020
-     * @Param [page, limit]
-     **/
-    @WebLog
-    @GetMapping("/category")
-    public Response category(@RequestParam(value = "page", required = false) Integer page,
-                             @RequestParam(value = "limit", required = false) Integer limit) {
-        if (page == null) {
-            return new Response<>(articleService.listCategory());
-        }
-        return new Response<>(articleService.listCategory(new QueryPage(page, limit)));
-    }
-
-
-    /**
-     * @return com.wangzilin.site.model.DTO.Response<java.util.List < com.wangzilin.site.model.blog.Tag>>
-     * @Author wangzilin
-     * @Description 分页列出所有tag, , 有参数则分页, 无参数则不分页
-     * @Date 2:48 PM 5/11/2020
-     * @Param [page, limit]
-     **/
-    @WebLog
-    @GetMapping("/tag")
-    public Response tag(@RequestParam(value = "page", required = false) Integer page,
-                        @RequestParam(value = "limit", required = false) Integer limit) {
-        if (page == null) {
-            return new Response<>(articleService.listTag());
-        }
-        return new Response<>(articleService.listTag(new QueryPage(page, limit)));
-    }
 }

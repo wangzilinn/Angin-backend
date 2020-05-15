@@ -1,4 +1,4 @@
-package com.wangzilin.site.aspect;
+package com.wangzilin.site.filter;
 
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import java.io.IOException;
  * @Modified By:wangzilinn@gmail.com
  */
 @Component
-public class CORSAspect implements Filter {
+public class CORSFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
             ServletException {
         HttpServletResponse response = (HttpServletResponse) res;

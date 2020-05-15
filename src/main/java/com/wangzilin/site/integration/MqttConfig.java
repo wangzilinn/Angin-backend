@@ -23,7 +23,7 @@ import org.springframework.messaging.MessageHandler;
 import javax.net.ssl.SSLSocketFactory;
 
 @Configuration
-public class Mqtt {
+public class MqttConfig {
 
     final private ChatServiceImpl chatServiceImpl;
 
@@ -37,9 +37,9 @@ public class Mqtt {
 
     MqttPahoMessageDrivenChannelAdapter adapter;
 
-    final private static Logger log = LoggerFactory.getLogger(Mqtt.class);
+    final private static Logger log = LoggerFactory.getLogger(MqttConfig.class);
 
-    public Mqtt(ChatServiceImpl chatServiceImpl, ObjectMapper mapper) {
+    public MqttConfig(ChatServiceImpl chatServiceImpl, ObjectMapper mapper) {
         this.chatServiceImpl = chatServiceImpl;
         this.mapper = mapper;
     }

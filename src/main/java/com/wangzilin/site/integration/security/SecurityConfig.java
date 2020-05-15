@@ -1,7 +1,5 @@
-package com.wangzilin.site.integration;
+package com.wangzilin.site.integration.security;
 
-import com.wangzilin.site.integration.auth.AuthErrorHandler;
-import com.wangzilin.site.integration.auth.TokenAuthFilter;
 import com.wangzilin.site.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)//这样就可以在Controller上配置权限
-public class Security extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 权限不足错误信息处理:认证错误, 鉴权错误
@@ -38,8 +36,8 @@ public class Security extends WebSecurityConfigurerAdapter {
      */
     final private UserService userService;
 
-    public Security(AuthErrorHandler authErrorHandler, TokenAuthFilter tokenAuthFilter,
-                    UserService userService) {
+    public SecurityConfig(AuthErrorHandler authErrorHandler, TokenAuthFilter tokenAuthFilter,
+                          UserService userService) {
         this.authErrorHandler = authErrorHandler;
         this.tokenAuthFilter = tokenAuthFilter;
         this.userService = userService;

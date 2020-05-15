@@ -1,4 +1,4 @@
-package com.wangzilin.site.config;
+package com.wangzilin.site.integration;
 
 
 import com.mongodb.MongoClient;
@@ -14,8 +14,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.Collections;
 
 @Configuration
-public class DAOConfig {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(DAOConfig.class);
+public class MongoDBConfig {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(MongoDBConfig.class);
 
     //blog mongoDB
     @Value("${blogMongoDB.host}")

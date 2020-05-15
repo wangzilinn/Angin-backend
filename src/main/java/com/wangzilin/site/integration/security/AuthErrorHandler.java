@@ -1,4 +1,4 @@
-package com.wangzilin.site.integration.auth;
+package com.wangzilin.site.integration.security;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;

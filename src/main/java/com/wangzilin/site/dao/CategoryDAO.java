@@ -1,5 +1,6 @@
 package com.wangzilin.site.dao;
 
+import com.mongodb.client.result.DeleteResult;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,27 @@ public class CategoryDAO {
     private final String CATEGORY_COLLECTION = "category";
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(CategoryDAO.class);
 
+    /**
+     * @return com.wangzilin.site.model.blog.Category 返回保存的文件
+     * @Author wangzilin
+     * @Description
+     * @Date 12:05 AM 5/16/2020
+     * @Param [category]
+     **/
+    public Category add(Category category) {
+        return mongoTemplateForBlog.save(category, CATEGORY_COLLECTION);
+    }
+
+    public boolean delete(String name) {
+        DeleteResult deleteResult = mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name)));
+        return deleteResult.wasAcknowledged();
+    }
+
+    public void updateName(String from, String to) {
+
+    }
+
     public List<Category> findAll(QueryPage queryPage) {
-        log.info("findAll");
         //创建查询对象
         if (queryPage != null) {
             Query query = new Query();

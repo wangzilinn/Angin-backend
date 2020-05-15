@@ -9,6 +9,7 @@ import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
 import com.wangzilin.site.util.QueryPage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,58 @@ public class ArticleServiceImpl implements ArticleService {
         this.tagDAO = tagDAO;
     }
 
+
+    /**
+     * @param article
+     * @return void
+     * @Author wangzilin
+     * @Description 添加
+     * @Date 4:47 PM 5/7/2020
+     * @Param [article]
+     */
+    @Override
+    public void addArticle(Article article) {
+        articleDAO.add(article);
+    }
+
+    @Override
+    public void deleteArticle(String id) {
+        articleDAO.deleteById(id);
+    }
+
+    /**
+     * @param article
+     * @return void
+     * @Author wangzilin
+     * @Description 删改
+     * @Date 4:36 PM 5/7/2020
+     * @Param [article]
+     */
+    @Override
+    public void updateArticle(Article article) {
+        articleDAO.update(article);
+    }
+
+    @Override
+    public Article findArticle(String id) {
+        return articleDAO.findById(id);
+    }
+
+    /**
+     * @param queryPage
+     * @return java.util.List<com.wangzilin.site.model.blog.Article>
+     * @Author wangzilin
+     * @Description 分页列出文章
+     * @Date 11:25 AM 5/11/2020
+     * @Param [queryPage]
+     */
+    @Override
+    public Page<Article> listArticle(QueryPage queryPage) {
+        List<Article> articleList = articleDAO.findAll(queryPage);
+        long totalNumber = articleDAO.total();
+        return new Page<>(articleList, queryPage, totalNumber);
+    }
+
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
      * @Author wangzilin
@@ -43,7 +96,6 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
         List<Article> articleList = articleDAO.findByTitle(title, queryPage);
         return new Page<>(articleList, queryPage, articleList.size());
-
     }
 
     /**
@@ -85,56 +137,41 @@ public class ArticleServiceImpl implements ArticleService {
         return new Page<>(articles, queryPage, article_id.size());
     }
 
-    /**
-     * @param queryPage
-     * @return java.util.List<com.wangzilin.site.model.blog.Article>
-     * @Author wangzilin
-     * @Description 分页列出文章
-     * @Date 11:25 AM 5/11/2020
-     * @Param [queryPage]
-     */
-    @Override
-    public Page<Article> listArticle(QueryPage queryPage) {
-        List<Article> articleList = articleDAO.findAll(queryPage);
-        long totalNumber = articleDAO.total();
-        return new Page<>(articleList, queryPage, totalNumber);
-    }
+    @Service
+    static class CategoryServiceImpl implements ArticleService.CategoryService {
 
+        @Autowired
+        CategoryDAO categoryDAO;
 
-    /**
-     * @param article
-     * @return void
-     * @Author wangzilin
-     * @Description 添加
-     * @Date 4:47 PM 5/7/2020
-     * @Param [article]
-     */
-    @Override
-    public void addArticle(Article article) {
-        articleDAO.add(article);
-    }
+        @Override
+        public void add(Category category) {
+            categoryDAO.
+        }
 
-    /**
-     * @param article
-     * @return void
-     * @Author wangzilin
-     * @Description 删改
-     * @Date 4:36 PM 5/7/2020
-     * @Param [article]
-     */
-    @Override
-    public void updateArticle(Article article) {
-        articleDAO.update(article);
-    }
+        @Override
+        public void delete(String name) {
 
-    @Override
-    public void deleteArticle(String id) {
-        articleDAO.deleteById(id);
-    }
+        }
 
-    @Override
-    public Article findArticle(String id) {
-        return articleDAO.findById(id);
+        @Override
+        public void update(String from, String to) {
+
+        }
+
+        @Override
+        public Page<Category> list(QueryPage queryPage) {
+            return null;
+        }
+
+        @Override
+        public List<Category> list() {
+            return null;
+        }
+
+        @Override
+        public Category find(String name) {
+            return null;
+        }
     }
 
     @Override
@@ -150,7 +187,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateCategory(String categoryName) {
+    public void addCategory(Category category) {
+
+    }
+
+    @Override
+    public void updateCategory(String from, String to) {
 
     }
 
@@ -172,7 +214,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateTag(String tagName) {
+    public void addTag(Tag tag) {
+
+    }
+
+    @Override
+    public void updateTag(String from, String to) {
 
     }
 

@@ -33,10 +33,18 @@ public class WebLogAspect {
      */
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
+//    /**
+//     * 以自定义 @WebLog 注解为切点
+//     */
+
     /**
-     * 以自定义 @WebLog 注解为切点
-     */
-    @Pointcut("@annotation(com.wangzilin.site.annotation.WebLog)")
+     * @return void
+     * @Author wangzilin
+     * @Description 在所有的public方法, 以Response为返回值, 任意方法名, 任意参数的前面插入weblog
+     * @Date 4:43 PM 5/15/2020
+     * @Param []
+     **/
+    @Pointcut("execution(public com.wangzilin.site.model.DTO.Response * (..))")
     public void webLog() {
     }
 

@@ -1,4 +1,4 @@
-package com.wangzilin.site.integration.auth;
+package com.wangzilin.site.integration.security;
 
 import com.wangzilin.site.model.user.User;
 import com.wangzilin.site.services.UserService;

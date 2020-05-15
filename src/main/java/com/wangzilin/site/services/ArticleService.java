@@ -17,6 +17,26 @@ import java.util.List;
 public interface ArticleService {
 
     /**
+     * @return void
+     * @Author wangzilin
+     * @Description 添加
+     * @Date 4:47 PM 5/7/2020
+     * @Param [article]
+     **/
+    void addArticle(Article article);
+
+    void deleteArticle(String id);
+
+    /**
+     * @return void
+     * @Author wangzilin
+     * @Description 删改
+     * @Date 4:36 PM 5/7/2020
+     * @Param [article]
+     **/
+    void updateArticle(Article article);
+
+    /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
      * @Author wangzilin
      * @Description 根据标题查询文章
@@ -54,42 +74,32 @@ public interface ArticleService {
 
     Article findArticle(String id);
 
-    /**
-     * @return void
-     * @Author wangzilin
-     * @Description 添加
-     * @Date 4:47 PM 5/7/2020
-     * @Param [article]
-     **/
-    void addArticle(Article article);
+    interface CategoryService {
+        void add(Category category);
 
-    /**
-     * @return void
-     * @Author wangzilin
-     * @Description 删改
-     * @Date 4:36 PM 5/7/2020
-     * @Param [article]
-     **/
-    void updateArticle(Article article);
+        void delete(String name);
 
+        void update(String from, String to);
 
-    void deleteArticle(String id);
+        Page<Category> list(QueryPage queryPage);
 
-    Page<Category> listCategory(QueryPage queryPage);
+        List<Category> list();
 
-    List<Category> listCategory();
+        Category find(String name);
+    }
 
-    void updateCategory(String categoryName);
+    interface TagService {
+        void add(Tag tag);
 
-    void deleteCategory(String categoryName);
+        void delete(String name);
 
-    Page<Tag> listTag(QueryPage queryPage);
+        void update(String from, String to);
 
-    List<Tag> listTag();
+        Page<Tag> list(QueryPage queryPage);
 
-    void updateTag(String tagName);
+        List<Tag> list();
 
-    void deleteTag(String tagName);
-
+        Tag find(String name);
+    }
 
 }
