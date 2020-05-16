@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/article/tag")
+@io.swagger.v3.oas.annotations.tags.Tag(name = "Article's tag", description = "文章标签管理接口")
 public class ArticleTagController {
 
     @Autowired

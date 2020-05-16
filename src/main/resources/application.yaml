@@ -6,4 +6,15 @@ mybatis-plus:
   global-config:
     banner: false
 
+# 配置swagger的展示路径
+springdoc:
+  api-docs:
+    # 返回api json的路径
+    path: /api
+  swagger-ui:
+    # 返回api ui的路径
+    path: /api/human
+
+
+
 

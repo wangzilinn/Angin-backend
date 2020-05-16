@@ -5,6 +5,7 @@ import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.services.ArticleService;
 import com.wangzilin.site.util.QueryPage;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/api/article")
-@io.swagger.v3.oas.annotations.tags.Tag(name = "ArticleController", description = "文章管理接口")
+@Tag(name = "Article", description = "文章管理接口")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
