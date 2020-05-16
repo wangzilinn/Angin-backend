@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -28,6 +27,50 @@ public class ArticleDAO {
     private MongoTemplate mongoTemplateForBlog;
     private final String ARTICLE_COLLECTION = "article";
 
+    public Article add(Article article) {
+        return mongoTemplateForBlog.insert(article, ARTICLE_COLLECTION);
+    }
+
+    public Article deleteById(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        return mongoTemplateForBlog.findAndRemove(query, Article.class, ARTICLE_COLLECTION);
+    }
+
+    public boolean updateCategory(String id, String newCategoryName) {
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("_id").is(id)),
+                new Update().set("categoryName", newCategoryName),
+                ARTICLE_COLLECTION
+        ).wasAcknowledged();
+    }
+
+    public boolean updateTag(String id, List<String> addedTags, List<String> deletedTags) {
+        Update update = new Update();
+        if (addedTags != null) {
+            addedTags.forEach(addedTag -> {
+                update.addToSet("tagNames", addedTag);
+            });
+        }
+        if (deletedTags != null) {
+            deletedTags.forEach(deletedTag -> {
+                update.pull("tagNames", deletedTag);
+            });
+        }
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("_id").is(id)),
+                update,
+                ARTICLE_COLLECTION
+        ).wasAcknowledged();
+    }
+
+    public void update(Article article) {
+        //若已存在相同id则替换
+        mongoTemplateForBlog.save(article);
+    }
+
+    public long total() {
+        return mongoTemplateForBlog.count(new Query(), Article.class, ARTICLE_COLLECTION);
+    }
 
     public List<Article> findAll(QueryPage queryPage) {
         //这里减一是因为请求时第一个页面是1而mongodb内部第一个页面是0
@@ -36,11 +79,6 @@ public class ArticleDAO {
         Query query = new Query();
         query.with(pageableRequest);
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
-    }
-
-    public long total() {
-        Query query = new Query();
-        return mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
     }
 
     public List<Article> findByTitle(String title, QueryPage queryPage) {
@@ -57,30 +95,5 @@ public class ArticleDAO {
         Query query = new Query(Criteria.where("_id").is(id));
         return mongoTemplateForBlog.findOne(query, Article.class, ARTICLE_COLLECTION);
     }
-
-
-    public void add(Article article) {
-        mongoTemplateForBlog.save(article, ARTICLE_COLLECTION);
-    }
-
-    public void deleteById(String id) {
-        Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForBlog.remove(query, ARTICLE_COLLECTION);
-    }
-
-    public void update(String id, Map<String, Object> updateMap) {
-        Update update = new Update();
-        for (Map.Entry<String, Object> item : updateMap.entrySet()) {
-            update.set(item.getKey(), item.getValue());
-        }
-        Query query = new Query(Criteria.where("_id").is(id));
-        mongoTemplateForBlog.updateFirst(query, update, ARTICLE_COLLECTION);
-    }
-
-    public void update(Article article) {
-        deleteById(article.getId());
-        add(article);
-    }
-
 
 }

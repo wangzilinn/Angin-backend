@@ -12,7 +12,9 @@ import com.wangzilin.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,12 +46,23 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public void addArticle(Article article) {
-        articleDAO.add(article);
+        //article collection更新
+        String id = articleDAO.add(article).getId();
+        //category collection更新
+        categoryDAO.addArticle(article.getCategoryName(), id);
+        //tag collection update
+        article.getTagNames().forEach(tagName -> {
+            tagDAO.addArticle(tagName, id);
+        });
     }
 
     @Override
     public void deleteArticle(String id) {
-        articleDAO.deleteById(id);
+        Article article = articleDAO.deleteById(id);
+        categoryDAO.deleteArticle(article.getCategoryName(), id);
+        article.getTagNames().forEach(tagName -> {
+            tagDAO.deleteArticle(tagName, id);
+        });
     }
 
     /**
@@ -62,7 +75,30 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public void updateArticle(Article article) {
+        //更新article collection
         articleDAO.update(article);
+        @NotNull
+        String id = article.getId();
+        Article originArticle = articleDAO.findById(id);
+        //更新category:
+        if (!originArticle.getCategoryName().equals(article.getCategoryName())) {
+            categoryDAO.deleteArticle(originArticle.getCategoryName(), id);
+        }
+        //更新tag:
+        //求新旧两个article tag的交集:
+        List<String> intersection = new ArrayList<>(originArticle.getTagNames());
+        intersection.retainAll(article.getTagNames());
+        //相较于原有文章删除的tag:
+        originArticle.getTagNames().retainAll(intersection);
+        originArticle.getTagNames().forEach(deletedTagName -> {
+            tagDAO.deleteArticle(deletedTagName, id);
+        });
+        //相较于原有文章增加的tag:
+        article.getTagNames().retainAll(intersection);
+        article.getTagNames().forEach(addedTagName -> {
+            tagDAO.addArticle(addedTagName, id);
+        });
+
     }
 
     @Override
@@ -142,35 +178,47 @@ public class ArticleServiceImpl implements ArticleService {
 
         private final CategoryDAO categoryDAO;
 
-        private Long totalCategorys;
+        private final ArticleDAO articleDAO;
+
+        private Long totalCategories;
 
         @Autowired
-        public CategoryServiceImpl(CategoryDAO categoryDAO) {
+        public CategoryServiceImpl(CategoryDAO categoryDAO, ArticleDAO articleDAO) {
             this.categoryDAO = categoryDAO;
-            this.totalCategorys = categoryDAO.total();
+            this.articleDAO = articleDAO;
+            this.totalCategories = categoryDAO.total();
         }
 
         @Override
         public void add(Category category) {
             categoryDAO.add(category);
-            totalCategorys++;
+            totalCategories++;
         }
 
         @Override
         public void delete(String name) {
-            categoryDAO.deleteByName(name);
-            totalCategorys--;
+            Category category = categoryDAO.deleteByName(name);
+            category.getArticle_id().forEach(id -> {
+                        articleDAO.updateCategory(id, null);
+                    }
+            );
+            totalCategories--;
         }
 
         @Override
         public void update(String from, String to) {
+            Category category = categoryDAO.deleteByName(from);
+            category.getArticle_id().forEach(id -> {
+                        articleDAO.updateCategory(id, null);
+                    }
+            );
             categoryDAO.updateName(from, to);
         }
 
         @Override
         public Page<Category> list(QueryPage queryPage) {
             List<Category> categoryList = categoryDAO.findAll(queryPage);
-            return new Page<>(categoryList, queryPage, totalCategorys);
+            return new Page<>(categoryList, queryPage, totalCategories);
         }
 
         @Override
@@ -188,27 +236,39 @@ public class ArticleServiceImpl implements ArticleService {
     static class TagServiceImpl implements ArticleService.TagService {
 
         private final TagDAO tagDAO;
+        private final ArticleDAO articleDAO;
         private Long totalTags;
 
         @Autowired
-        public TagServiceImpl(TagDAO tagDAO) {
+        public TagServiceImpl(TagDAO tagDAO, ArticleDAO articleDAO) {
             this.tagDAO = tagDAO;
+            this.articleDAO = articleDAO;
             this.totalTags = tagDAO.total();
         }
 
         @Override
         public void add(Tag tag) {
-
+            tagDAO.add(tag);
+            totalTags++;
         }
 
         @Override
         public void delete(String name) {
-
+            Tag deletedTag = tagDAO.deleteByName(name);
+            deletedTag.getArticle_id().forEach(id -> {
+                articleDAO.updateTag(id, null, new ArrayList<>(Collections.singleton(name)));
+            });
+            totalTags--;
         }
 
         @Override
         public void update(String from, String to) {
-
+            Tag tag = tagDAO.findByName(from);
+            tag.setName(to);
+            tag.getArticle_id().forEach(id -> {
+                articleDAO.updateTag(id, new ArrayList<>(Collections.singleton(to)),
+                        new ArrayList<>(Collections.singleton(from)));
+            });
         }
 
         @Override
@@ -218,12 +278,12 @@ public class ArticleServiceImpl implements ArticleService {
 
         @Override
         public List<Tag> list() {
-            return null;
+            return tagDAO.findAll(null);
         }
 
         @Override
         public Tag find(String name) {
-            return null;
+            return tagDAO.findByName(name);
         }
     }
 

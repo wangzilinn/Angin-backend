@@ -3,6 +3,7 @@ package com.wangzilin.site.controller.article;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
+import com.wangzilin.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,14 @@ public class ArticleTagController {
     @GetMapping
     public Response<Tag> name(@RequestParam String name) {
         return new Response<>(tagService.find(name));
+    }
+
+    @GetMapping("/list")
+    public Response list(@RequestParam(value = "page", required = false) Integer page,
+                         @RequestParam(value = "limit", required = false) Integer limit) {
+        if (page == null) {
+            return new Response<>(tagService.list());
+        }
+        return new Response<>(tagService.list(new QueryPage(page, limit)));
     }
 }

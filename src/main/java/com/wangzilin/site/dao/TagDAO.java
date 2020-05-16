@@ -46,8 +46,9 @@ public class TagDAO {
      * @Date 12:34 AM 5/16/2020
      * @Param [name]
      **/
-    public boolean deleteByName(String name) {
-        return mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name)), TAG_COLLECTION).wasAcknowledged();
+    public Tag deleteByName(String name) {
+        return mongoTemplateForBlog.findAndRemove(new Query(Criteria.where("name").is(name)), Tag.class,
+                TAG_COLLECTION);
     }
 
     public boolean deleteArticle(String tagName, String articleId) {
@@ -64,6 +65,11 @@ public class TagDAO {
                 new Update().set("name", to),
                 TAG_COLLECTION
         ).wasAcknowledged();
+    }
+
+    public Tag update(Tag tag) {
+        //save:若重复则覆写
+        return mongoTemplateForBlog.save(tag, TAG_COLLECTION);
     }
 
 

@@ -48,8 +48,9 @@ public class CategoryDAO {
         ).wasAcknowledged();
     }
 
-    public boolean deleteByName(String name) {
-        return mongoTemplateForBlog.remove(new Query(Criteria.where("name").is(name))).wasAcknowledged();
+    public Category deleteByName(String name) {
+        return mongoTemplateForBlog.findAndRemove(new Query(Criteria.where("name").is(name)), Category.class,
+                CATEGORY_COLLECTION);
     }
 
     public boolean deleteArticle(String categoryName, String articleId) {

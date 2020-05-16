@@ -29,8 +29,8 @@ public class Article implements Serializable {
     private String author;
     private String content;
     private String contentMd;
-    private String category;
-    private ArrayList<String> tag;
+    private String categoryName;
+    private ArrayList<String> tagNames;
     private String state;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
