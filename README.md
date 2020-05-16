@@ -1,3 +1,11 @@
+# Angin
+
+![](./src/main/resources/img/logo.png)
+
+## Angin是什么?
+
+Angin是准备长期维护的全栈项目的后端部分
+
 ## IM用户操作流程
 
 1. 直接使用channel:
