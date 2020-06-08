@@ -24,11 +24,11 @@ public class Category implements Serializable {
     @NotNull
     private String name;
 
-    private List<String> article_id;
+    private List<String> articleId;
 
     public Category(String name) {
         this.name = name;
-        this.article_id = new ArrayList<>();
+        this.articleId = new ArrayList<>();
     }
 
 }

@@ -9,6 +9,7 @@ import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
 import com.wangzilin.site.util.QueryPage;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleDAO articleDAO;
     CategoryDAO categoryDAO;
     TagDAO tagDAO;
+
+    final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO, TagDAO tagDAO) {
         this.articleDAO = articleDAO;
@@ -146,7 +149,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Page<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
-        return getArticlePage(queryPage, category.getArticle_id());
+        return getArticlePage(queryPage, category.getArticleId());
     }
 
     /**
@@ -162,17 +165,21 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
 
         Tag tag = tagDAO.findByName(tagName);
-
         if (tag == null) {
             return null;
         }
-        return getArticlePage(queryPage, tag.getArticle_id());
+        log.info(tag.toString());
+        return getArticlePage(queryPage, tag.getArticleId());
     }
 
     private Page<Article> getArticlePage(QueryPage queryPage, List<String> article_id) {
         ArrayList<Article> articles = new ArrayList<>();
         for (int i = 0; i < queryPage.getLimit(); i++) {
-            String id = article_id.get((queryPage.getPage() - 1) * queryPage.getLimit() + i);
+
+            int index = (queryPage.getPage() - 1) * queryPage.getLimit() + i;
+            if (index >= article_id.size())
+                break;
+            String id = article_id.get(index);
             articles.add(articleDAO.findById(id));
         }
         return new Page<>(articles, queryPage, article_id.size());
@@ -203,7 +210,7 @@ public class ArticleServiceImpl implements ArticleService {
         @Override
         public void delete(String name) {
             Category category = categoryDAO.deleteByName(name);
-            category.getArticle_id().forEach(id -> {
+            category.getArticleId().forEach(id -> {
                         articleDAO.updateCategory(id, null);
                     }
             );
@@ -213,7 +220,7 @@ public class ArticleServiceImpl implements ArticleService {
         @Override
         public void update(String from, String to) {
             Category category = categoryDAO.deleteByName(from);
-            category.getArticle_id().forEach(id -> {
+            category.getArticleId().forEach(id -> {
                         articleDAO.updateCategory(id, null);
                     }
             );
@@ -260,7 +267,7 @@ public class ArticleServiceImpl implements ArticleService {
         @Override
         public void delete(String name) {
             Tag deletedTag = tagDAO.deleteByName(name);
-            deletedTag.getArticle_id().forEach(id -> {
+            deletedTag.getArticleId().forEach(id -> {
                 articleDAO.updateTag(id, null, new ArrayList<>(Collections.singleton(name)));
             });
             totalTags--;
@@ -270,7 +277,7 @@ public class ArticleServiceImpl implements ArticleService {
         public void update(String from, String to) {
             Tag tag = tagDAO.findByName(from);
             tag.setName(to);
-            tag.getArticle_id().forEach(id -> {
+            tag.getArticleId().forEach(id -> {
                 articleDAO.updateTag(id, new ArrayList<>(Collections.singleton(to)),
                         new ArrayList<>(Collections.singleton(from)));
             });
