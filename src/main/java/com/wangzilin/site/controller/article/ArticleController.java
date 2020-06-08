@@ -1,5 +1,6 @@
 package com.wangzilin.site.controller.article;
 
+import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.model.DTO.Page;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
@@ -81,6 +82,7 @@ public class ArticleController {
      **/
 
     @GetMapping
+    @WebLog
     public Response<Article> id(@RequestParam(value = "id") String id) {
         return new Response<>(articleService.findArticle(id));
     }

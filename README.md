@@ -68,7 +68,8 @@ Angin是准备长期维护的全栈项目的后端部分
 
    2. collection: channels 每个document是一个channelName
 
-   
+
+既然使用关系型数据库, 那就好好用, 不要建复杂的表了
 
 # Tumo
 

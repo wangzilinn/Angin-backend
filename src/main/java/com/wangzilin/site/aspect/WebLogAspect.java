@@ -44,7 +44,7 @@ public class WebLogAspect {
      * @Date 4:43 PM 5/15/2020
      * @Param []
      **/
-    @Pointcut("execution(public com.wangzilin.site.model.DTO.Response * (..))")
+    @Pointcut("@annotation(com.wangzilin.site.annotation.WebLog)")
     public void webLog() {
     }
 
@@ -68,7 +68,7 @@ public class WebLogAspect {
         // 打印请求 url
         logger.info("URL            : {}", request.getRequestURL().toString());
         // 打印描述信息
-        logger.info("Description    : {}", methodDescription);
+//        logger.info("Description    : {}", methodDescription);
         // 打印 Http method
         logger.info("HTTP Method    : {}", request.getMethod());
         // 打印调用 controller 的全路径以及执行方法

@@ -1,5 +1,6 @@
 package com.wangzilin.site.controller.article;
 
+import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
@@ -22,6 +23,7 @@ public class ArticleTagController {
     private ArticleService.TagService tagService;
 
     @PostMapping
+    @WebLog(description = "add")
     public Response add(@RequestBody Tag tag) {
         tagService.add(tag);
         return new Response<>();

@@ -160,7 +160,12 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
+
         Tag tag = tagDAO.findByName(tagName);
+
+        if (tag == null) {
+            return null;
+        }
         return getArticlePage(queryPage, tag.getArticle_id());
     }
 
