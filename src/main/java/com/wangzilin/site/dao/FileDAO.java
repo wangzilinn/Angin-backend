@@ -30,4 +30,8 @@ public class FileDAO {
         return mongoTemplateForFile.findAndRemove(new Query(Criteria.where("id").is(id)), Image.class, IMG_COLLECTION);
     }
 
+    public Image findImageById(String id) {
+        return mongoTemplateForFile.findOne(new Query(Criteria.where("id").is(id)), Image.class, IMG_COLLECTION);
+    }
+
 }

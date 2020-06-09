@@ -15,5 +15,7 @@ public interface FileService {
 
     String addImage(MultipartFile file);
 
+    Image findImage(String id);
+
     void deleteImage(String id);
 }

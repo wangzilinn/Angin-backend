@@ -57,6 +57,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public Image findImage(String id) {
+        return fileDAO.findImageById(id);
+    }
+
+    @Override
     public void deleteImage(String id) {
         fileDAO.deleteImageById(id);
     }
