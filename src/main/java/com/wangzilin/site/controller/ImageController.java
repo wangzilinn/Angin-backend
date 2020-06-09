@@ -31,9 +31,8 @@ public class ImageController {
     public Response uploadImage(@RequestParam(value = "file") MultipartFile file) {
         if (file.isEmpty())
             return new Response<>("No image found");
-
-        fileService.addImage(file);
-        return new Response<>();
+        String imageId = fileService.addImage(file);
+        return new Response<>(imageId);
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
