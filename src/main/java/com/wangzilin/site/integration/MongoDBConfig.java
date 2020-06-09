@@ -53,6 +53,18 @@ public class MongoDBConfig {
     @Value("${cardMongoDB.password}")
     private String cardMongoDBPassword;
 
+    //file mongoDB
+    @Value("${fileMongoDB.host}")
+    private String fileMongoDBHost;
+    @Value("${fileMongoDB.port}")
+    private int fileMongoDBPort;
+    @Value("${fileMongoDB.userName}")
+    private String fileMongoDBUserName;
+    @Value("${fileMongoDB.authDB}")
+    private String fileMongoDBAuthDB;
+    @Value("${fileMongoDB.password}")
+    private String fileMongoDBPassword;
+
     @Bean
     @Primary
     public MongoTemplate mongoTemplateForCard() {
@@ -80,6 +92,15 @@ public class MongoDBConfig {
                 blogMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(blogMongoDBHost, blogMongoDBPort);
         return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "blog");
+    }
+
+    @Bean
+    public MongoTemplate mongoTemplateForFile() {
+        log.info("inject mongoTemplateForFile");
+        MongoCredential mongoCredential = MongoCredential.createCredential(fileMongoDBUserName, fileMongoDBAuthDB,
+                fileMongoDBPassword.toCharArray());
+        ServerAddress serverAddress = new ServerAddress(fileMongoDBHost, fileMongoDBPort);
+        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "file");
     }
 
 }

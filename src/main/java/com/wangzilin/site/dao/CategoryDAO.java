@@ -43,7 +43,7 @@ public class CategoryDAO {
     public boolean addArticle(String categoryName, String articleId) {
         return mongoTemplateForBlog.updateFirst(
                 new Query(Criteria.where("name").is(categoryName)),
-                new Update().addToSet("article_id", articleId),
+                new Update().addToSet("articleId", articleId),
                 CATEGORY_COLLECTION
         ).wasAcknowledged();
     }

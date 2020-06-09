@@ -34,7 +34,7 @@ public class TagDAO {
     public boolean addArticle(String tagName, String articleId) {
         return mongoTemplateForBlog.updateFirst(
                 new Query(Criteria.where("name").is(tagName)),
-                new Update().addToSet("article_id", articleId),
+                new Update().addToSet("articleId", articleId),
                 TAG_COLLECTION
         ).wasAcknowledged();
     }

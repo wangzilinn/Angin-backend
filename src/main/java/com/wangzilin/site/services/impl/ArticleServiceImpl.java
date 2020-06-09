@@ -51,6 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void addArticle(Article article) {
         //article collection更新
         String id = articleDAO.add(article).getId();
+        log.info("new article id = " + id);
         //category collection更新
         categoryDAO.addArticle(article.getCategoryName(), id);
         //tag collection update
