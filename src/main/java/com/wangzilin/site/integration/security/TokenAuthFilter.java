@@ -56,7 +56,7 @@ public class TokenAuthFilter extends OncePerRequestFilter {
 
             // 如果jwt正确解出账号信息，说明是合法用户，设置认证信息，认证通过
             if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+                log.info(user.toString());
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                         user.getUsername(), null, user.getAuthorities());
                 // 把请求的信息设置到UsernamePasswordAuthenticationToken details对象里面，包括发请求的ip等
@@ -64,7 +64,6 @@ public class TokenAuthFilter extends OncePerRequestFilter {
                 auth.setDetails(user);
                 // 设置认证信息
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
             }
         }
 

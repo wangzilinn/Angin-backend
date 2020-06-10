@@ -56,9 +56,10 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
         if (role == null) {
-            authorities.add(new SimpleGrantedAuthority("user"));//ROLE前缀必须
+            authorities.add(new SimpleGrantedAuthority("ROLE_user"));//ROLE前缀必须
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
         }
-        authorities.add(new SimpleGrantedAuthority(role));
         return authorities;
     }
 

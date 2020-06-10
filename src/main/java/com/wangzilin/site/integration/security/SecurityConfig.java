@@ -19,7 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)//这样就可以在Controller上配置权限
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)//这样就可以在Controller上配置权限
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -102,6 +102,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/hello/**").authenticated()
                 .antMatchers("/chat/**").authenticated()
                 .antMatchers("/card/**").authenticated()
+                //.antMatchers(HttpMethod.POST, "/api/article").hasRole("admin")
+
                 .anyRequest().permitAll();
 
         httpSecurity.addFilterBefore(tokenAuthFilter, UsernamePasswordAuthenticationFilter.class);

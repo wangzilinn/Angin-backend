@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Date;
 
 /**
@@ -37,6 +38,7 @@ public class ArticleController {
      **/
 
     @PostMapping
+    @RolesAllowed("admin")
     public Response add(@RequestBody Article article) {
         //添加文档上传时间
         article.setCreateTime(new Date());
@@ -54,6 +56,7 @@ public class ArticleController {
      **/
 
     @DeleteMapping
+    @RolesAllowed({"admin"})
     public Response delete(@RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
         return new Response<>();
@@ -68,6 +71,7 @@ public class ArticleController {
      **/
 
     @PutMapping
+    @RolesAllowed({"admin"})
     public Response update(@RequestBody Article article) {
         articleService.updateArticle(article);
         return new Response<>();
