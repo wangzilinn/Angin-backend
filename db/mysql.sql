@@ -37,9 +37,9 @@ create table `comment`
 (
     `id`            bigint(20)   not null auto_increment,
     `article_title` varchar(100) default null,
-    `article_id`    bigint(20)   default null,
-    `reply_id`      bigint(20)   default null,
-    `username`      varchar(100) not null,
+    `article_id`    varchar(100) default null,
+    `reply_id`      varchar(100) default null,
+    `username`      varchar(100) default null,
     `avatar`        varchar(200) default null,
     `date`          datetime     not null,
     `content`       varchar(300) not null,

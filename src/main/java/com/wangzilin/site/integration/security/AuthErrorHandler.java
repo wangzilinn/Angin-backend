@@ -1,6 +1,9 @@
 package com.wangzilin.site.integration.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangzilin.site.model.DTO.Response;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -18,6 +21,8 @@ import java.io.IOException;
  */
 @Component
 public class AuthErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
+    @Autowired
+    ObjectMapper jsonMapper;
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthErrorHandler.class);
 
@@ -35,7 +40,7 @@ public class AuthErrorHandler implements AuthenticationEntryPoint, AccessDeniedH
         log.info("认证失败处理，返回401");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write("{\"status\":401,\"message\":\"Unauthorized or invalid token\"}");
+        response.getWriter().write(jsonMapper.writeValueAsString(new Response<>(401, "用户名或密码错误")));
     }
 
     /**
@@ -52,6 +57,6 @@ public class AuthErrorHandler implements AuthenticationEntryPoint, AccessDeniedH
         log.info("鉴权失败处理，返回403");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write("{\"status\":403,\"message\":\"Forbidden\"}");
+        response.getWriter().write(jsonMapper.writeValueAsString(new Response<>(403, "当前用户无此操作权限")));
     }
 }

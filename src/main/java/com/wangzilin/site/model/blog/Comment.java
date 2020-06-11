@@ -30,10 +30,10 @@ public class Comment implements Serializable {
     private String articleTitle; //在评论总览页面方便看
 
     @TableField("article_id")
-    private Long articleId;
+    private String articleId;
 
     @TableField("reply_id")
-    private Long replyId;
+    private String replyId;
 
     @NotNull
     private String username;
@@ -42,7 +42,7 @@ public class Comment implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date time;
+    private Date date;
 
     private String content;
 }
