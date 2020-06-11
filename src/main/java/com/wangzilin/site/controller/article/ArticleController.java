@@ -38,6 +38,7 @@ public class ArticleController {
 
     @PostMapping
     @RolesAllowed("admin")
+    @WebLog
     public Response add(@RequestBody Article article) {
         //添加文档上传时间
         article.setCreateTime(new Date());
@@ -56,6 +57,7 @@ public class ArticleController {
 
     @DeleteMapping
     @RolesAllowed({"admin"})
+    @WebLog
     public Response delete(@RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
         return new Response<>();
@@ -71,6 +73,7 @@ public class ArticleController {
 
     @PutMapping
     @RolesAllowed({"admin"})
+    @WebLog
     public Response update(@RequestBody Article article) {
         articleService.updateArticle(article);
         return new Response<>();

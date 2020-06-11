@@ -66,7 +66,7 @@ public class Response<T> implements Serializable {
     @NoArgsConstructor
     static public class Page<T> {
         private List<T> elements;
-        private Integer currentNumber;
+        private Integer currentNumber;//当前页面数据长度, 最大为页面大小
         private Long totalNumber;
         private Integer currentPage;
         private Integer totalPages;

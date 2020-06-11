@@ -54,7 +54,11 @@ public class CategoryDAO {
     }
 
     public boolean deleteArticle(String categoryName, String articleId) {
-        return true;
+        return mongoTemplateForBlog.updateFirst(
+                new Query(Criteria.where("name").is(categoryName)),
+                new Update().pull("articleId", articleId),
+                CATEGORY_COLLECTION
+        ).wasAcknowledged();
     }
 
     public boolean updateName(String from, String to) {

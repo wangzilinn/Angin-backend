@@ -53,13 +53,15 @@ public interface CommentService extends IService<Comment> {
     void add(Comment comment);
 
     /**
+     * @param id
      * @return void
      * @Author wangzilin
      * @Description 删除评论
      * @Date 3:57 PM 5/11/2020
      * @Param [id]
-     *
-     * @param id*/
+     */
     void delete(String id);
+
+    void deleteByArticleId(String id);
 
 }

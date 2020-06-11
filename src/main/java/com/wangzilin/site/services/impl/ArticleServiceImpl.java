@@ -8,6 +8,7 @@ import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
+import com.wangzilin.site.services.CommentService;
 import com.wangzilin.site.util.QueryPage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,20 @@ import java.util.List;
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {
-    ArticleDAO articleDAO;
-    CategoryDAO categoryDAO;
-    TagDAO tagDAO;
+
+    final private ArticleDAO articleDAO;
+    final private CategoryDAO categoryDAO;
+    final private TagDAO tagDAO;
+    final private CommentService commentService;
 
     final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
-    public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO, TagDAO tagDAO) {
+    public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO, TagDAO tagDAO,
+                              CommentService commentService) {
         this.articleDAO = articleDAO;
         this.categoryDAO = categoryDAO;
         this.tagDAO = tagDAO;
+        this.commentService = commentService;
     }
 
 
@@ -63,10 +68,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticle(String id) {
         Article article = articleDAO.deleteById(id);
+        //删除分类表
         categoryDAO.deleteArticle(article.getCategoryName(), id);
+        //删除标签表
         article.getTagNames().forEach(tagName -> {
             tagDAO.deleteArticle(tagName, id);
         });
+        //删除评论
+        commentService.deleteByArticleId(id);
     }
 
     /**

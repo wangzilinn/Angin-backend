@@ -97,4 +97,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public void delete(String id) {
         commentMapper.deleteById(id);
     }
+
+    @Override
+    public void deleteByArticleId(String id) {
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getArticleId, id);
+        commentMapper.delete(queryWrapper);
+    }
 }
