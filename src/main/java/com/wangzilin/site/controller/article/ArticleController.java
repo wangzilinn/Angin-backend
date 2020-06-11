@@ -1,7 +1,6 @@
 package com.wangzilin.site.controller.article;
 
 import com.wangzilin.site.annotation.WebLog;
-import com.wangzilin.site.model.DTO.Page;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.services.ArticleService;
@@ -100,11 +99,11 @@ public class ArticleController {
      **/
     //TODO:list返回的不需要有文章内容,最好再多一个total字段
     @GetMapping("/list")
-    public Response<Page<Article>> list(@RequestParam(value = "page") int page,
-                                        @RequestParam(value = "limit") int limit,
-                                        @RequestParam(value = "title", required = false) String title,
-                                        @RequestParam(value = "category", required = false) String category,
-                                        @RequestParam(value = "tag", required = false) String tag) {
+    public Response<Response.Page<Article>> list(@RequestParam(value = "page") int page,
+                                                 @RequestParam(value = "limit") int limit,
+                                                 @RequestParam(value = "title", required = false) String title,
+                                                 @RequestParam(value = "category", required = false) String category,
+                                                 @RequestParam(value = "tag", required = false) String tag) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (title != null) {
             return new Response<>(articleService.listArticleByTitle(title, queryPage));

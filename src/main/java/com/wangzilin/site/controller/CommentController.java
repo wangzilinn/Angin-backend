@@ -36,13 +36,13 @@ public class CommentController {
 
     @GetMapping("/list")
     @WebLog
-    public Response list(@RequestParam(value = "page") int page,
+    public Response list(@RequestParam(value = "page", defaultValue = "1") int page,
                          @RequestParam(value = "limit", defaultValue = "4") int limit,
                          @RequestParam(value = "id", required = false) String id,
                          @RequestParam(value = "about", required = false) Boolean showAbout) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (id != null) {
-            return new Response<>(commentService.listByArticleId(id));
+            return new Response<>(commentService.listByArticleId(queryPage, id));
         }
         if (showAbout != null && showAbout) {
             return new Response<>(commentService.listAbout(queryPage));

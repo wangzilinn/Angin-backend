@@ -1,10 +1,9 @@
 package com.wangzilin.site.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Comment;
 import com.wangzilin.site.util.QueryPage;
-
-import java.util.List;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -22,7 +21,7 @@ public interface CommentService extends IService<Comment> {
      * @Date 3:56 PM 5/11/2020
      * @Param [queryPage]
      **/
-    List<Comment> list(QueryPage queryPage);
+    Response.Page<Comment> list(QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Comment>
@@ -31,9 +30,10 @@ public interface CommentService extends IService<Comment> {
      * @Date 3:56 PM 5/11/2020
      * @Param [queryPage]
      **/
-    List<Comment> listAbout(QueryPage queryPage);
+    Response.Page<Comment> listAbout(QueryPage queryPage);
 
     /**
+     * @param queryPage
      * @param id
      * @return java.util.List<com.wangzilin.site.model.blog.Comment>
      * @Author wangzilin
@@ -41,7 +41,7 @@ public interface CommentService extends IService<Comment> {
      * @Date 3:57 PM 5/11/2020
      * @Param [id]
      */
-    List<Comment> listByArticleId(String id);
+    Response.Page<Comment> listByArticleId(QueryPage queryPage, String id);
 
     /**
      * @return void

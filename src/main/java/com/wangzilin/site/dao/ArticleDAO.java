@@ -5,6 +5,7 @@ import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -78,6 +79,7 @@ public class ArticleDAO {
         //创建查询对
         Query query = new Query();
         query.with(pageableRequest);
+        query.with(Sort.by(Sort.Direction.DESC, "editTime"));
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
     }
 

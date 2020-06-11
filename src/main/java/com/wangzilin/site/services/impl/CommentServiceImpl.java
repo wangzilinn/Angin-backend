@@ -1,10 +1,12 @@
 package com.wangzilin.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wangzilin.site.dao.CommentMapper;
+import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Comment;
 import com.wangzilin.site.services.CommentService;
 import com.wangzilin.site.util.QueryPage;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -25,18 +28,20 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private CommentMapper commentMapper;
 
     /**
-     * @param queryPage
-     * @return java.util.List<com.wangzilin.site.model.blog.Comment>
-     * @Author wangzilin
-     * @Description 分页列出所有comment
-     * @Date 3:56 PM 5/11/2020
-     * @Param [queryPage]
+     * @param queryPage 用于查询的分页信息
+     * @return 被包裹在Page中的结果
      */
     @Override
-    public List<Comment> list(QueryPage queryPage) {
+    public Response.Page<Comment> list(QueryPage queryPage) {
         IPage<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
-        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
-        return commentMapper.selectPage(page, queryWrapper).getRecords();
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
+
+        List<Comment> records = commentIPage.getRecords();
+        long total = commentIPage.getTotal();
+
+        return new Response.Page<>(records, queryPage, total);
     }
 
     /**
@@ -48,14 +53,20 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @Param [queryPage]
      */
     @Override
-    public List<Comment> listAbout(QueryPage queryPage) {
+    public Response.Page<Comment> listAbout(QueryPage queryPage) {
         IPage<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, null);
-        return commentMapper.selectPage(page, queryWrapper).getRecords();
+        IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
+
+        List<Comment> records = commentIPage.getRecords();
+        long total = commentIPage.getTotal();
+
+        return new Response.Page<>(records, queryPage, total);
     }
 
     /**
+     * @param queryPage
      * @param id
      * @return java.util.List<com.wangzilin.site.model.blog.Comment>
      * @Author wangzilin
@@ -64,10 +75,16 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @Param [id]
      */
     @Override
-    public List<Comment> listByArticleId(String id) {
+    public Response.Page<Comment> listByArticleId(QueryPage queryPage, String id) {
+        Page<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, id);
-        return commentMapper.selectList(queryWrapper);
+        queryWrapper.orderByDesc(Comment::getId);
+        IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
+
+        List<Comment> records = commentIPage.getRecords();
+        long total = commentIPage.getTotal();
+        return new Response.Page<>(records, queryPage, total);
     }
 
     @Override

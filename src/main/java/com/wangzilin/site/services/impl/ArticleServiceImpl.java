@@ -3,7 +3,7 @@ package com.wangzilin.site.services.impl;
 import com.wangzilin.site.dao.ArticleDAO;
 import com.wangzilin.site.dao.CategoryDAO;
 import com.wangzilin.site.dao.TagDAO;
-import com.wangzilin.site.model.DTO.Page;
+import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
@@ -119,10 +119,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [queryPage]
      */
     @Override
-    public Page<Article> listArticle(QueryPage queryPage) {
+    public Response.Page<Article> listArticle(QueryPage queryPage) {
         List<Article> articleList = articleDAO.findAll(queryPage);
         long totalNumber = articleDAO.total();
-        return new Page<>(articleList, queryPage, totalNumber);
+        return new Response.Page<>(articleList, queryPage, totalNumber);
     }
 
     /**
@@ -133,9 +133,9 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [title, queryPage]
      **/
     @Override
-    public Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
+    public Response.Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
         List<Article> articleList = articleDAO.findByTitle(title, queryPage);
-        return new Page<>(articleList, queryPage, articleList.size());
+        return new Response.Page<>(articleList, queryPage, articleList.size());
     }
 
     /**
@@ -148,7 +148,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [category, queryPage]
      */
     @Override
-    public Page<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
+    public Response.Page<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
         return getArticlePage(queryPage, category.getArticleId());
     }
@@ -163,7 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [tag, queryPage]
      */
     @Override
-    public Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
+    public Response.Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
 
         Tag tag = tagDAO.findByName(tagName);
         if (tag == null) {
@@ -173,7 +173,7 @@ public class ArticleServiceImpl implements ArticleService {
         return getArticlePage(queryPage, tag.getArticleId());
     }
 
-    private Page<Article> getArticlePage(QueryPage queryPage, List<String> article_id) {
+    private Response.Page<Article> getArticlePage(QueryPage queryPage, List<String> article_id) {
         ArrayList<Article> articles = new ArrayList<>();
         for (int i = 0; i < queryPage.getLimit(); i++) {
 
@@ -183,7 +183,7 @@ public class ArticleServiceImpl implements ArticleService {
             String id = article_id.get(index);
             articles.add(articleDAO.findById(id));
         }
-        return new Page<>(articles, queryPage, article_id.size());
+        return new Response.Page<>(articles, queryPage, article_id.size());
     }
 
     @Service
@@ -229,9 +229,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         @Override
-        public Page<Category> list(QueryPage queryPage) {
+        public Response.Page<Category> list(QueryPage queryPage) {
             List<Category> categoryList = categoryDAO.findAll(queryPage);
-            return new Page<>(categoryList, queryPage, totalCategories);
+            return new Response.Page<>(categoryList, queryPage, totalCategories);
         }
 
         @Override
@@ -285,8 +285,8 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         @Override
-        public Page<Tag> list(QueryPage queryPage) {
-            return new Page<>(tagDAO.findAll(queryPage), queryPage, totalTags);
+        public Response.Page<Tag> list(QueryPage queryPage) {
+            return new Response.Page<>(tagDAO.findAll(queryPage), queryPage, totalTags);
         }
 
         @Override

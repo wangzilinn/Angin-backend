@@ -1,6 +1,6 @@
 package com.wangzilin.site.services;
 
-import com.wangzilin.site.model.DTO.Page;
+import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
@@ -44,7 +44,7 @@ public interface ArticleService {
      * @Date 1:05 PM 5/11/2020
      * @Param [title, queryPage]
      **/
-    Page<Article> listArticleByTitle(String title, QueryPage queryPage);
+    Response.Page<Article> listArticleByTitle(String title, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -53,7 +53,7 @@ public interface ArticleService {
      * @Date 1:07 PM 5/11/2020
      * @Param [category, queryPage]
      **/
-    Page<Article> listArticleByCategory(String category, QueryPage queryPage);
+    Response.Page<Article> listArticleByCategory(String category, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -62,7 +62,7 @@ public interface ArticleService {
      * @Date 3:20 PM 5/11/2020
      * @Param [tagName, queryPage]
      **/
-    Page<Article> listArticleByTag(String tagName, QueryPage queryPage);
+    Response.Page<Article> listArticleByTag(String tagName, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -71,7 +71,7 @@ public interface ArticleService {
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
      **/
-    Page<Article> listArticle(QueryPage queryPage);
+    Response.Page<Article> listArticle(QueryPage queryPage);
 
     Article findArticle(String id);
 
@@ -82,7 +82,7 @@ public interface ArticleService {
 
         void update(String from, String to);
 
-        Page<Category> list(QueryPage queryPage);
+        Response.Page<Category> list(QueryPage queryPage);
 
         List<Category> list();
 
@@ -96,7 +96,7 @@ public interface ArticleService {
 
         void update(String from, String to);
 
-        Page<Tag> list(QueryPage queryPage);
+        Response.Page<Tag> list(QueryPage queryPage);
 
         List<Tag> list();
 

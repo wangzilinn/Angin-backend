@@ -2,9 +2,11 @@ package com.wangzilin.site.model.DTO;
 
 import com.wangzilin.site.constants.BlogConstant;
 import com.wangzilin.site.constants.BlogEnum;
+import com.wangzilin.site.util.QueryPage;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -58,5 +60,23 @@ public class Response<T> implements Serializable {
         super();
         this.code = BlogConstant.ERROR;
         this.msg = throwable.getMessage();
+    }
+
+    @Data
+    @NoArgsConstructor
+    static public class Page<T> {
+        private List<T> elements;
+        private Integer currentNumber;
+        private Long totalNumber;
+        private Integer currentPage;
+        private Integer totalPages;
+
+        public Page(List<T> elements, QueryPage queryPage, long totalNumber) {
+            this.elements = elements;
+            this.currentNumber = elements.size();
+            this.currentPage = queryPage.getPage();
+            this.totalNumber = totalNumber;
+            this.totalPages = (int) Math.ceil((double) totalNumber / queryPage.getLimit());
+        }
     }
 }
