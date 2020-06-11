@@ -38,7 +38,7 @@ public class CommentController {
     @WebLog
     public Response list(@RequestParam(value = "page") int page,
                          @RequestParam(value = "limit", defaultValue = "4") int limit,
-                         @RequestParam(value = "id", required = false) Long id,
+                         @RequestParam(value = "id", required = false) String id,
                          @RequestParam(value = "about", required = false) Boolean showAbout) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (id != null) {

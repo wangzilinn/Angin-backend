@@ -64,7 +64,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @Param [id]
      */
     @Override
-    public List<Comment> listByArticleId(Long id) {
+    public List<Comment> listByArticleId(String id) {
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, id);
         return commentMapper.selectList(queryWrapper);
@@ -77,7 +77,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         commentMapper.deleteById(id);
     }
 }

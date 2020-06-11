@@ -34,13 +34,14 @@ public interface CommentService extends IService<Comment> {
     List<Comment> listAbout(QueryPage queryPage);
 
     /**
+     * @param id
      * @return java.util.List<com.wangzilin.site.model.blog.Comment>
      * @Author wangzilin
      * @Description 根据文章列出评论
      * @Date 3:57 PM 5/11/2020
      * @Param [id]
-     **/
-    List<Comment> listByArticleId(Long id);
+     */
+    List<Comment> listByArticleId(String id);
 
     /**
      * @return void
@@ -57,7 +58,8 @@ public interface CommentService extends IService<Comment> {
      * @Description 删除评论
      * @Date 3:57 PM 5/11/2020
      * @Param [id]
-     **/
-    void delete(Long id);
+     *
+     * @param id*/
+    void delete(String id);
 
 }
