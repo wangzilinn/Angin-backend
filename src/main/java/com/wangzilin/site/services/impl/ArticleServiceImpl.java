@@ -88,29 +88,32 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public void updateArticle(Article article) {
-        //更新article collection
-        articleDAO.update(article);
         @NotNull
         String id = article.getId();
         Article originArticle = articleDAO.findById(id);
         //更新category:
         if (!originArticle.getCategoryName().equals(article.getCategoryName())) {
             categoryDAO.deleteArticle(originArticle.getCategoryName(), id);
+            categoryDAO.addArticle(article.getCategoryName(), id);
         }
         //更新tag:
         //求新旧两个article tag的交集:
         List<String> intersection = new ArrayList<>(originArticle.getTagNames());
         intersection.retainAll(article.getTagNames());
         //相较于原有文章删除的tag:
-        originArticle.getTagNames().retainAll(intersection);
-        originArticle.getTagNames().forEach(deletedTagName -> {
+        ArrayList<String> toBeDeletedTags = new ArrayList<>(originArticle.getTagNames());
+        toBeDeletedTags.removeAll(intersection);
+        toBeDeletedTags.forEach(deletedTagName -> {
             tagDAO.deleteArticle(deletedTagName, id);
         });
         //相较于原有文章增加的tag:
-        article.getTagNames().retainAll(intersection);
-        article.getTagNames().forEach(addedTagName -> {
+        ArrayList<String> toBeAddedTags = new ArrayList<>(article.getTagNames());
+        toBeAddedTags.removeAll(intersection);
+        toBeAddedTags.forEach(addedTagName -> {
             tagDAO.addArticle(addedTagName, id);
         });
+        //更新article collection
+        articleDAO.update(article);
 
     }
 
