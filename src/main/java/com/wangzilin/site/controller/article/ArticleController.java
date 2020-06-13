@@ -75,6 +75,8 @@ public class ArticleController {
     @RolesAllowed({"admin"})
     @WebLog
     public Response update(@RequestBody Article article) {
+        //将上传到服务器的时间作为更新时间
+        article.setEditTime(new Date());
         articleService.updateArticle(article);
         return new Response<>();
     }
@@ -100,7 +102,7 @@ public class ArticleController {
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]
      **/
-    //TODO:list返回的不需要有文章内容,最好再多一个total字段
+    //TODO:list返回的不需要有文章内容
     @GetMapping("/list")
     public Response<Response.Page<Article>> list(@RequestParam(value = "page") int page,
                                                  @RequestParam(value = "limit") int limit,

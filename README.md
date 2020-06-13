@@ -523,3 +523,7 @@ comment单独拿出来, 因为他有两块, 分别是文章评论和about me评�
 blog部分中:article用id查询和comment, 其余的都直接用名字查询
 
 对于集合, 没有null,只有空
+
+## 备忘
+
+1. mongotemplate中分页查询,第一页是0

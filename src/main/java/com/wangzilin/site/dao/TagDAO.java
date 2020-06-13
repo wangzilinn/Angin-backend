@@ -76,7 +76,7 @@ public class TagDAO {
     public List<Tag> findAll(QueryPage queryPage) {
         if (queryPage != null) {
             Query query = new Query();
-            final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
+            final Pageable pageableRequest = PageRequest.of(queryPage.getPage() - 1, queryPage.getLimit());
             query.with(pageableRequest);
             return mongoTemplateForBlog.find(query, Tag.class, TAG_COLLECTION);
         }
