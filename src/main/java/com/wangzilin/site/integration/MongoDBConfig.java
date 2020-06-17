@@ -1,9 +1,10 @@
 package com.wangzilin.site.integration;
 
 
-import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClients;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -72,8 +73,10 @@ public class MongoDBConfig {
         MongoCredential mongoCredential = MongoCredential.createCredential(cardMongoDBUserName, cardMongoDBAuthDB,
                 cardMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(cardMongoDBHost, cardMongoDBPort);
-        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)),
-                "back_end");
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder().applyToClusterSettings(builder -> {
+            builder.hosts(Collections.singletonList(serverAddress));
+        }).credential(mongoCredential).build();
+        return new MongoTemplate(MongoClients.create(mongoClientSettings), "back_end");
     }
 
     @Bean
@@ -82,7 +85,10 @@ public class MongoDBConfig {
         MongoCredential mongoCredential = MongoCredential.createCredential(chatMongoDBUserName, chatMongoDBAuthDB,
                 chatMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(chatMongoDBHost, chatMongoDBPort);
-        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "chat");
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder().applyToClusterSettings(builder -> {
+            builder.hosts(Collections.singletonList(serverAddress));
+        }).credential(mongoCredential).build();
+        return new MongoTemplate(MongoClients.create(mongoClientSettings), "chat");
     }
 
     @Bean
@@ -91,7 +97,10 @@ public class MongoDBConfig {
         MongoCredential mongoCredential = MongoCredential.createCredential(blogMongoDBUserName, blogMongoDBAuthDB,
                 blogMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(blogMongoDBHost, blogMongoDBPort);
-        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "blog");
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder().applyToClusterSettings(builder -> {
+            builder.hosts(Collections.singletonList(serverAddress));
+        }).credential(mongoCredential).build();
+        return new MongoTemplate(MongoClients.create(mongoClientSettings), "blog");
     }
 
     @Bean
@@ -100,7 +109,10 @@ public class MongoDBConfig {
         MongoCredential mongoCredential = MongoCredential.createCredential(fileMongoDBUserName, fileMongoDBAuthDB,
                 fileMongoDBPassword.toCharArray());
         ServerAddress serverAddress = new ServerAddress(fileMongoDBHost, fileMongoDBPort);
-        return new MongoTemplate(new MongoClient(serverAddress, Collections.singletonList(mongoCredential)), "file");
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder().applyToClusterSettings(builder -> {
+            builder.hosts(Collections.singletonList(serverAddress));
+        }).credential(mongoCredential).build();
+        return new MongoTemplate(MongoClients.create(mongoClientSettings), "file");
     }
 
 }

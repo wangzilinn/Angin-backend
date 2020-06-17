@@ -17,21 +17,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class QueryPage implements Serializable {
 
+
     /**
-     * @Author wangzilin
-     * @Description 当前页
-     * @Date 4:33 PM 5/7/2020
-     * @Param
-     * @return
-     **/
+     * 查询页数
+     */
     private int page;
 
     /**
-     * @Author wangzilin
-     * @Description 每一页的记录数
-     * @Date 4:33 PM 5/7/2020
-     * @Param
-     * @return
-     **/
+     * 每页限制
+     */
     private int limit;
 }

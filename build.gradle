@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id "io.freefair.lombok" version "4.1.6"
@@ -23,19 +23,19 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor
-    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.2.6.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.2.6.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
     //Security:
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     // https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-mqtt
-    compile group: 'org.springframework.integration', name: 'spring-integration-mqtt', version: '5.2.3.RELEASE'
+    compile group: 'org.springframework.integration', name: 'spring-integration-mqtt'
 //	compile "org.springframework.integration:spring-integration-mqtt:5.2.1.RELEASE"
 //	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-json
 //	compile group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: '2.2.4.RELEASE'
@@ -43,7 +43,7 @@ dependencies {
     compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.64'
 //	面向切面
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
 
 //	GSON解析
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
