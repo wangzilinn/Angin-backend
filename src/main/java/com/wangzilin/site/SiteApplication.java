@@ -1,7 +1,7 @@
 package com.wangzilin.site;
 
 
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,9 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
+@Slf4j
 public class SiteApplication implements CommandLineRunner {
-
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SiteApplication.class);
 
     @Value("${env}")
     private String env;

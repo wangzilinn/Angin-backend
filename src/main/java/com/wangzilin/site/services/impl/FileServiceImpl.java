@@ -3,8 +3,8 @@ package com.wangzilin.site.services.impl;
 import com.wangzilin.site.dao.FileDAO;
 import com.wangzilin.site.model.file.Image;
 import com.wangzilin.site.services.FileService;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.Binary;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +18,9 @@ import java.util.Date;
  * @Modified By:wangzilinn@gmail.com
  */
 @Service
+@Slf4j
 public class FileServiceImpl implements FileService {
     FileDAO fileDAO;
-
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
 
     public FileServiceImpl(FileDAO fileDAO) {
         this.fileDAO = fileDAO;

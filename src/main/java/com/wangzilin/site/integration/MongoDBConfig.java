@@ -5,7 +5,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClients;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +15,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import java.util.Collections;
 
 @Configuration
+@Slf4j
 public class MongoDBConfig {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(MongoDBConfig.class);
 
     //blog mongoDB
     @Value("${blogMongoDB.host}")

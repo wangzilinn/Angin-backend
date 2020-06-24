@@ -10,7 +10,7 @@ import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
 import com.wangzilin.site.services.CommentService;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +26,13 @@ import java.util.List;
  * @Modified By:wangzilinn@gmail.com
  */
 @Service
+@Slf4j
 public class ArticleServiceImpl implements ArticleService {
 
     final private ArticleDAO articleDAO;
     final private CategoryDAO categoryDAO;
     final private TagDAO tagDAO;
     final private CommentService commentService;
-
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
     public ArticleServiceImpl(ArticleDAO articleDAO, CategoryDAO categoryDAO, TagDAO tagDAO,
                               CommentService commentService) {

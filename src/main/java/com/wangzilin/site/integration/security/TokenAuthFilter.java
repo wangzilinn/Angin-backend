@@ -3,7 +3,7 @@ package com.wangzilin.site.integration.security;
 import com.wangzilin.site.model.user.User;
 import com.wangzilin.site.services.UserService;
 import com.wangzilin.site.util.JwtUtil;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -24,11 +24,8 @@ JWT过滤器每次请求应该只执行一次，所以继承OncePerRequestFilter
 */
 
 @Component
+@Slf4j
 public class TokenAuthFilter extends OncePerRequestFilter {
-
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(TokenAuthFilter.class);
-
-
     final private UserService userService;
 
     final private String tokenHeader = "Authorization";

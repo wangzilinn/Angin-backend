@@ -1,16 +1,14 @@
 package com.wangzilin.site.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class BeanUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
-
-    final private static Logger log = LoggerFactory.getLogger(BeanUtil.class);
 
     /**
      * Spring容器会在创建该Bean之后，自动调用该Bean的setApplicationContext方法

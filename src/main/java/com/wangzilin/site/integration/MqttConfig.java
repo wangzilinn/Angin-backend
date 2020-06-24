@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangzilin.site.model.chat.Message;
 import com.wangzilin.site.services.impl.ChatServiceImpl;
 import com.wangzilin.site.util.SslUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +22,7 @@ import org.springframework.messaging.MessageHandler;
 import javax.net.ssl.SSLSocketFactory;
 
 @Configuration
+@Slf4j
 public class MqttConfig {
 
     final private ChatServiceImpl chatServiceImpl;
@@ -36,8 +36,6 @@ public class MqttConfig {
     private String clientId;
 
     MqttPahoMessageDrivenChannelAdapter adapter;
-
-    final private static Logger log = LoggerFactory.getLogger(MqttConfig.class);
 
     public MqttConfig(ChatServiceImpl chatServiceImpl, ObjectMapper mapper) {
         this.chatServiceImpl = chatServiceImpl;

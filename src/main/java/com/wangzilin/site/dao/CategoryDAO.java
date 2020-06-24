@@ -3,7 +3,7 @@ package com.wangzilin.site.dao;
 import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.blog.Category;
 import lombok.NoArgsConstructor;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,11 +23,11 @@ import java.util.List;
  */
 @Repository
 @NoArgsConstructor
+@Slf4j
 public class CategoryDAO {
     @Resource
     private MongoTemplate mongoTemplateForBlog;
     private final String CATEGORY_COLLECTION = "category";
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(CategoryDAO.class);
 
     /**
      * @return com.wangzilin.site.model.blog.Category 返回保存的文件

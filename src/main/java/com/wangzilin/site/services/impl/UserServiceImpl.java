@@ -7,7 +7,7 @@ import com.wangzilin.site.model.user.User;
 import com.wangzilin.site.services.UserService;
 import com.wangzilin.site.util.BeanUtil;
 import com.wangzilin.site.util.JwtUtil;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,9 +22,8 @@ import java.util.List;
  * 这个类专门负责处理用户相关
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserMapper userMapper;
 
