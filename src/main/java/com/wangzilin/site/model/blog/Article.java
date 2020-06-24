@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class Article implements Serializable {
     @Id
     private String id;
 
-    @NotNull
+    @NotBlank
     private String title;
     private String cover;
     private String author;
