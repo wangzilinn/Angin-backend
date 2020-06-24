@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wangzilin.site.dao.CommentMapper;
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Comment;
 import com.wangzilin.site.services.CommentService;
-import com.wangzilin.site.util.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

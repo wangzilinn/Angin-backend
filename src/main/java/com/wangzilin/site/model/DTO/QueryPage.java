@@ -1,4 +1,4 @@
-package com.wangzilin.site.util;
+package com.wangzilin.site.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

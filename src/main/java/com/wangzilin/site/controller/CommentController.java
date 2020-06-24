@@ -1,10 +1,10 @@
 package com.wangzilin.site.controller;
 
 import com.wangzilin.site.annotation.WebLog;
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Comment;
 import com.wangzilin.site.services.CommentService;
-import com.wangzilin.site.util.QueryPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class CommentController {
 
     @PostMapping
     @WebLog
-    public Response add(@RequestBody Comment comment) {
+    public Response<?> add(@RequestBody Comment comment) {
         if (comment.getDate() == null) {
             comment.setDate(new Date());
         }
@@ -36,10 +36,10 @@ public class CommentController {
 
     @GetMapping("/list")
     @WebLog
-    public Response list(@RequestParam(value = "page", defaultValue = "1") int page,
-                         @RequestParam(value = "limit", defaultValue = "4") int limit,
-                         @RequestParam(value = "id", required = false) String id,
-                         @RequestParam(value = "about", required = false) Boolean showAbout) {
+    public Response<?> list(@RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "limit", defaultValue = "4") int limit,
+                            @RequestParam(value = "id", required = false) String id,
+                            @RequestParam(value = "about", required = false) Boolean showAbout) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (id != null) {
             return new Response<>(commentService.listByArticleId(queryPage, id));

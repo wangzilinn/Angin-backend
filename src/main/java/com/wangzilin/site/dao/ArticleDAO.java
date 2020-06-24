@@ -1,7 +1,7 @@
 package com.wangzilin.site.dao;
 
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.blog.Article;
-import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

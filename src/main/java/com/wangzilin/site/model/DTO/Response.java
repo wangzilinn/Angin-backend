@@ -2,7 +2,6 @@ package com.wangzilin.site.model.DTO;
 
 import com.wangzilin.site.constants.BlogConstant;
 import com.wangzilin.site.constants.BlogEnum;
-import com.wangzilin.site.util.QueryPage;
 import lombok.*;
 
 import java.io.Serializable;

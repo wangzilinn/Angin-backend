@@ -1,7 +1,7 @@
 package com.wangzilin.site.dao;
 
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.blog.Category;
-import com.wangzilin.site.util.QueryPage;
 import lombok.NoArgsConstructor;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;

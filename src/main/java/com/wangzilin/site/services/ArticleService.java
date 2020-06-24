@@ -1,10 +1,10 @@
 package com.wangzilin.site.services;
 
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
-import com.wangzilin.site.util.QueryPage;
 
 import java.util.List;
 

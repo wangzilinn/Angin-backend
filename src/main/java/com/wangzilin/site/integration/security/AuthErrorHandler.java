@@ -2,8 +2,7 @@ package com.wangzilin.site.integration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangzilin.site.model.DTO.Response;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -20,11 +19,14 @@ import java.io.IOException;
  * 重写了这2个接口类的失败处理方法，其实JwtAuthError可以分为2个类，我们合二为一了
  */
 @Component
+@Slf4j
 public class AuthErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
-    @Autowired
-    ObjectMapper jsonMapper;
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AuthErrorHandler.class);
+    final private ObjectMapper jsonMapper;
+
+    public AuthErrorHandler(ObjectMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
+    }
 
     /**
      * 认证失败处理，返回401 json数据

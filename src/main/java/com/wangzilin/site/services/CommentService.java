@@ -1,9 +1,9 @@
 package com.wangzilin.site.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Comment;
-import com.wangzilin.site.util.QueryPage;
 
 /**
  * @Author: wangzilinn@gmail.com

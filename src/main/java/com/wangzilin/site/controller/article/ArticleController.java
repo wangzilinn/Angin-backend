@@ -1,13 +1,12 @@
 package com.wangzilin.site.controller.article;
 
 import com.wangzilin.site.annotation.WebLog;
+import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.services.ArticleService;
-import com.wangzilin.site.util.QueryPage;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -22,11 +21,14 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/article")
 @Tag(name = "Article", description = "文章管理接口")
+@Slf4j
 public class ArticleController {
-    @Autowired
-    private ArticleService articleService;
-    final private static org.slf4j.Logger log = LoggerFactory.getLogger(ArticleController.class);
 
+    final private ArticleService articleService;
+
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     /**
      * @return com.wangzilin.site.model.DTO.Response
@@ -39,7 +41,7 @@ public class ArticleController {
     @PostMapping
     @RolesAllowed("admin")
     @WebLog
-    public Response add(@RequestBody Article article) {
+    public Response<?> add(@RequestBody Article article) {
         //添加文档上传时间
         article.setCreateTime(new Date());
         article.setEditTime(new Date());
@@ -58,7 +60,7 @@ public class ArticleController {
     @DeleteMapping
     @RolesAllowed({"admin"})
     @WebLog
-    public Response delete(@RequestParam(value = "id") String id) {
+    public Response<?> delete(@RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
         return new Response<>();
     }
@@ -74,7 +76,7 @@ public class ArticleController {
     @PutMapping
     @RolesAllowed({"admin"})
     @WebLog
-    public Response update(@RequestBody Article article) {
+    public Response<?> update(@RequestBody Article article) {
         //将上传到服务器的时间作为更新时间
         article.setEditTime(new Date());
         articleService.updateArticle(article);
