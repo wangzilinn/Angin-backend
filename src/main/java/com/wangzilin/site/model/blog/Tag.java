@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Tag implements Serializable {
     @Id
     private String id;
 
-    @NotNull
+    @NotBlank
     private String name;
 
     private List<String> articleId;

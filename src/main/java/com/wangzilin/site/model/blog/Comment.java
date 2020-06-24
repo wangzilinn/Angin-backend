@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -35,7 +35,7 @@ public class Comment implements Serializable {
     @TableField("reply_id")
     private String replyId;
 
-    @NotNull
+    @NotBlank
     private String username;
 
     private String avatar;

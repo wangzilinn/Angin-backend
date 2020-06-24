@@ -5,7 +5,11 @@ import com.wangzilin.site.model.DTO.QueryPage;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/article/tag")
 @io.swagger.v3.oas.annotations.tags.Tag(name = "Article's tag", description = "文章标签管理接口")
+@Validated
 public class ArticleTagController {
 
     final private ArticleService.TagService tagService;
@@ -26,34 +31,33 @@ public class ArticleTagController {
 
     @PostMapping
     @WebLog(description = "add")
-    public Response<?> add(@RequestBody Tag tag) {
+    public Response<?> add(@Valid @RequestBody Tag tag) {
         tagService.add(tag);
         return new Response<>();
     }
 
     @DeleteMapping
-    public Response<?> delete(@RequestParam String name) {
+    public Response<?> delete(@NotBlank @RequestParam String name) {
         tagService.delete(name);
         return new Response<>();
     }
 
     @PutMapping
-    public Response<?> update(@RequestParam String from, @RequestParam String to) {
+    public Response<?> update(@NotBlank @RequestParam String from, @NotBlank @RequestParam String to) {
         tagService.update(from, to);
         return new Response<>();
     }
 
     @GetMapping
-    public Response<Tag> name(@RequestParam String name) {
+    public Response<Tag> name(@NotBlank @RequestParam String name) {
         return new Response<>(tagService.find(name));
     }
 
     @GetMapping("/list")
-    public Response<?> list(@RequestParam(value = "page", required = false) Integer page,
-                            @RequestParam(value = "limit", required = false) Integer limit) {
-        if (page == null) {
+    public Response<?> list(@RequestBody QueryPage queryPage) {
+        if (queryPage == null) {
             return new Response<>(tagService.list());
         }
-        return new Response<>(tagService.list(new QueryPage(page, limit)));
+        return new Response<>(tagService.list(queryPage));
     }
 }

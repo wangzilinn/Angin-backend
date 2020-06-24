@@ -7,9 +7,12 @@ import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.services.ArticleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -22,6 +25,7 @@ import java.util.Date;
 @RequestMapping("/api/article")
 @Tag(name = "Article", description = "文章管理接口")
 @Slf4j
+@Validated
 public class ArticleController {
 
     final private ArticleService articleService;
@@ -41,7 +45,7 @@ public class ArticleController {
     @PostMapping
     @RolesAllowed("admin")
     @WebLog
-    public Response<?> add(@RequestBody Article article) {
+    public Response<?> add(@Valid @RequestBody Article article) {
         //添加文档上传时间
         article.setCreateTime(new Date());
         article.setEditTime(new Date());
@@ -60,7 +64,7 @@ public class ArticleController {
     @DeleteMapping
     @RolesAllowed({"admin"})
     @WebLog
-    public Response<?> delete(@RequestParam(value = "id") String id) {
+    public Response<?> delete(@NotBlank @RequestParam(value = "id") String id) {
         articleService.deleteArticle(id);
         return new Response<>();
     }
@@ -76,7 +80,7 @@ public class ArticleController {
     @PutMapping
     @RolesAllowed({"admin"})
     @WebLog
-    public Response<?> update(@RequestBody Article article) {
+    public Response<?> update(@Valid @RequestBody Article article) {
         //将上传到服务器的时间作为更新时间
         article.setEditTime(new Date());
         articleService.updateArticle(article);
@@ -93,7 +97,7 @@ public class ArticleController {
 
     @GetMapping
     @WebLog
-    public Response<Article> id(@RequestParam(value = "id") String id) {
+    public Response<Article> id(@NotBlank @RequestParam(value = "id") String id) {
         return new Response<>(articleService.findArticle(id));
     }
 
@@ -106,12 +110,10 @@ public class ArticleController {
      **/
     //TODO:list返回的不需要有文章内容
     @GetMapping("/list")
-    public Response<Response.Page<Article>> list(@RequestParam(value = "page") int page,
-                                                 @RequestParam(value = "limit") int limit,
-                                                 @RequestParam(value = "title", required = false) String title,
+    public Response<Response.Page<Article>> list(@RequestParam(value = "title", required = false) String title,
                                                  @RequestParam(value = "category", required = false) String category,
-                                                 @RequestParam(value = "tag", required = false) String tag) {
-        QueryPage queryPage = new QueryPage(page, limit);
+                                                 @RequestParam(value = "tag", required = false) String tag,
+                                                 @Valid @RequestBody QueryPage queryPage) {
         if (title != null) {
             return new Response<>(articleService.listArticleByTitle(title, queryPage));
         }
