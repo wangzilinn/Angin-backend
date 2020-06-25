@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -21,10 +23,14 @@ public class QueryPage implements Serializable {
     /**
      * 查询页数
      */
+    @NotNull
+    @Min(1)
     private int page;
 
     /**
      * 每页限制
      */
+    @NotNull
+    @Min(1)
     private int limit;
 }

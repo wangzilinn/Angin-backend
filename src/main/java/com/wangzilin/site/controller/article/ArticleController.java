@@ -110,10 +110,12 @@ public class ArticleController {
      **/
     //TODO:list返回的不需要有文章内容
     @GetMapping("/list")
-    public Response<Response.Page<Article>> list(@RequestParam(value = "title", required = false) String title,
+    public Response<Response.Page<Article>> list(@RequestParam(value = "page") int page,
+                                                 @RequestParam(value = "limit") int limit,
+                                                 @RequestParam(value = "title", required = false) String title,
                                                  @RequestParam(value = "category", required = false) String category,
-                                                 @RequestParam(value = "tag", required = false) String tag,
-                                                 @Valid @RequestBody QueryPage queryPage) {
+                                                 @RequestParam(value = "tag", required = false) String tag) {
+        QueryPage queryPage = new QueryPage(page, limit);
         if (title != null) {
             return new Response<>(articleService.listArticleByTitle(title, queryPage));
         }

@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -65,10 +66,11 @@ public class ArticleCategoryController {
      **/
 
     @GetMapping("/list")
-    public Response<?> list(@Valid @RequestBody QueryPage queryPage) {
-        if (queryPage == null) {
+    public Response<?> list(@Min(1) @RequestParam(value = "page", required = false) Integer page,
+                            @Min(1) @RequestParam(value = "limit", required = false) Integer limit) {
+        if (page == null) {
             return new Response<>(categoryService.list());
         }
-        return new Response<>(categoryService.list(queryPage));
+        return new Response<>(categoryService.list(new QueryPage(page, limit)));
     }
 }

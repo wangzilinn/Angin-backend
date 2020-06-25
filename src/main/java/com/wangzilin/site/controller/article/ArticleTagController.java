@@ -54,10 +54,11 @@ public class ArticleTagController {
     }
 
     @GetMapping("/list")
-    public Response<?> list(@RequestBody QueryPage queryPage) {
-        if (queryPage == null) {
+    public Response<?> list(@RequestParam(value = "page", required = false) Integer page,
+                            @RequestParam(value = "limit", required = false) Integer limit) {
+        if (page == null) {
             return new Response<>(tagService.list());
         }
-        return new Response<>(tagService.list(queryPage));
+        return new Response<>(tagService.list(new QueryPage(page, limit)));
     }
 }

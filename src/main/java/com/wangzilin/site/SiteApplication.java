@@ -20,6 +20,7 @@ public class SiteApplication implements CommandLineRunner {
     }
 
     @Override
+    //这句话会在程序完全启动之后显示
     public void run(String... args) {
         log.info("running env: " + env);
     }

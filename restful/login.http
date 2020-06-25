@@ -1,9 +1,13 @@
 ###
 # sign in
 POST https://{{host}}:8443/api/user/signIn
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-username=wangzilin&password=123456
+{
+  "username": "wangzilin",
+  "password": "123456"
+}
+
 
 ###
 # sign up
