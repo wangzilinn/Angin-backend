@@ -1,6 +1,9 @@
-from pydocx import PyDocX
+import win32com.client
 
-html = PyDocX.to_html("test.docx")
-f = open("test.html", 'w', encoding="utf-8")
-f.write(html)
-f.close()
+word = win32com.client.Dispatch('Word.Application')
+
+doc = word.Documents.Add(r"C:\Case\case-Java\191212_angin_backend\upload_docx\test.docx")
+doc.SaveAs(r'C:\Case\case-Java\191212_angin_backend\upload_docx\test.html', FileFormat=8)
+doc.Close()
+
+word.Quit()
