@@ -121,19 +121,18 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDAO.findById(id);
     }
 
+
     /**
-     * @param queryPage
-     * @return java.util.List<com.wangzilin.site.model.blog.Article>
-     * @Author wangzilin
-     * @Description 分页列出文章
-     * @Date 11:25 AM 5/11/2020
-     * @Param [queryPage]
+     * 分页列出文章
+     *
+     * @param queryPage -
+     * @return -
      */
     @Override
-    public Response.Page<Article> listArticle(QueryPage queryPage) {
+    public Response.Page<Article.Abstract> listArticleAbstract(QueryPage queryPage) {
         List<Article> articleList = articleDAO.findAll(queryPage);
         long totalNumber = articleDAO.total();
-        return new Response.Page<>(articleList, queryPage, totalNumber);
+        return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, totalNumber);
     }
 
     /**
@@ -144,47 +143,31 @@ public class ArticleServiceImpl implements ArticleService {
      * @Param [title, queryPage]
      **/
     @Override
-    public Response.Page<Article> listArticleByTitle(String title, QueryPage queryPage) {
+    public Response.Page<Article.Abstract> listArticleAbstractByTitle(String title, QueryPage queryPage) {
         List<Article> articleList = articleDAO.findByTitle(title, queryPage);
-        return new Response.Page<>(articleList, queryPage, articleList.size());
+        return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, articleList.size());
     }
 
-    /**
-     * @param categoryName
-     * @param queryPage
-     * @return java.util.List<com.wangzilin.site.model.blog.Article>
-     * @Author wangzilin
-     * @Description 根据分类查询文章
-     * @Date 1:07 PM 5/11/2020
-     * @Param [category, queryPage]
-     */
+
     @Override
-    public Response.Page<Article> listArticleByCategory(String categoryName, QueryPage queryPage) {
+    public Response.Page<Article.Abstract> listArticleAbstractByCategory(String categoryName, QueryPage queryPage) {
         Category category = categoryDAO.findByName(categoryName);
-        return getArticlePage(queryPage, category.getArticleId());
+        return getArticleAbstractPage(queryPage, category.getArticleId());
     }
 
-    /**
-     * @param tagName
-     * @param queryPage
-     * @return java.util.List<com.wangzilin.site.model.blog.Article>
-     * @Author wangzilin
-     * @Description 根据tag查询文章
-     * @Date 3:20 PM 5/11/2020
-     * @Param [tag, queryPage]
-     */
+
     @Override
-    public Response.Page<Article> listArticleByTag(String tagName, QueryPage queryPage) {
+    public Response.Page<Article.Abstract> listArticleAbstractByTag(String tagName, QueryPage queryPage) {
 
         Tag tag = tagDAO.findByName(tagName);
         if (tag == null) {
             return null;
         }
         log.info(tag.toString());
-        return getArticlePage(queryPage, tag.getArticleId());
+        return getArticleAbstractPage(queryPage, tag.getArticleId());
     }
 
-    private Response.Page<Article> getArticlePage(QueryPage queryPage, List<String> article_id) {
+    private Response.Page<Article.Abstract> getArticleAbstractPage(QueryPage queryPage, List<String> article_id) {
         ArrayList<Article> articles = new ArrayList<>();
         for (int i = 0; i < queryPage.getLimit(); i++) {
 
@@ -194,7 +177,7 @@ public class ArticleServiceImpl implements ArticleService {
             String id = article_id.get(index);
             articles.add(articleDAO.findById(id));
         }
-        return new Response.Page<>(articles, queryPage, article_id.size());
+        return new Response.Page<>(Article.convertToAbstract(articles), queryPage, article_id.size());
     }
 
     @Service

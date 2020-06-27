@@ -44,7 +44,7 @@ public interface ArticleService {
      * @Date 1:05 PM 5/11/2020
      * @Param [title, queryPage]
      **/
-    Response.Page<Article> listArticleByTitle(String title, QueryPage queryPage);
+    Response.Page<Article.Abstract> listArticleAbstractByTitle(String title, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -53,7 +53,7 @@ public interface ArticleService {
      * @Date 1:07 PM 5/11/2020
      * @Param [category, queryPage]
      **/
-    Response.Page<Article> listArticleByCategory(String category, QueryPage queryPage);
+    Response.Page<Article.Abstract> listArticleAbstractByCategory(String category, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -62,7 +62,7 @@ public interface ArticleService {
      * @Date 3:20 PM 5/11/2020
      * @Param [tagName, queryPage]
      **/
-    Response.Page<Article> listArticleByTag(String tagName, QueryPage queryPage);
+    Response.Page<Article.Abstract> listArticleAbstractByTag(String tagName, QueryPage queryPage);
 
     /**
      * @return java.util.List<com.wangzilin.site.model.blog.Article>
@@ -71,7 +71,7 @@ public interface ArticleService {
      * @Date 11:25 AM 5/11/2020
      * @Param [queryPage]
      **/
-    Response.Page<Article> listArticle(QueryPage queryPage);
+    Response.Page<Article.Abstract> listArticleAbstract(QueryPage queryPage);
 
     Article findArticle(String id);
 

@@ -108,24 +108,23 @@ public class ArticleController {
      * @Date 2:48 PM 5/11/2020
      * @Param [page, limit]
      **/
-    //TODO:list返回的不需要有文章内容
     @GetMapping("/list")
-    public Response<Response.Page<Article>> list(@RequestParam(value = "page") int page,
-                                                 @RequestParam(value = "limit") int limit,
-                                                 @RequestParam(value = "title", required = false) String title,
-                                                 @RequestParam(value = "category", required = false) String category,
-                                                 @RequestParam(value = "tag", required = false) String tag) {
+    public Response<Response.Page<Article.Abstract>> list(@RequestParam(value = "page") int page,
+                                                          @RequestParam(value = "limit") int limit,
+                                                          @RequestParam(value = "title", required = false) String title,
+                                                          @RequestParam(value = "category", required = false) String category,
+                                                          @RequestParam(value = "tag", required = false) String tag) {
         QueryPage queryPage = new QueryPage(page, limit);
         if (title != null) {
-            return new Response<>(articleService.listArticleByTitle(title, queryPage));
+            return new Response<>(articleService.listArticleAbstractByTitle(title, queryPage));
         }
         if (category != null) {
-            return new Response<>(articleService.listArticleByCategory(category, queryPage));
+            return new Response<>(articleService.listArticleAbstractByCategory(category, queryPage));
         }
         if (tag != null) {
-            return new Response<>(articleService.listArticleByTag(tag, queryPage));
+            return new Response<>(articleService.listArticleAbstractByTag(tag, queryPage));
         }
-        return new Response<>(articleService.listArticle(queryPage));
+        return new Response<>(articleService.listArticleAbstract(queryPage));
     }
 
 
