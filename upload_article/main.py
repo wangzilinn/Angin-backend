@@ -1,13 +1,15 @@
-import shutil
 import tkinter as tk
-from datetime import datetime
 from tkinter.filedialog import *  # 如果已经导入了所有tkinter也要再次导入
-from urllib.parse import unquote
 
 import markdown2
+import shutil
 import win32com.client
 from bson import Binary
+from datetime import datetime
 from pymongo import MongoClient
+from urllib.parse import unquote
+
+from reformat_html import reformat_docx_html
 
 
 class Article:
@@ -77,6 +79,7 @@ def convert_to_html_callback():
             article.html_path = save_path
             doc.SaveAs(save_path, FileFormat=8)
             doc.Close()
+            reformat_docx_html(save_path)
         elif article.doc_type == ".md":
             md_path = article.original_path
             file_name = os.path.basename(md_path).split(".")[0]
@@ -98,7 +101,7 @@ def convert_to_html_callback():
                         """
             save_path = os.getcwd() + "/cache/" + file_name + ".html"
             article.html_path = save_path
-            html_file = open(save_path, "w", encoding="gb2312")  # word 编码也是gb2312，与word相统一
+            html_file = open(save_path, "w", encoding="utf-8")
             html_file.write(final_html)
 
 
@@ -110,7 +113,7 @@ def upload_callback():
         # convert html to article
         print("processing：", article.title)
         html_path = article.html_path
-        article_html = open(html_path, "r", encoding='gb2312').read()  # notice:gb2312
+        article_html = open(html_path, "r", encoding='utf-8').read()  # notice:gb2312
         img_tags = re.findall(r"src=\".*\" ", article_html)
         print("extract %d image(s)" % (len(img_tags)))
         # replace <v:imagedata.../> to <img/>
