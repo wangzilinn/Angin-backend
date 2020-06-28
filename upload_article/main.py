@@ -3,18 +3,26 @@ from datetime import datetime
 from tkinter.filedialog import *  # 如果已经导入了所有tkinter也要再次导入
 from urllib.parse import unquote
 
+import markdown2
 import win32com.client
 from bson import Binary
 from pymongo import MongoClient
 
-docx_path_list = []
-md_path_list = []
-html_path_list = []
+
+class Article:
+    doc_type = ''
+    original_path = ''
+    html_path = ''
+    title = ''
+    category = ''
+
+
+article_list = []
 
 
 def upload_image(image_path: str, mongo_client) -> str:
     image_collection = mongo_client.file.img
-    image_bytes = bytearray(open("./" + image_path, "rb").read())
+    image_bytes = bytearray(open(image_path, "rb").read())
     size = os.path.getsize(image_path)
     # extract extension:
     extension = os.path.splitext(image_path)[1]
@@ -31,47 +39,77 @@ def upload_image(image_path: str, mongo_client) -> str:
 
 
 def select_button_callback():
+    global article_list
     file_path_list = askopenfilenames()  # show an "Open" dialog box and return the path to the selected file
-    global docx_path_list
-    global md_path_list
     for file_path in file_path_list:
         extension = os.path.splitext(file_path)[1]
+        article = Article()
+        article.original_path = file_path
+        article.title = os.path.basename(file_path).split(".")[0]
+        article.category = file_path.split("/")[-2]
         if extension == ".docx":
-            docx_path_list.append(file_path)
+            article.doc_type = ".docx"
+            article_list.append(article)
             print("add docx file:", file_path)
         elif extension == ".md":
-            md_path_list.append(file_path)
+            article.doc_type = ".md"
+            article_list.append(article)
             print("add markdown file:", file_path)
 
 
 def test_callback():
-    global docx_path_list
-    print(docx_path_list)
+    global article_list
+    print(article_list)
 
 
 def convert_to_html_callback():
-    global docx_path_list
+    global article_list
     word = win32com.client.Dispatch('Word.Application')
-    for docx_path in docx_path_list:
-        doc = word.Documents.Add(docx_path)
-        file_name = os.path.basename(docx_path).split(".")[0]
-        print("converting <", file_name, "> to html")
-        # save path should be absolute path
-        save_path = os.getcwd() + "/" + file_name + ".html"
-        html_path_list.append(save_path)
-        doc.SaveAs(save_path, FileFormat=8)
-        doc.Close()
+    for article in article_list:
+        if article.doc_type == ".docx":
+            docx_path = article.original_path
+            doc = word.Documents.Add(docx_path)
+            file_name = os.path.basename(docx_path).split(".")[0]
+            print("converting ", file_name, ".docx to html")
+            # save path should be absolute path
+            save_path = os.getcwd() + "\\" + file_name + ".html"
+            article.html_path = save_path
+            doc.SaveAs(save_path, FileFormat=8)
+            doc.Close()
+        elif article.doc_type == ".md":
+            md_path = article.original_path
+            file_name = os.path.basename(md_path).split(".")[0]
+            print("converting <", file_name, ">.md to html")
+            html = markdown2.markdown(open(md_path, "r", encoding="utf-8").read(),
+                                      extras=["fenced-code-blocks", "code-color"])
+            final_html = """<html lang="en">
+                                <head>
+                                    <meta charset="utf-8">
+                                    <style type="text/css">
+                         """ + open("colorful.css").read() + \
+                         """
+                                    </style>
+                                </head>
+                                <body>
+                        """ + html + \
+                         """    </body>
+                            </html>
+                        """
+            save_path = os.getcwd() + "\\" + file_name + ".html"
+            article.html_path = save_path
+            html_file = open(save_path, "w", encoding="gb2312")  # word 编码也是gb2312，与word相统一
+            html_file.write(final_html)
 
 
 def upload_callback():
-    global html_path_list
+    global article_list
     client = MongoClient("mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
                          "&appname=MongoDB%20Compass&ssl=false")
-    for html_path in html_path_list:
+    for article in article_list:
         # convert html to article
-        print("processing：", html_path)
-        gb2312file = open(html_path, "r", encoding='gb2312')
-        article_html = gb2312file.read()
+        print("processing：", article.title)
+        html_path = article.html_path
+        article_html = open(html_path, "r", encoding='gb2312').read()  # notice:gb2312
         img_tags = re.findall(r"src=\".*\" ", article_html)
         print("extract %d image(s)" % (len(img_tags)))
         # replace <v:imagedata.../> to <img/>
@@ -85,12 +123,17 @@ def upload_callback():
             cover_id = img_id
             img_url = "https://zilinn.wang:8443/api/img/" + str(img_id)
             article_html = article_html.replace(img_local_url, img_url)
-
+        # get original text (just for md):
+        content_md = ''
+        if article.doc_type == ".md":
+            content_md = open(article.original_path, "r", encoding="utf-8").read()
         # upload article
         article = {
-            "title": os.path.basename(html_path).split(".")[0],  # just file name, no extension
+            "title": article.title,  # just file name, no extension
             "author": "wangzilin",
             "content": article_html,
+            "content_md": content_md,
+            "categoryName": article.category,
             "state": "release",
             "cover": cover_id,
             "createdTime": datetime.utcnow(),
