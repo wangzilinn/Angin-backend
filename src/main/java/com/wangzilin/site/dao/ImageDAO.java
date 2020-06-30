@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  */
 @Repository
 @NoArgsConstructor
-public class FileDAO {
+public class ImageDAO {
     @Resource
     private MongoTemplate mongoTemplateForFile;
     private final String IMG_COLLECTION = "img";

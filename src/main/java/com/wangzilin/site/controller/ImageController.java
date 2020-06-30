@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @Author: wangzilinn@gmail.com
  * @Description:
@@ -45,5 +47,11 @@ public class ImageController {
             return image.getContent().getData();
         }
         return null;
+    }
+
+    @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @ResponseBody
+    public byte[] getRandomPainting() throws IOException {
+        return fileService.getRandomCover();
     }
 }

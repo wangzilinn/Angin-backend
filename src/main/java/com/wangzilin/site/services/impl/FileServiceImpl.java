@@ -1,13 +1,20 @@
 package com.wangzilin.site.services.impl;
 
-import com.wangzilin.site.dao.FileDAO;
+import com.wangzilin.site.dao.ImageDAO;
+import com.wangzilin.site.dao.PaintingDAO;
 import com.wangzilin.site.model.file.Image;
+import com.wangzilin.site.model.file.Painting;
 import com.wangzilin.site.services.FileService;
+import com.wangzilin.site.util.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.Binary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
@@ -20,10 +27,12 @@ import java.util.Date;
 @Service
 @Slf4j
 public class FileServiceImpl implements FileService {
-    FileDAO fileDAO;
+    final private ImageDAO imageDAO;
+    final private PaintingDAO paintingDAO;
 
-    public FileServiceImpl(FileDAO fileDAO) {
-        this.fileDAO = fileDAO;
+    public FileServiceImpl(ImageDAO imageDAO, PaintingDAO paintingDAO) {
+        this.imageDAO = imageDAO;
+        this.paintingDAO = paintingDAO;
     }
 
     /**
@@ -32,7 +41,7 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public String addImage(Image image) {
-        return fileDAO.addImage(image).getId();
+        return imageDAO.addImage(image).getId();
     }
 
     /**
@@ -57,11 +66,21 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Image findImage(String id) {
-        return fileDAO.findImageById(id);
+        return imageDAO.findImageById(id);
     }
 
     @Override
     public void deleteImage(String id) {
-        fileDAO.deleteImageById(id);
+        imageDAO.deleteImageById(id);
+    }
+
+    @Override
+    public byte[] getRandomCover() throws IOException {
+        Painting randomPainting = paintingDAO.findRandomPainting();
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(randomPainting.getContent().getData()));
+        BufferedImage zoomedImage = ImageUtil.zoomOutImage(image, 300);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(zoomedImage, "jpg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

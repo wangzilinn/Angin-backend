@@ -3,6 +3,8 @@ package com.wangzilin.site.services;
 import com.wangzilin.site.model.file.Image;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @Author: wangzilinn@gmail.com
  * @Description:
@@ -18,4 +20,6 @@ public interface FileService {
     Image findImage(String id);
 
     void deleteImage(String id);
+
+    byte[] getRandomCover() throws IOException;
 }
