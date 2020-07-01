@@ -2,8 +2,11 @@ package com.wangzilin.site.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangzilin.site.dao.UserMapper;
 import com.wangzilin.site.model.user.User;
+import com.wangzilin.site.requset.GithubInfoFeignClient;
 import com.wangzilin.site.services.UserService;
 import com.wangzilin.site.util.BeanUtil;
 import com.wangzilin.site.util.JwtUtil;
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 这个类专门负责处理用户相关
@@ -25,10 +29,15 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    private final UserMapper userMapper;
+    final private UserMapper userMapper;
+    final private GithubInfoFeignClient githubInfoFeignClient;
+    final private ObjectMapper objectMapper;
 
-    public UserServiceImpl(UserMapper userMapper) {
+    public UserServiceImpl(UserMapper userMapper, GithubInfoFeignClient githubInfoFeignClient,
+                           ObjectMapper objectMapper) {
         this.userMapper = userMapper;
+        this.githubInfoFeignClient = githubInfoFeignClient;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -93,6 +102,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.generateToken(user);
         user.setToken(token);
         return user;
+    }
+
+    @Override
+    public Map<String, ?> getGithubInfo(String username) throws JsonProcessingException {
+        return githubInfoFeignClient.info(username);
     }
 
 

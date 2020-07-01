@@ -34,6 +34,13 @@ dependencies {
     //Security:
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    //Feign:
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.3.RELEASE'
+    // https://mvnrepository.com/artifact/io.github.openfeign/feign-jackson
+    compile group: 'io.github.openfeign', name: 'feign-jackson', version: '11.0'
+    // https://mvnrepository.com/artifact/io.github.openfeign.form/feign-form
+    compile group: 'io.github.openfeign.form', name: 'feign-form', version: '3.8.0'
     // https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-mqtt
     compile group: 'org.springframework.integration', name: 'spring-integration-mqtt'
     // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
@@ -62,6 +69,8 @@ dependencies {
     //mybatis-plus
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
     compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.1'
+
+
 
 }
 

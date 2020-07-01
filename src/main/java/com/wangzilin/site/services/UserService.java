@@ -1,8 +1,11 @@
 package com.wangzilin.site.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wangzilin.site.model.user.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Map;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -42,4 +45,6 @@ public interface UserService extends IService<User>, UserDetailsService {
     void delete(Long id);
 
     User auth(String username, String password);
+
+    Map getGithubInfo(String username) throws JsonProcessingException;
 }

@@ -1,5 +1,6 @@
 package com.wangzilin.site.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.exception.UserException;
 import com.wangzilin.site.model.DTO.Response;
@@ -11,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -70,5 +68,11 @@ public class UserController {
     public Response<?> SignUp(@Valid @NotNull @RequestBody SimpleUserInfoRequest simpleUserInfoRequest) throws AuthenticationException {
         userService.add(new User(simpleUserInfoRequest.getUsername(), simpleUserInfoRequest.getPassword()));
         return new Response<>();
+    }
+
+    @GetMapping("/github/{username}")
+    @WebLog
+    public Response<?> github(@PathVariable String username) throws JsonProcessingException {
+        return new Response<>(userService.getGithubInfo(username));
     }
 }
