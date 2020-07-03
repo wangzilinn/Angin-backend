@@ -39,21 +39,19 @@ def upload_image(image_path: str, mongo_client) -> str:
     return result.inserted_id
 
 
-test_str = r"C:\Users\78286\OneDrive\Knowledge\lang_Python\Packages\123\函数整理_matplotlib.docx"
 
 
 def get_article_meta(article_path: str) -> (str, str, str):
     title = os.path.basename(article_path).split(".")[0]
-    information_part = article_path.split("Knowledge\\")[1]
-    # e.g.information_part = 'lang_Python\\Packages\\函数整理_matplotlib.docx'
-    category = information_part.split("\\")[0]
+    print(article_path)
+    information_part = article_path.split("Knowledge/")[1]
+    # e.g.information_part = 'lang_Python/Packages/函数整理_matplotlib.docx'
+    category = information_part.split("/")[0]
     tag_list = []
-    for tag in information_part.split("\\")[1:-1]:
+    for tag in information_part.split("/")[1:-1]:
         tag_list.append(tag)
     return category, tag_list, title
 
-
-print(get_article_meta(test_str))
 
 
 class Framework(tk.Tk):
@@ -68,17 +66,17 @@ class Framework(tk.Tk):
         self.select_button.grid(row=0, column=0)
         # 显示导入的内容：
         tk.Label(self, text="title").grid(row=1, column=0)
-        self.article_title_List_box = tk.Listbox(self)
+        self.article_title_List_box = tk.Listbox(self, width=40)
         self.article_title_List_box.grid(row=2, column=0)
         tk.Label(self, text="category").grid(row=1, column=1)
-        self.article_category_List_box = tk.Listbox(self)
+        self.article_category_List_box = tk.Listbox(self, width=15)
         self.article_category_List_box.grid(row=2, column=1)
         tk.Label(self, text="tags").grid(row=1, column=2)
         self.article_tags_List_box = tk.Listbox(self)
         self.article_tags_List_box.grid(row=2, column=2)
         # 显示执行结果
         tk.Label(self, text="result").grid(row=1, column=3)
-        self.result_list_box = tk.Listbox(self)
+        self.result_list_box = tk.Listbox(self, width=25)
         self.result_list_box.grid(row=2, column=3)
 
         self.convert_to_html_button = tk.Button(self, text="convert to html", command=self.convert_to_html_callback)
@@ -94,6 +92,7 @@ class Framework(tk.Tk):
         self.all_in_one_button.grid(row=3, columnspan=3)
 
     def select_button_callback(self):
+        self.__clear_information()
         folder = os.path.exists("cache")
         if not folder:
             os.makedirs("cache")
@@ -105,16 +104,20 @@ class Framework(tk.Tk):
             article.category, article.tags, article.title = get_article_meta(file_path)
             article.original_path = file_path
             extension = os.path.splitext(file_path)[1]
+            self.article_title_List_box.insert('end', article.title)
+            self.article_category_List_box.insert('end', article.category)
+            self.article_tags_List_box.insert('end', article.tags)
             if extension == ".docx":
                 article.doc_type = ".docx"
                 self.article_list.append(article)
-                self.result_list_box.insert("added docx file")
+                self.__add_information("added docx file")
             elif extension == ".md":
                 article.doc_type = ".md"
                 self.article_list.append(article)
-                self.result_list_box.insert("added markdown file")
+                self.__add_information("added markdown file")
 
     def convert_to_html_callback(self):
+        self.__clear_information()
         word = win32com.client.Dispatch('Word.Application')
         for article in self.article_list:
             if article.doc_type == ".docx":
@@ -128,6 +131,7 @@ class Framework(tk.Tk):
                 doc.SaveAs(save_path, FileFormat=8)
                 doc.Close()
                 reformat_docx_html(save_path)
+                self.__add_information("convert docx to html, done!")
             elif article.doc_type == ".md":
                 md_path = article.original_path
                 file_name = os.path.basename(md_path).split(".")[0]
@@ -151,8 +155,10 @@ class Framework(tk.Tk):
                 article.html_path = save_path
                 html_file = open(save_path, "w", encoding="utf-8")
                 html_file.write(final_html)
+                self.__add_information("convert md to html, done!")
 
     def upload_callback(self):
+        self.__clear_information()
         client = MongoClient(
             "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
             "&appname=MongoDB%20Compass&ssl=false")
@@ -192,12 +198,17 @@ class Framework(tk.Tk):
                 "editTime": datetime.utcnow(),
             }
             print("uploading", article["title"])
+            self.__add_information("uploading done!")
             article_collection = client.blog.article
             article_collection.insert_one(article)
             print("done!")
 
     def clear_callback(self):
         self.article_list = []
+        self.__clear_information()
+        self.article_title_List_box.delete(0, 'end')
+        self.article_category_List_box.delete(0, 'end')
+        self.article_tags_List_box.delete(0, 'end')
         shutil.rmtree("cache")
         print("All clear!")
 
@@ -207,6 +218,13 @@ class Framework(tk.Tk):
         self.upload_callback()
         self.clear_callback()
 
-# window = Framework()
-# window.title("主窗口名称")
-# window.mainloop()
+    def __clear_information(self):
+        self.result_list_box.delete(0, 'end')
+
+    def __add_information(self, information: str):
+        self.result_list_box.insert('end', information)
+
+
+window = Framework()
+window.title("主窗口名称")
+window.mainloop()
