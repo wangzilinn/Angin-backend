@@ -21,6 +21,10 @@ class Article:
     tags = []
 
 
+def find_image_tags(html: str):
+    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".*\" ", html)))  # 正则表达式最后有个空格
+
+
 def upload_image(image_path: str, mongo_client) -> str:
     image_collection = mongo_client.file.img
     image_bytes = bytearray(open(image_path, "rb").read())
@@ -39,8 +43,6 @@ def upload_image(image_path: str, mongo_client) -> str:
     return result.inserted_id
 
 
-
-
 def get_article_meta(article_path: str) -> (str, str, str):
     title = os.path.basename(article_path).split(".")[0]
     print(article_path)
@@ -52,6 +54,18 @@ def get_article_meta(article_path: str) -> (str, str, str):
         tag_list.append(tag)
     return category, tag_list, title
 
+
+def delete_article_if_exist(title: str, mongo_client):
+    db_article = mongo_client.blog.article.find_one_and_delete({"title": title})
+    if db_article is None:
+        return False
+    print("find same title, delete the old one")
+    content = db_article["content"]
+    for src in find_image_tags(content):
+        image_id = src.split("/")[-1][:-1]  # 第二个:-1是为了去掉冒号
+        print("deleting image: " + image_id)
+        mongo_client.file.img.delete_one({"_id": image_id})
+    return True
 
 
 class Framework(tk.Tk):
@@ -167,7 +181,8 @@ class Framework(tk.Tk):
             print("processing：", article.title)
             html_path = article.html_path
             article_html = open(html_path, "r", encoding='utf-8').read()  # notice:gb2312
-            img_tags = re.findall(r"src=\".*\" ", article_html)
+            # notice: r"src=\".*\" " 最后有个空格
+            img_tags = find_image_tags(article_html)
             print("extract %d image(s)" % (len(img_tags)))
             # replace <v:imagedata.../> to <img/>
             article_html = article_html.replace("v:imagedata", "img")
@@ -225,6 +240,11 @@ class Framework(tk.Tk):
         self.result_list_box.insert('end', information)
 
 
-window = Framework()
-window.title("主窗口名称")
-window.mainloop()
+# window = Framework()
+# window.title("主窗口名称")
+# window.mainloop()
+
+client = MongoClient(
+    "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
+    "&appname=MongoDB%20Compass&ssl=false")
+delete_article_if_exist("配  置 Spring Boot使用AOP", client.blog.article)
