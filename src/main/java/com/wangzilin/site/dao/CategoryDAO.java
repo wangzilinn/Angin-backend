@@ -73,7 +73,7 @@ public class CategoryDAO {
         if (queryPage != null) {
             Query query = new Query();
             //这里减一是因为请求时第一个页面是1而mongodb内部第一个页面是0
-            final Pageable pageableRequest = PageRequest.of(queryPage.getPage() - 1, queryPage.getLimit());
+            final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
             query.with(pageableRequest);
             List<Category> result = mongoTemplateForBlog.find(query, Category.class, CATEGORY_COLLECTION);
             log.info(result.toString());

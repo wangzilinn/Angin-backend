@@ -75,7 +75,7 @@ public class ArticleDAO {
 
     public List<Article> findAll(QueryPage queryPage) {
         //这里减一是因为请求时第一个页面是1而mongodb内部第一个页面是0
-        final Pageable pageableRequest = PageRequest.of(queryPage.getPage() - 1, queryPage.getLimit());
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
         //创建查询对
         Query query = new Query();
         query.with(pageableRequest);
@@ -84,12 +84,35 @@ public class ArticleDAO {
     }
 
     public List<Article> findByTitle(String title, QueryPage queryPage) {
-        final Pageable pageableRequest = PageRequest.of(queryPage.getPage(), queryPage.getLimit());
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
         //创建查询对象
         title = String.format("^.*%s.*$", title);
         Query query = new Query(Criteria.where("title").regex(title));
         query.with(pageableRequest);
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
+    }
+
+    public List<Article> findByCategoryName(String categoryName, QueryPage queryPage) {
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.find(new Query(Criteria.where("categoryName").is(categoryName)).with(pageableRequest), Article.class,
+                ARTICLE_COLLECTION);
+    }
+
+    public long countByCategoryName(String categoryName) {
+        return mongoTemplateForBlog.count(new Query(Criteria.where("categoryName").is(categoryName)), Article.class,
+                ARTICLE_COLLECTION);
+    }
+
+
+    public List<Article> findByTagName(String tagName, QueryPage queryPage) {
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.find(new Query(Criteria.where("tagNames").is(tagName)).with(pageableRequest),
+                Article.class, ARTICLE_COLLECTION);
+    }
+
+    public long countByTagName(String tagName) {
+        return mongoTemplateForBlog.count(new Query(Criteria.where("tagNames").is(tagName)), Article.class,
+                ARTICLE_COLLECTION);
     }
 
 

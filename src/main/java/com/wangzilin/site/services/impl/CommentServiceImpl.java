@@ -33,7 +33,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Response.Page<Comment> list(QueryPage queryPage) {
-        IPage<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
+        IPage<Comment> page = new Page<>(queryPage.getPageForMongoDB(), queryPage.getLimit());
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
@@ -54,7 +54,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Response.Page<Comment> listAbout(QueryPage queryPage) {
-        IPage<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
+        IPage<Comment> page = new Page<>(queryPage.getPageForMongoDB(), queryPage.getLimit());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, null);
         IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
@@ -76,7 +76,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Response.Page<Comment> listByArticleId(QueryPage queryPage, String id) {
-        Page<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
+        Page<Comment> page = new Page<>(queryPage.getPageForMongoDB(), queryPage.getLimit());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getArticleId, id);
         queryWrapper.orderByDesc(Comment::getId);

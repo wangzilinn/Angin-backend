@@ -33,4 +33,9 @@ public class QueryPage implements Serializable {
     @NotNull
     @Min(1)
     private int limit;
+
+    public int getPageForMongoDB() {
+        //这个方法只会被mongodb用到, mongodb中,第一页是的index是0
+        return page - 1;
+    }
 }
