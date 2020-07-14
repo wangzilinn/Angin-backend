@@ -196,17 +196,26 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         @Override
-        public Response.Page<Tag> list(QueryPage queryPage) {
-            return new Response.Page<>(tagDAO.findAll(queryPage), queryPage, totalTags);
+        public Response.Page<Tag> list(QueryPage queryPage, String categoryName) {
+            if (categoryName == null)
+                return new Response.Page<>(tagDAO.findAll(queryPage), queryPage, totalTags);
+            else {
+                long numberOfTag = tagDAO.countByCategoryName(categoryName);
+                return new Response.Page<>(tagDAO.findByCategoryName(categoryName, queryPage), queryPage, numberOfTag);
+            }
         }
 
         @Override
-        public List<Tag> list() {
-            return tagDAO.findAll(null);
+        public List<Tag> list(String categoryName) {
+            if (categoryName == null) {
+                return tagDAO.findAll();
+            } else {
+                return tagDAO.findByCategoryName(categoryName);
+            }
         }
 
         @Override
-        public Tag find(String name) {
+        public List<Tag> find(String name) {
             return tagDAO.findByName(name);
         }
     }

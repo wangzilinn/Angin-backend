@@ -74,22 +74,38 @@ public class TagDAO {
 
 
     public List<Tag> findAll(QueryPage queryPage) {
-        if (queryPage != null) {
-            Query query = new Query();
-            final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
-            query.with(pageableRequest);
-            return mongoTemplateForBlog.find(query, Tag.class, TAG_COLLECTION);
-        }
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.find(new Query().with(pageableRequest), Tag.class, TAG_COLLECTION);
+    }
+
+    public List<Tag> findAll() {
         return mongoTemplateForBlog.findAll(Tag.class, TAG_COLLECTION);
+    }
+
+
+    public List<Tag> findByName(String name) {
+        Query query = new Query(Criteria.where("name").is(name));
+        return mongoTemplateForBlog.find(query, Tag.class, TAG_COLLECTION);
+    }
+
+    public long countByCategoryName(String categoryName) {
+        return mongoTemplateForBlog.count(new Query(Criteria.where("categoryName").is(categoryName)), Tag.class,
+                TAG_COLLECTION);
+    }
+
+    public List<Tag> findByCategoryName(String categoryName, QueryPage queryPage) {
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.find(new Query(Criteria.where("categoryName").is(categoryName)).with(pageableRequest), Tag.class,
+                TAG_COLLECTION);
+    }
+
+    public List<Tag> findByCategoryName(String categoryName) {
+        return mongoTemplateForBlog.find(new Query(Criteria.where("categoryName").is(categoryName)), Tag.class,
+                TAG_COLLECTION);
     }
 
     public long total() {
         Query query = new Query();
         return mongoTemplateForBlog.count(query, Tag.class, TAG_COLLECTION);
-    }
-
-    public Tag findByName(String name) {
-        Query query = new Query(Criteria.where("name").is(name));
-        return mongoTemplateForBlog.findOne(query, Tag.class, TAG_COLLECTION);
     }
 }

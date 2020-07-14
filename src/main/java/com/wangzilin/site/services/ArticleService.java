@@ -96,11 +96,11 @@ public interface ArticleService {
 
         void update(String from, String to);
 
-        Response.Page<Tag> list(QueryPage queryPage);
+        Response.Page<Tag> list(QueryPage queryPage, String categoryName);
 
-        List<Tag> list();
+        List<Tag> list(String categoryName);
 
-        Tag find(String name);
+        List<Tag> find(String name);
     }
 
 }

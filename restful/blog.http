@@ -1,11 +1,11 @@
 ###
 # 获得所有分类
-GET https://{{host}}:8443/api/article/category
+GET https://{{host}}:8443/api/article/category/list
 Authorization:{{auth}}
 
 ###
 # 获得所有tag
-GET https://{{host}}:8443/api/article/tag
+GET https://{{host}}:8443/api/article/tag/list
 Authorization: {{auth}}
 
 ###
