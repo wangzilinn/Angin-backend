@@ -181,7 +181,6 @@ class Framework(tk.Tk):
             delete_article_if_exist(article.title, client)
             html_path = article.html_path
             article_html = open(html_path, "r", encoding='utf-8').read()
-            # notice: r"src=\".*\" " 最后有个空格
             # print(article_html)
             img_tags = find_image_tags(article_html)
             print("extract %d image(s)" % (len(img_tags)))
@@ -201,7 +200,7 @@ class Framework(tk.Tk):
             if article.doc_type == ".md":
                 content_md = open(article.original_path, "r", encoding="utf-8").read()
             # upload article
-            article = {
+            db_article = {
                 "title": article.title,  # just file name, no extension
                 "author": "wangzilin",
                 "content": article_html,
@@ -213,10 +212,18 @@ class Framework(tk.Tk):
                 "createdTime": datetime.utcnow(),
                 "editTime": datetime.utcnow(),
             }
-            print("uploading", article["title"])
+            print("uploading", article.title)
             self.__add_information("uploading done!")
             article_collection = client.blog.article
-            article_collection.insert_one(article)
+            article_collection.insert_one(db_article)
+            print("uploading tag if not exist", article.tags)
+            tag_collection = client.blog.tag
+            for tag in article.tags:
+                tag_collection.update_one({"name": tag}, {"$set": {"name": tag}}, upsert=True)
+            print("uploading category if not exist", article.category)
+            category_collection = client.blog.category
+            category_collection.update_one({"name": article.category}, {"$set": {"name": article.category}},
+                                           upsert=True)
             print("done!")
 
     def clear_callback(self):

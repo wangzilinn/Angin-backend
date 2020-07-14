@@ -6,8 +6,6 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -24,11 +22,8 @@ public class Tag implements Serializable {
     @NotBlank
     private String name;
 
-    private List<String> articleId;
-
     public Tag(String name) {
         this.name = name;
-        this.articleId = new ArrayList<>();
     }
 
 }
