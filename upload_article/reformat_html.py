@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 
 def reformat_docx_html(html_path: str):
-    with open(html_path, 'r', encoding="gb2312") as file:
+    with open(html_path, 'r', encoding="gb18030") as file:
         original_file = file.read()
     os.remove(html_path)
     sp = BeautifulSoup(original_file, 'lxml')
