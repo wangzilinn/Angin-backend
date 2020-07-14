@@ -22,8 +22,6 @@ public class Tag implements Serializable {
     @NotBlank
     private String name;
 
-    public Tag(String name) {
-        this.name = name;
-    }
-
+    @NotBlank
+    private String categoryName;
 }

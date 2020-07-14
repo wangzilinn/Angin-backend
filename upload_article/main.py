@@ -219,10 +219,12 @@ class Framework(tk.Tk):
             print("uploading tag if not exist", article.tags)
             tag_collection = client.blog.tag
             for tag in article.tags:
-                tag_collection.update_one({"name": tag}, {"$set": {"name": tag}}, upsert=True)
+                tag_collection.update_one({"name": tag, "categoryName": article.category},
+                                          {"$set": {"name": tag, "categoryName": article.category}}, upsert=True)
             print("uploading category if not exist", article.category)
             category_collection = client.blog.category
-            category_collection.update_one({"name": article.category}, {"$set": {"name": article.category}},
+            category_collection.update_one({"name": article.category},
+                                           {"$set": {"name": article.category}},
                                            upsert=True)
             print("done!")
 
