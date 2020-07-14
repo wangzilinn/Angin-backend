@@ -22,7 +22,7 @@ class Article:
 
 
 def find_image_tags(html: str):
-    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".*\" ", html)))  # 正则表达式最后有个空格
+    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".*\">", html)))  # 正则表达式最后有个">"要去掉
 
 
 def upload_image(image_path: str, mongo_client) -> str:
@@ -65,7 +65,6 @@ def delete_article_if_exist(title: str, mongo_client):
         image_id = src.split("/")[-1][:-1]  # 第二个:-1是为了去掉冒号
         print("deleting image: " + image_id)
         mongo_client.file.img.delete_one({"_id": image_id})
-    return True
 
 
 class Framework(tk.Tk):
@@ -179,9 +178,11 @@ class Framework(tk.Tk):
         for article in self.article_list:
             # convert html to article
             print("processing：", article.title)
+            delete_article_if_exist(article.title, client)
             html_path = article.html_path
-            article_html = open(html_path, "r", encoding='utf-8').read()  # notice:gb2312
+            article_html = open(html_path, "r", encoding='utf-8').read()
             # notice: r"src=\".*\" " 最后有个空格
+            # print(article_html)
             img_tags = find_image_tags(article_html)
             print("extract %d image(s)" % (len(img_tags)))
             # replace <v:imagedata.../> to <img/>
@@ -240,11 +241,10 @@ class Framework(tk.Tk):
         self.result_list_box.insert('end', information)
 
 
-# window = Framework()
-# window.title("主窗口名称")
-# window.mainloop()
+window = Framework()
+window.title("主窗口名称")
+window.mainloop()
 
-client = MongoClient(
-    "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
-    "&appname=MongoDB%20Compass&ssl=false")
-delete_article_if_exist("配  置 Spring Boot使用AOP", client.blog.article)
+# client = MongoClient(
+#     "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
+#     "&appname=MongoDB%20Compass&ssl=false")
