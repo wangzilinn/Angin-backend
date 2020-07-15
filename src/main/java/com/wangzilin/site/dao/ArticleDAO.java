@@ -115,6 +115,18 @@ public class ArticleDAO {
                 ARTICLE_COLLECTION);
     }
 
+    public List<Article> findByCategoryNameAndTagName(String categoryName, String tagName, QueryPage queryPage) {
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.find(new Query(Criteria.where("tagNames").is(tagName)
+                .and("categoryName").is(categoryName)).with(pageableRequest), Article.class, ARTICLE_COLLECTION);
+    }
+
+    public long countByCategoryNameAndTagName(String categoryName, String tagName, QueryPage queryPage) {
+        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        return mongoTemplateForBlog.count(new Query(Criteria.where("tagNames").is(tagName)
+                .and("categoryName").is(categoryName)).with(pageableRequest), Article.class, ARTICLE_COLLECTION);
+    }
+
 
     public Article findById(String id) {
         Query query = new Query(Criteria.where("_id").is(id));

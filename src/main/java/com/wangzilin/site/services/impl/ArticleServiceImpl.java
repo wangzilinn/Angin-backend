@@ -76,6 +76,14 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDAO.findById(id);
     }
 
+    @Override
+    public Response.Page<Article.Abstract> listArticleAbstractByCategoryAndTag(String category, String tag,
+                                                                               QueryPage queryPage) {
+        long numberOfArticles = articleDAO.countByCategoryNameAndTagName(category, tag, queryPage);
+        List<Article> articleList = articleDAO.findByCategoryNameAndTagName(category, tag, queryPage);
+        return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, numberOfArticles);
+    }
+
 
     /**
      * 分页列出文章

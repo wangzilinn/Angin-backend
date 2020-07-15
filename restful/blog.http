@@ -9,6 +9,11 @@ GET https://{{host}}:8443/api/article/tag/list
 Authorization: {{auth}}
 
 ###
+# 获得指定分类下的tag
+GET https://{{host}}:8443/api/article/tag/list?categoryName=lang_Java
+Authorization: {{auth}}
+
+###
 # 上传新文章
 POST https://{{host}}:8443/api/article
 Content-Type: application/json

@@ -75,6 +75,9 @@ public interface ArticleService {
 
     Article findArticle(String id);
 
+    Response.Page<Article.Abstract> listArticleAbstractByCategoryAndTag(String category, String tag,
+                                                                        QueryPage queryPage);
+
     interface CategoryService {
         void add(Category category);
 

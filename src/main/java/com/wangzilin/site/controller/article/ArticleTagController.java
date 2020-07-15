@@ -56,10 +56,10 @@ public class ArticleTagController {
     @GetMapping("/list")
     public Response<?> list(@RequestParam(value = "page", required = false) Integer page,
                             @RequestParam(value = "limit", required = false) Integer limit,
-                            @RequestParam(value = "categoryName", required = false) String categoryName) {
+                            @RequestParam(value = "category", required = false) String category) {
         if (page == null) {
-            return new Response<>(tagService.list(categoryName));
+            return new Response<>(tagService.list(category));
         }
-        return new Response<>(tagService.list(new QueryPage(page, limit), categoryName));
+        return new Response<>(tagService.list(new QueryPage(page, limit), category));
     }
 }

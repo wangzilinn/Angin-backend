@@ -118,6 +118,9 @@ public class ArticleController {
         if (title != null) {
             return new Response<>(articleService.listArticleAbstractByTitle(title, queryPage));
         }
+        if (tag != null && category != null) {
+            return new Response<>(articleService.listArticleAbstractByCategoryAndTag(category, tag, queryPage));
+        }
         if (category != null) {
             return new Response<>(articleService.listArticleAbstractByCategory(category, queryPage));
         }
