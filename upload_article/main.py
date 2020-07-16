@@ -58,8 +58,9 @@ def get_article_meta(article_path: str) -> (str, str, str):
     return category, tag_list, title
 
 
-def delete_article_if_exist(title: str, category: str, mongo_client):
-    db_article = mongo_client.blog.article.find_one_and_delete({"title": title, "categoryName": category})
+def delete_article_if_exist(title: str, category: str, tags, mongo_client):
+    db_article = mongo_client.blog.article.find_one_and_delete(
+        {"title": title, "categoryName": category, "tagNames": tags})
     if db_article is None:
         return False
     print("find same title, delete the old one")
@@ -198,7 +199,7 @@ class Framework(tk.Tk):
             try:
                 # convert html to article
                 print("processing：", article.title)
-                delete_article_if_exist(article.title, article.category, client)
+                delete_article_if_exist(article.title, article.category, article.tags, client)
                 html_path = article.html_path
                 article_html = open(html_path, "r", encoding='utf-8').read()
                 img_tags = find_image_tags(article_html)
