@@ -22,7 +22,7 @@ class Article:
 
 
 def find_image_tags(html: str):
-    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".*\">", html)))  # 正则表达式最后有个">"要去掉
+    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".{24}\">", html)))  # 正则表达式最后有个">"要去掉
 
 
 def upload_image(image_path: str, mongo_client) -> str:
@@ -55,8 +55,8 @@ def get_article_meta(article_path: str) -> (str, str, str):
     return category, tag_list, title
 
 
-def delete_article_if_exist(title: str, mongo_client):
-    db_article = mongo_client.blog.article.find_one_and_delete({"title": title})
+def delete_article_if_exist(title: str, category: str, mongo_client):
+    db_article = mongo_client.blog.article.find_one_and_delete({"title": title, "categoryName": category})
     if db_article is None:
         return False
     print("find same title, delete the old one")
@@ -75,8 +75,10 @@ class Framework(tk.Tk):
         self.__place_widgets()
 
     def __place_widgets(self):
-        self.select_button = tk.Button(self, text="select files", command=self.select_button_callback)
-        self.select_button.grid(row=0, column=0)
+        self.select_file_button = tk.Button(self, text="select files", command=self.select_file_button_callback)
+        self.select_file_button.grid(row=0, column=0)
+        self.select_dict_button = tk.Button(self, text="select directory", command=self.select_dict_button_callback)
+        self.select_dict_button.grid(row=0, column=1)
         # 显示导入的内容：
         tk.Label(self, text="title").grid(row=1, column=0)
         self.article_title_List_box = tk.Listbox(self, width=40)
@@ -104,12 +106,11 @@ class Framework(tk.Tk):
         self.all_in_one_button = tk.Button(self, text="All in one", command=self.all_in_one_callback)
         self.all_in_one_button.grid(row=3, columnspan=3)
 
-    def select_button_callback(self):
+    def add_file(self, file_path_list):
         self.__clear_information()
         folder = os.path.exists("cache")
         if not folder:
             os.makedirs("cache")
-        file_path_list = askopenfilenames()
         for file_path in file_path_list:
             if not os.path.isfile(file_path):  # exclude shortcuts
                 continue
@@ -128,6 +129,21 @@ class Framework(tk.Tk):
                 article.doc_type = ".md"
                 self.article_list.append(article)
                 self.__add_information("added markdown file")
+
+    def select_dict_button_callback(self):
+        path_str = askdirectory()
+        L = []
+        for root, dirs, files in os.walk(path_str):
+            for file in files:
+                extern = os.path.splitext(file)[1]
+                if extern == '.docx' or extern == ".md":
+                    L.append(os.path.join(root, file))
+        self.add_file(L)
+
+    def select_file_button_callback(self):
+        file_path_list = askopenfilenames()
+        # print(file_path_list)
+        self.add_file(file_path_list)
 
     def convert_to_html_callback(self):
         self.__clear_information()
@@ -176,57 +192,61 @@ class Framework(tk.Tk):
             "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
             "&appname=MongoDB%20Compass&ssl=false")
         for article in self.article_list:
-            # convert html to article
-            print("processing：", article.title)
-            delete_article_if_exist(article.title, client)
-            html_path = article.html_path
-            article_html = open(html_path, "r", encoding='utf-8').read()
-            # print(article_html)
-            img_tags = find_image_tags(article_html)
-            print("extract %d image(s)" % (len(img_tags)))
-            # replace <v:imagedata.../> to <img/>
-            article_html = article_html.replace("v:imagedata", "img")
-            cover_id = ''  # article's cover
-            for img_tag in img_tags:
-                img_local_url = img_tag.split("\"")[1]
-                img_local_path = "cache\\" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
-                # upload to mongodb
-                img_id = upload_image(img_local_path, client)
-                cover_id = str(img_id)
-                img_url = "https://zilinn.wang:8443/api/img/" + cover_id
-                article_html = article_html.replace(img_local_url, img_url)
-            # get original text (just for md):
-            content_md = ''
-            if article.doc_type == ".md":
-                content_md = open(article.original_path, "r", encoding="utf-8").read()
-            # upload article
-            db_article = {
-                "title": article.title,  # just file name, no extension
-                "author": "wangzilin",
-                "content": article_html,
-                "content_md": content_md,
-                "categoryName": article.category,
-                "tagNames": article.tags,
-                "state": "release",
-                "cover": cover_id,
-                "createdTime": datetime.utcnow(),
-                "editTime": datetime.utcnow(),
-            }
-            print("uploading", article.title)
-            self.__add_information("uploading done!")
-            article_collection = client.blog.article
-            article_collection.insert_one(db_article)
-            print("uploading tag if not exist", article.tags)
-            tag_collection = client.blog.tag
-            for tag in article.tags:
-                tag_collection.update_one({"name": tag, "categoryName": article.category},
-                                          {"$set": {"name": tag, "categoryName": article.category}}, upsert=True)
-            print("uploading category if not exist", article.category)
-            category_collection = client.blog.category
-            category_collection.update_one({"name": article.category},
-                                           {"$set": {"name": article.category}},
-                                           upsert=True)
-            print("done!")
+            try:
+                # convert html to article
+                print("processing：", article.title)
+                delete_article_if_exist(article.title, article.category, client)
+                html_path = article.html_path
+                article_html = open(html_path, "r", encoding='utf-8').read()
+                # print(article_html)
+                img_tags = find_image_tags(article_html)
+                print("extract %d image(s)" % (len(img_tags)))
+                # replace <v:imagedata.../> to <img/>
+                article_html = article_html.replace("v:imagedata", "img")
+                cover_id = ''  # article's cover
+                for img_tag in img_tags:
+                    img_local_url = img_tag.split("\"")[1]
+                    img_local_path = "cache\\" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
+                    # upload to mongodb
+                    img_id = upload_image(img_local_path, client)
+                    cover_id = str(img_id)
+                    img_url = "https://zilinn.wang:8443/api/img/" + cover_id
+                    article_html = article_html.replace(img_local_url, img_url)
+                # get original text (just for md):
+                content_md = ''
+                if article.doc_type == ".md":
+                    content_md = open(article.original_path, "r", encoding="utf-8").read()
+                # upload article
+                db_article = {
+                    "title": article.title,  # just file name, no extension
+                    "author": "wangzilin",
+                    "content": article_html,
+                    "content_md": content_md,
+                    "categoryName": article.category,
+                    "tagNames": article.tags,
+                    "state": "release",
+                    "cover": cover_id,
+                    "createdTime": datetime.utcnow(),
+                    "editTime": datetime.utcnow(),
+                }
+                print("uploading", article.title)
+                self.__add_information("uploading done!")
+                article_collection = client.blog.article
+                article_collection.insert_one(db_article)
+                print("uploading tag if not exist", article.tags)
+                tag_collection = client.blog.tag
+                for tag in article.tags:
+                    tag_collection.update_one({"name": tag, "categoryName": article.category},
+                                              {"$set": {"name": tag, "categoryName": article.category}}, upsert=True)
+                print("uploading category if not exist", article.category)
+                category_collection = client.blog.category
+                category_collection.update_one({"name": article.category},
+                                               {"$set": {"name": article.category}},
+                                               upsert=True)
+                print("done!")
+            except Exception as ex:
+                print(ex)
+                continue
 
     def clear_callback(self):
         self.article_list = []
@@ -238,7 +258,7 @@ class Framework(tk.Tk):
         print("All clear!")
 
     def all_in_one_callback(self):
-        self.select_button_callback()
+        self.select_file_button_callback()
         self.convert_to_html_callback()
         self.upload_callback()
         self.clear_callback()
