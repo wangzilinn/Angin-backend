@@ -4,6 +4,7 @@ from tkinter.filedialog import *  # 如果已经导入了所有tkinter也要再�
 import markdown2
 import shutil
 import win32com.client
+from bs4 import BeautifulSoup
 from bson import Binary
 from datetime import datetime
 from pymongo import MongoClient
@@ -22,7 +23,9 @@ class Article:
 
 
 def find_image_tags(html: str):
-    return list(map(lambda raw: raw[:-1], re.findall(r"src=\".{24}\">", html)))  # 正则表达式最后有个">"要去掉
+    soup = BeautifulSoup(html, 'lxml')
+    img_tags = soup.find_all("img")
+    return list(map(lambda tag: tag.attrs['src'], img_tags))  # 正则表达式最后有个">"要去掉
 
 
 def upload_image(image_path: str, mongo_client) -> str:
@@ -62,7 +65,7 @@ def delete_article_if_exist(title: str, category: str, mongo_client):
     print("find same title, delete the old one")
     content = db_article["content"]
     for src in find_image_tags(content):
-        image_id = src.split("/")[-1][:-1]  # 第二个:-1是为了去掉冒号
+        image_id = src.split("/")[-1]
         print("deleting image: " + image_id)
         mongo_client.file.img.delete_one({"_id": image_id})
 
@@ -198,14 +201,12 @@ class Framework(tk.Tk):
                 delete_article_if_exist(article.title, article.category, client)
                 html_path = article.html_path
                 article_html = open(html_path, "r", encoding='utf-8').read()
-                # print(article_html)
                 img_tags = find_image_tags(article_html)
                 print("extract %d image(s)" % (len(img_tags)))
                 # replace <v:imagedata.../> to <img/>
-                article_html = article_html.replace("v:imagedata", "img")
                 cover_id = ''  # article's cover
                 for img_tag in img_tags:
-                    img_local_url = img_tag.split("\"")[1]
+                    img_local_url = img_tag
                     img_local_path = "cache\\" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
                     # upload to mongodb
                     img_id = upload_image(img_local_path, client)

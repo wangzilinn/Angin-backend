@@ -14,6 +14,8 @@ def reformat_docx_html(html_path: str):
             new_tag = sp.new_tag(clear_tag)
             new_tag.string = tag.get_text()
             tag.replace_with(new_tag)
+    # 修改图片标签v:imagedata为img
+    html = str(sp).replace("v:imagedata", "img")
     with open(html_path, 'w', encoding="utf-8") as fp:
         # write the current soup content
-        fp.write(str(sp))
+        fp.write(html)
