@@ -145,6 +145,9 @@ class Framework(tk.Tk):
         L = []
         for root, dirs, files in os.walk(path_str):
             for file in files:
+                # 预防临时文件
+                if file.startswith("~"):
+                    continue
                 extern = os.path.splitext(file)[1]
                 if extern == '.docx' or extern == ".md":
                     full_path = os.path.join(root, file).replace("\\", "/")
