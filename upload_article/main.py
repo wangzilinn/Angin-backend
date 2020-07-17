@@ -83,20 +83,27 @@ class Framework(tk.Tk):
         self.select_file_button.grid(row=0, column=0)
         self.select_dict_button = tk.Button(self, text="select directory", command=self.select_dict_button_callback)
         self.select_dict_button.grid(row=0, column=1)
+        # 滚动条
+        self.scroll = tk.Scrollbar(self, orient="vertical", command=self.scroll_callback)
+        self.scroll.grid(row=2, column=4, sticky=N + S)
         # 显示导入的内容：
         tk.Label(self, text="title").grid(row=1, column=0)
-        self.article_title_List_box = tk.Listbox(self, width=40)
+        self.article_title_List_box = tk.Listbox(self, width=40, yscrollcommand=self.scroll.set)
         self.article_title_List_box.grid(row=2, column=0)
+        self.article_title_List_box.bind("<MouseWheel>", self.mouse_wheel_callback)
         tk.Label(self, text="category").grid(row=1, column=1)
-        self.article_category_List_box = tk.Listbox(self, width=15)
+        self.article_category_List_box = tk.Listbox(self, width=15, yscrollcommand=self.scroll.set)
         self.article_category_List_box.grid(row=2, column=1)
+        self.article_category_List_box.bind("<MouseWheel>", self.mouse_wheel_callback)
         tk.Label(self, text="tags").grid(row=1, column=2)
-        self.article_tags_List_box = tk.Listbox(self)
+        self.article_tags_List_box = tk.Listbox(self, yscrollcommand=self.scroll.set)
         self.article_tags_List_box.grid(row=2, column=2)
+        self.article_tags_List_box.bind("<MouseWheel>", self.mouse_wheel_callback)
         # 显示执行结果
         tk.Label(self, text="result").grid(row=1, column=3)
         self.result_list_box = tk.Listbox(self, width=25)
         self.result_list_box.grid(row=2, column=3)
+        self.result_list_box.bind("<MouseWheel>", self.mouse_wheel_callback)
 
         self.convert_to_html_button = tk.Button(self, text="convert to html", command=self.convert_to_html_callback)
         self.convert_to_html_button.grid(row=3, column=0)
@@ -112,10 +119,26 @@ class Framework(tk.Tk):
         self.all_in_one_button.grid(row=3, column=3)
 
         self.clear_selection_button = tk.Button(self, text="clear selection", command=self.clear_selection_callback)
-        self.clear_selection_button.grid(row=2, column=4)
+        self.clear_selection_button.grid(row=2, column=5)
 
         self.clear_all_button = tk.Button(self, text="clear all", command=self.clear_callback)
         self.clear_all_button.grid(row=3, column=4)
+
+    def mouse_wheel_callback(self, event):
+        # 还是不怎么管用
+        self.article_title_List_box.yview("scroll", event.delta, "units")
+        self.article_category_List_box.yview("scroll", event.delta, "units")
+        self.article_tags_List_box.yview("scroll", event.delta, "units")
+        self.result_list_box.yview("scroll", event.delta, "units")
+        # this prevents default bindings from firing, which
+        # would end up scrolling the widget twice
+        return "break"
+
+    def scroll_callback(self, *args):
+        self.article_title_List_box.yview(*args)
+        self.article_category_List_box.yview(*args)
+        self.article_tags_List_box.yview(*args)
+        self.result_list_box.yview(*args)
 
     def add_file(self, file_path_list):
         folder = os.path.exists("cache")
