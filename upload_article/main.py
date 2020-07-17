@@ -5,7 +5,7 @@ import markdown2
 import shutil
 import win32com.client
 from bs4 import BeautifulSoup
-from bson import Binary
+from bson import Binary, ObjectId
 from datetime import datetime
 from pymongo import MongoClient
 from urllib.parse import unquote
@@ -14,7 +14,7 @@ from reformat_html import reformat_docx_html
 
 
 class Article:
-    doc_type = ''
+    file_type = ''
     original_path = ''
     html_path = ''
     title = ''
@@ -68,7 +68,7 @@ def delete_article_if_exist(title: str, category: str, tags, mongo_client):
     for src in find_image_tags(content):
         image_id = src.split("/")[-1]
         print("deleting image: " + image_id)
-        mongo_client.file.img.delete_one({"_id": image_id})
+        mongo_client.file.img.delete_one({"_id": ObjectId(image_id)})
 
 
 class Framework(tk.Tk):
@@ -104,14 +104,20 @@ class Framework(tk.Tk):
         self.upload_button = tk.Button(self, text="upload", command=self.upload_callback)
         self.upload_button.grid(row=3, column=1)
 
-        self.clear_button = tk.Button(self, text="clear", command=self.clear_callback)
-        self.clear_button.grid(row=3, column=2)
+        self.convert_and_upload_button = tk.Button(self, text="convert_and_upload",
+                                                   command=self.convert_and_upload_callback)
+        self.convert_and_upload_button.grid(row=3, column=2)
 
         self.all_in_one_button = tk.Button(self, text="All in one", command=self.all_in_one_callback)
-        self.all_in_one_button.grid(row=3, columnspan=3)
+        self.all_in_one_button.grid(row=3, column=3)
+
+        self.clear_selection_button = tk.Button(self, text="clear selection", command=self.clear_selection_callback)
+        self.clear_selection_button.grid(row=2, column=4)
+
+        self.clear_all_button = tk.Button(self, text="clear all", command=self.clear_callback)
+        self.clear_all_button.grid(row=3, column=4)
 
     def add_file(self, file_path_list):
-        self.__clear_information()
         folder = os.path.exists("cache")
         if not folder:
             os.makedirs("cache")
@@ -126,11 +132,11 @@ class Framework(tk.Tk):
             self.article_category_List_box.insert('end', article.category)
             self.article_tags_List_box.insert('end', article.tags)
             if extension == ".docx":
-                article.doc_type = ".docx"
+                article.file_type = ".docx"
                 self.article_list.append(article)
                 self.__add_information("added docx file")
             elif extension == ".md":
-                article.doc_type = ".md"
+                article.file_type = ".md"
                 self.article_list.append(article)
                 self.__add_information("added markdown file")
 
@@ -153,7 +159,7 @@ class Framework(tk.Tk):
         self.__clear_information()
         word = win32com.client.Dispatch('Word.Application')
         for article in self.article_list:
-            if article.doc_type == ".docx":
+            if article.file_type == ".docx":
                 docx_path = article.original_path
                 doc = word.Documents.Add(docx_path)
                 file_name = os.path.basename(docx_path).split(".")[0]
@@ -165,7 +171,7 @@ class Framework(tk.Tk):
                 doc.Close()
                 reformat_docx_html(save_path)
                 self.__add_information("convert docx to html, done!")
-            elif article.doc_type == ".md":
+            elif article.file_type == ".md":
                 md_path = article.original_path
                 file_name = os.path.basename(md_path).split(".")[0]
                 print("converting <", file_name, ">.md to html")
@@ -216,7 +222,7 @@ class Framework(tk.Tk):
                     article_html = article_html.replace(img_local_url, img_url)
                 # get original text (just for md):
                 content_md = ''
-                if article.doc_type == ".md":
+                if article.file_type == ".md":
                     content_md = open(article.original_path, "r", encoding="utf-8").read()
                 # upload article
                 db_article = {
@@ -250,6 +256,24 @@ class Framework(tk.Tk):
                 print(ex)
                 continue
 
+    def convert_and_upload_callback(self):
+        self.convert_to_html_callback()
+        self.upload_callback()
+        self.clear_callback()
+
+    def all_in_one_callback(self):
+        self.select_file_button_callback()
+        self.convert_and_upload_callback()
+
+    def clear_selection_callback(self):
+        # return index:
+        current_selection = self.article_title_List_box.curselection()[0]
+        del (self.article_list[current_selection])
+        self.article_title_List_box.delete(current_selection)
+        self.article_tags_List_box.delete(current_selection)
+        self.article_category_List_box.delete(current_selection)
+        self.result_list_box.delete(current_selection)
+
     def clear_callback(self):
         self.article_list = []
         self.__clear_information()
@@ -258,12 +282,6 @@ class Framework(tk.Tk):
         self.article_tags_List_box.delete(0, 'end')
         shutil.rmtree("cache")
         print("All clear!")
-
-    def all_in_one_callback(self):
-        self.select_file_button_callback()
-        self.convert_to_html_callback()
-        self.upload_callback()
-        self.clear_callback()
 
     def __clear_information(self):
         self.result_list_box.delete(0, 'end')
