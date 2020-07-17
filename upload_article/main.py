@@ -147,12 +147,13 @@ class Framework(tk.Tk):
             for file in files:
                 extern = os.path.splitext(file)[1]
                 if extern == '.docx' or extern == ".md":
-                    L.append(os.path.join(root, file))
+                    full_path = os.path.join(root, file).replace("\\", "/")
+                    L.append(full_path)
         self.add_file(L)
+        pass
 
     def select_file_button_callback(self):
         file_path_list = askopenfilenames()
-        # print(file_path_list)
         self.add_file(file_path_list)
 
     def convert_to_html_callback(self):
