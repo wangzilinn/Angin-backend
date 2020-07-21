@@ -1,6 +1,7 @@
 package com.wangzilin.site.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.code.kaptcha.Constants;
 import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.exception.UserException;
 import com.wangzilin.site.model.DTO.Response;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -65,8 +67,14 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signUp")
-    public Response<?> SignUp(@Valid @NotNull @RequestBody SimpleUserInfoRequest simpleUserInfoRequest) throws AuthenticationException {
-        userService.add(new User(simpleUserInfoRequest.getUsername(), simpleUserInfoRequest.getPassword()));
+    public Response<?> SignUp(HttpServletRequest request, @RequestParam(value = "kaptcha") String kaptcha,
+                              @Valid @NotNull @RequestBody SimpleUserInfoRequest simpleUserInfoRequest) throws AuthenticationException {
+        String captchaText = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        if (kaptcha.equals(captchaText)) {
+            userService.add(new User(simpleUserInfoRequest.getUsername(), simpleUserInfoRequest.getPassword()));
+        } else {
+            throw new UserException(400, "验证码错误");
+        }
         return new Response<>();
     }
 

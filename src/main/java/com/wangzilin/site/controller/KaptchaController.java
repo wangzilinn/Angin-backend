@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
@@ -30,7 +31,7 @@ public class KaptchaController {
         this.captchaProducer = captchaProducer;
     }
 
-    @RequestMapping()
+    @GetMapping
     public void getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         response.setDateHeader("Expires", 0);
@@ -49,4 +50,5 @@ public class KaptchaController {
             out.flush();
         }
     }
+
 }
