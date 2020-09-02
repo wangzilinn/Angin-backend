@@ -40,7 +40,6 @@ public class ImageController {
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    @ResponseBody
     public byte[] getImage(@PathVariable String id) {
         Image image = fileService.findImage(id);
         if (image != null) {
@@ -50,7 +49,6 @@ public class ImageController {
     }
 
     @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    @ResponseBody
     public byte[] getRandomPainting() throws IOException {
         return fileService.getRandomCover();
     }

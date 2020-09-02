@@ -1,4 +1,6 @@
 ###
+GET https://{{host}}:8443//api/kaptcha
+
 # sign in
 POST https://{{host}}:8443/api/user/signIn
 Content-Type: application/json

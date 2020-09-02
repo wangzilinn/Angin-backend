@@ -51,6 +51,7 @@ dependencies {
     //	GSON解析
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    // 验证码
     // https://mvnrepository.com/artifact/com.github.penggle/kaptcha
     compile group: 'com.github.penggle', name: 'kaptcha', version: '2.3.2'
     //jsr303验证

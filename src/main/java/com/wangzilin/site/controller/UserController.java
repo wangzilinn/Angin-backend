@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 
@@ -67,9 +68,13 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signUp")
-    public Response<?> SignUp(HttpServletRequest request, @RequestParam(value = "kaptcha") String kaptcha,
+    public Response<?> SignUp(HttpServletRequest request,
+                              @NotBlank @RequestParam(value = "kaptcha") String kaptcha,
                               @Valid @NotNull @RequestBody SimpleUserInfoRequest simpleUserInfoRequest) throws AuthenticationException {
         String captchaText = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        if (captchaText == null) {
+            throw new UserException(400, "session中无验证码");
+        }
         if (kaptcha.equals(captchaText)) {
             userService.add(new User(simpleUserInfoRequest.getUsername(), simpleUserInfoRequest.getPassword()));
         } else {

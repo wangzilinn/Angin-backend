@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="SiteApplication" type="SpringBootApplicationConfigurationType"
+                   factoryName="Spring Boot">
+        <module name="site.main"/>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="com.wangzilin.site.SiteApplication"/>
+        <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=dev"/>
+        <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true"/>
+        <option name="ALTERNATIVE_JRE_PATH" value="11"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>
