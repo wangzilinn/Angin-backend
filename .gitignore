@@ -138,4 +138,7 @@ src/main/resources/certs
 src/main/resources/application-dev.yaml
 src/main/resources/application-prod.yaml
 
+## python venv
+*/venv
+
 # End of https://www.gitignore.io/api/java,gradle,intellij
