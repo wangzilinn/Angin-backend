@@ -527,3 +527,13 @@ blog部分中:article用id查询和comment, 其余的都直接用名字查询
 ## 备忘
 
 1. mongotemplate中分页查询,第一页是0
+
+## 上传脚本
+
+### 依赖:
+
+1. markdown2
+2. beautifulsoup4
+3. bson
+4. pymongo
+5. pypiwin32
