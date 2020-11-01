@@ -121,10 +121,9 @@ public class ArticleDAO {
                 .and("categoryName").is(categoryName)).with(pageableRequest), Article.class, ARTICLE_COLLECTION);
     }
 
-    public long countByCategoryNameAndTagName(String categoryName, String tagName, QueryPage queryPage) {
-        final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
+    public long countByCategoryNameAndTagName(String categoryName, String tagName) {
         return mongoTemplateForBlog.count(new Query(Criteria.where("tagNames").is(tagName)
-                .and("categoryName").is(categoryName)).with(pageableRequest), Article.class, ARTICLE_COLLECTION);
+                .and("categoryName").is(categoryName)), Article.class, ARTICLE_COLLECTION);
     }
 
 

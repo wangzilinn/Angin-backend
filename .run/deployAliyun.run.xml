@@ -12,6 +12,9 @@
                 <option name="sourceFilePath" value="src/main/docker/Dockerfile"/>
             </settings>
         </deployment>
-        <method v="2"/>
+        <method v="2">
+            <option name="Gradle.BeforeRunTask" enabled="true" tasks="buildDocker" externalProjectPath="$PROJECT_DIR$"
+                    vmOptions="" scriptParameters=""/>
+        </method>
     </configuration>
 </component>
