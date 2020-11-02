@@ -89,12 +89,15 @@ public class ArticleDAO {
         title = String.format("^.*%s.*$", title);
         Query query = new Query(Criteria.where("title").regex(title));
         query.with(pageableRequest);
+        query.with(Sort.by(Sort.Direction.DESC, "_id"));
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
     }
 
     public List<Article> findByCategoryName(String categoryName, QueryPage queryPage) {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
-        return mongoTemplateForBlog.find(new Query(Criteria.where("categoryName").is(categoryName)).with(pageableRequest), Article.class,
+        return mongoTemplateForBlog.find(new Query(Criteria.where("categoryName").is(categoryName))
+                        .with(pageableRequest)
+                        .with(Sort.by(Sort.Direction.DESC, "_id")), Article.class,
                 ARTICLE_COLLECTION);
     }
 
@@ -106,19 +109,21 @@ public class ArticleDAO {
 
     public List<Article> findByTagName(String tagName, QueryPage queryPage) {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
-        return mongoTemplateForBlog.find(new Query(Criteria.where("tagNames").is(tagName)).with(pageableRequest),
+        return mongoTemplateForBlog.find(new Query(Criteria.where("tagNames").is(tagName))
+                        .with(pageableRequest)
+                        .with(Sort.by(Sort.Direction.DESC, "_id")),
                 Article.class, ARTICLE_COLLECTION);
     }
 
     public long countByTagName(String tagName) {
-        return mongoTemplateForBlog.count(new Query(Criteria.where("tagNames").is(tagName)), Article.class,
+        return mongoTemplateForBlog.count(new Query(Criteria.where("tagNames").is(tagName)).with(Sort.by(Sort.Direction.DESC, "_id")), Article.class,
                 ARTICLE_COLLECTION);
     }
 
     public List<Article> findByCategoryNameAndTagName(String categoryName, String tagName, QueryPage queryPage) {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
         return mongoTemplateForBlog.find(new Query(Criteria.where("tagNames").is(tagName)
-                .and("categoryName").is(categoryName)).with(pageableRequest), Article.class, ARTICLE_COLLECTION);
+                .and("categoryName").is(categoryName)).with(pageableRequest).with(Sort.by(Sort.Direction.DESC, "_id")), Article.class, ARTICLE_COLLECTION);
     }
 
     public long countByCategoryNameAndTagName(String categoryName, String tagName) {
