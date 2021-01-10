@@ -534,6 +534,6 @@ blog部分中:article用id查询和comment, 其余的都直接用名字查询
 
 1. markdown2
 2. beautifulsoup4
-3. bson
-4. pymongo
-5. pypiwin32
+3. pymongo
+4. pypiwin32
+5. lxml

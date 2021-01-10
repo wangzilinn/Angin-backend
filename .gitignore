@@ -140,5 +140,7 @@ src/main/resources/application-prod.yaml
 
 ## python venv
 */venv
-
+## docker证书文件
+/certs/*.pem
 # End of https://www.gitignore.io/api/java,gradle,intellij
+
