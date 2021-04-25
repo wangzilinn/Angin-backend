@@ -1,7 +1,7 @@
 ###
 # 获得所有分类
 GET https://{{host}}:8443/api/article/category/list
-Authorization:{{auth}}
+#Authorization:{{auth}}
 
 ###
 # 获得所有tag
