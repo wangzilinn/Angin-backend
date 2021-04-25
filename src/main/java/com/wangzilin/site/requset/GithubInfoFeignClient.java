@@ -12,7 +12,7 @@ import java.util.Map;
  * @Date: Created in 12:37 PM 07/01/2020
  * @Modified By:wangzilinn@gmail.com
  */
-@FeignClient(name = "GithubInfoFeignClient", url = "https://github-contributions.now.sh/api/v1")
+@FeignClient(name = "GithubInfoFeignClient", url = "https://github-contributions.vercel.app/api/v1")
 public interface GithubInfoFeignClient {
 
     @GetMapping(value = "/{userName}")
