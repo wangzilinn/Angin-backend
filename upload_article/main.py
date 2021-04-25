@@ -226,7 +226,7 @@ class Framework(tk.Tk):
     def upload_callback(self):
         self.__clear_information()
         client = MongoClient(
-            "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
+            "mongodb://wangzilin:19961112w@47.97.154.231:27017/?authSource=admin&readPreference=primary"
             "&appname=MongoDB%20Compass&ssl=false")
         for article in self.article_list:
             try:
@@ -322,5 +322,5 @@ window.title("主窗口名称")
 window.mainloop()
 
 # client = MongoClient(
-#     "mongodb://wangzilin:19961112w@47.103.194.29:27017/?authSource=admin&readPreference=primary"
+#     "mongodb://wangzilin:19961112w@47.97.154.231:27017/?authSource=admin&readPreference=primary"
 #     "&appname=MongoDB%20Compass&ssl=false")
