@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    implementation("com.google.guava:guava:31.0-jre")
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-rest
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
     //Security:

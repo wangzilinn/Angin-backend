@@ -43,12 +43,6 @@ public class Response<T> implements Serializable {
         this.msg = msg;
     }
 
-    public Response(T data, String msg) {
-        super();
-        this.data = data;
-        this.msg = msg;
-    }
-
     public Response(BlogEnum blogEnum) {
         super();
         this.code = blogEnum.getCode();

@@ -2,6 +2,7 @@ package com.wangzilin.site.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.wangzilin.site.manager.CacheManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -28,9 +30,11 @@ import java.io.ByteArrayOutputStream;
 public class KaptchaController {
 
     final private Producer captchaProducer;
+    final private CacheManager cacheManager;
 
-    public KaptchaController(Producer captchaProducer) {
+    public KaptchaController(Producer captchaProducer, CacheManager cacheManager) {
         this.captchaProducer = captchaProducer;
+        this.cacheManager = cacheManager;
     }
 
     @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE})
@@ -43,10 +47,12 @@ public class KaptchaController {
         response.setHeader("Pragma", "no-cache");
         //生成验证码
         String capText = captchaProducer.createText();
-        session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
-        //向客户端写出
-        BufferedImage bi = captchaProducer.createImage(capText);
+        String capToken = captchaProducer.createText();
+        cacheManager.put(capToken, capText);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(capToken.getBytes(StandardCharsets.US_ASCII));
+        //创造验证码图片：
+        BufferedImage bi = captchaProducer.createImage(capText);
         ImageIO.write(bi, "jpg", byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }

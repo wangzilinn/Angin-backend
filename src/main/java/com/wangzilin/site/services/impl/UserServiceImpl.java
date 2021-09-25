@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangzilin.site.dao.UserMapper;
+import com.wangzilin.site.exception.UserException;
+import com.wangzilin.site.model.DTO.SimpleUserInfoRequest;
 import com.wangzilin.site.model.user.User;
 import com.wangzilin.site.requset.GithubInfoFeignClient;
 import com.wangzilin.site.services.UserService;
@@ -19,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,9 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User findByName(String username) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername, username);
-        List<User> list = userMapper.selectList(queryWrapper);
-        log.debug(list.toString());
-        return list.size() > 0 ? list.get(0) : null;
+        return userMapper.selectOne(queryWrapper);
     }
 
     /**
@@ -60,13 +59,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      *
      * @param user
      */
-    @Override
-    public void add(User user) {
+    private void add(User user) {
         //对用户密码进行加密
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
         userMapper.insert(user);
+    }
+
+    @Override
+    public void signUp(SimpleUserInfoRequest simpleUserInfoRequest) {
+        User user = findByName(simpleUserInfoRequest.getUsername());
+        if (user != null) {
+            throw new UserException(400, "当前用户已存在");
+        }
+        add(new User(simpleUserInfoRequest.getUsername(), simpleUserInfoRequest.getPassword()));
     }
 
     /**

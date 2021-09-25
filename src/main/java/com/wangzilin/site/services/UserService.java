@@ -2,6 +2,7 @@ package com.wangzilin.site.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wangzilin.site.model.DTO.SimpleUserInfoRequest;
 import com.wangzilin.site.model.user.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -23,12 +24,12 @@ public interface UserService extends IService<User>, UserDetailsService {
      */
     User findByName(String username);
 
+
     /**
-     * 新增
-     *
-     * @param user
+     * 新用户注册
+     * @param simpleUserInfoRequest 用户注册请求
      */
-    void add(User user);
+    void signUp(SimpleUserInfoRequest simpleUserInfoRequest);
 
     /**
      * 更新

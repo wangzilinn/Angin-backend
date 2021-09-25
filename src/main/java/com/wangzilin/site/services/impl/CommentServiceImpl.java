@@ -54,11 +54,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Response.Page<Comment> listAbout(QueryPage queryPage) {
-        IPage<Comment> page = new Page<>(queryPage.getPageForMongoDB(), queryPage.getLimit());
+        IPage<Comment> page = new Page<>(queryPage.getPage(), queryPage.getLimit());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Comment::getArticleId, null);
+        queryWrapper.isNull(Comment::getArticleId);
         IPage<Comment> commentIPage = commentMapper.selectPage(page, queryWrapper);
-
         List<Comment> records = commentIPage.getRecords();
         long total = commentIPage.getTotal();
 
