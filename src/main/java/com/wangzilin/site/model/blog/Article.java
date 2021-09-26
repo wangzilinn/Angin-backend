@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -83,12 +84,14 @@ public class Article implements Serializable {
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         private Date createTime;
+        private Boolean isPaintingCover;
 
 
         public Abstract(Article article) {
             this.id = article.getId();
             this.title = article.getTitle();
             this.cover = article.getCover();
+            this.isPaintingCover = StringUtils.isEmpty(this.cover);
             this.author = article.getAuthor();
             this.categoryName = article.getCategoryName();
             this.tagNames = article.getTagNames();

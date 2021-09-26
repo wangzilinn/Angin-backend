@@ -3,6 +3,7 @@ package com.wangzilin.site.controller;
 import com.wangzilin.site.annotation.WebLog;
 import com.wangzilin.site.model.DTO.Response;
 import com.wangzilin.site.model.file.Image;
+import com.wangzilin.site.model.file.Painting;
 import com.wangzilin.site.services.FileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -42,14 +43,33 @@ public class ImageController {
     @GetMapping(value = "/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public byte[] getImage(@PathVariable String id) {
         Image image = fileService.findImage(id);
-        if (image != null) {
-            return image.getContent().getData();
+        if (image == null) {
+            return null;
         }
-        return null;
+        return image.getContent().getData();
     }
 
+    @Deprecated
     @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public byte[] getRandomPainting() throws IOException {
         return fileService.getRandomCover();
     }
+
+    @GetMapping("/painting")
+    public Response<String> getRandomPaintingId() throws IOException {
+        return new Response<>(fileService.getRandomPaintingId());
+    }
+
+    @GetMapping(value = "/painting/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public byte[]  getPaintingContentById(@PathVariable String id,
+                                          @RequestParam(value = "zoom", defaultValue = "true") boolean zoom) throws IOException {
+        return fileService.getPaintingContentById(id, zoom);
+    }
+
+    @GetMapping(value = "/painting/detail/{id}")
+    public Response<Painting> getPaintingDetailById(@PathVariable String id) {
+        return new Response<>(fileService.getPaintingById(id));
+    }
+
+
 }

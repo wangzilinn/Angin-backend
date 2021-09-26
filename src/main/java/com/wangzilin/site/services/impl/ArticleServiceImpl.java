@@ -10,10 +10,12 @@ import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 import com.wangzilin.site.services.ArticleService;
 import com.wangzilin.site.services.CommentService;
+import com.wangzilin.site.services.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,10 +30,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     final private ArticleDAO articleDAO;
     final private CommentService commentService;
+    final private FileService fileService;
 
-    public ArticleServiceImpl(ArticleDAO articleDAO, CommentService commentService) {
+    public ArticleServiceImpl(ArticleDAO articleDAO, CommentService commentService, FileService fileService) {
         this.articleDAO = articleDAO;
         this.commentService = commentService;
+        this.fileService = fileService;
     }
 
 
@@ -82,6 +86,35 @@ public class ArticleServiceImpl implements ArticleService {
         long numberOfArticles = articleDAO.countByCategoryNameAndTagName(category, tag);
         List<Article> articleList = articleDAO.findByCategoryNameAndTagName(category, tag, queryPage);
         return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, numberOfArticles);
+    }
+
+    @Override
+    public Response.Page<Article.Abstract> listArticle(int page, int limit, String title, String category, String tag) {
+        QueryPage queryPage = new QueryPage(page, limit);
+        Response.Page<Article.Abstract> abstractPage;
+        if (title != null) {
+            abstractPage = listArticleAbstractByTitle(title, queryPage);
+        } else if (tag != null && category != null) {
+            abstractPage = listArticleAbstractByCategoryAndTag(category, tag, queryPage);
+        } else if (category != null) {
+            abstractPage = listArticleAbstractByCategory(category, queryPage);
+        } else if (tag != null) {
+            abstractPage = listArticleAbstractByTag(tag, queryPage);
+        } else {
+            abstractPage = listArticleAbstract(queryPage);
+        }
+        // 为没有封面的摘要加上封面
+
+        abstractPage.getElements().forEach(anAbstract -> {
+            if (anAbstract.getIsPaintingCover()) {
+                try {
+                    anAbstract.setCover(fileService.getRandomPaintingId());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return abstractPage;
     }
 
 

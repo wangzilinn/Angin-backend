@@ -2,8 +2,7 @@ package com.wangzilin.site.manager;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import lombok.NoArgsConstructor;
+import com.wangzilin.site.model.file.Painting;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,24 +14,49 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class CacheManager {
-    HashMap<String, String> map = new HashMap<>();
-    Cache<String,String> cache;
 
-    public CacheManager() {
-        cache = CacheBuilder.newBuilder()
-                .expireAfterWrite(3, TimeUnit.MINUTES)
-                .build();
+    Cache<String,String> captchaCache;
+    Cache<String, Painting> paintingCache;
+
+    HashMap<CacheType, Cache<String, ?>> cacheMap = new HashMap<>();
+
+    public enum  CacheType{
+        CAPTCHA(String.class),
+        PAINTING(Painting.class);
+
+        private final Class<?> clazz;
+
+        CacheType(Class<?> clazz) {
+            this.clazz = clazz;
+        }
+
     }
 
-    public void put(String key, String value){
+    public CacheManager() {
+        captchaCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(3, TimeUnit.MINUTES)
+                .build();
+
+        paintingCache = CacheBuilder.newBuilder()
+                .expireAfterWrite(3, TimeUnit.MINUTES)
+                .build();
+
+        cacheMap.put(CacheType.CAPTCHA, captchaCache);
+        cacheMap.put(CacheType.PAINTING, paintingCache);
+    }
+
+    public <T> void put(CacheType cacheType, String key, T value){
+        Cache<String, T> cache = (Cache<String, T>) cacheMap.get(cacheType);
         cache.put(key, value);
     }
 
-    public String get(String key){
-        return cache.getIfPresent(key);
+    public <T> T get(CacheType cacheType, String key){
+        Cache<String, ?> cache = cacheMap.get(cacheType);
+        return (T)cache.getIfPresent(key);
     }
 
-    public void remove(String key) {
+    public void remove(CacheType cacheType, String key) {
+        Cache<String, ?> cache = cacheMap.get(cacheType);
         cache.invalidate(key);
     }
 }

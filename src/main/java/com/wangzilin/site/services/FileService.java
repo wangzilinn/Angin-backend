@@ -1,6 +1,7 @@
 package com.wangzilin.site.services;
 
 import com.wangzilin.site.model.file.Image;
+import com.wangzilin.site.model.file.Painting;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,4 +23,10 @@ public interface FileService {
     void deleteImage(String id);
 
     byte[] getRandomCover() throws IOException;
+
+    String getRandomPaintingId() throws IOException;
+
+    byte[] getPaintingContentById(String id, boolean zoom) throws IOException;
+
+    Painting getPaintingById(String id);
 }

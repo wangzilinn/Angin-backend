@@ -2,6 +2,7 @@ package com.wangzilin.site.services.impl;
 
 import com.wangzilin.site.dao.ImageDAO;
 import com.wangzilin.site.dao.PaintingDAO;
+import com.wangzilin.site.manager.CacheManager;
 import com.wangzilin.site.model.file.Image;
 import com.wangzilin.site.model.file.Painting;
 import com.wangzilin.site.services.FileService;
@@ -29,10 +30,12 @@ import java.util.Date;
 public class FileServiceImpl implements FileService {
     final private ImageDAO imageDAO;
     final private PaintingDAO paintingDAO;
+    final private CacheManager cacheManager;
 
-    public FileServiceImpl(ImageDAO imageDAO, PaintingDAO paintingDAO) {
+    public FileServiceImpl(ImageDAO imageDAO, PaintingDAO paintingDAO, CacheManager cacheManager) {
         this.imageDAO = imageDAO;
         this.paintingDAO = paintingDAO;
+        this.cacheManager = cacheManager;
     }
 
     /**
@@ -83,4 +86,37 @@ public class FileServiceImpl implements FileService {
         ImageIO.write(zoomedImage, "jpg", byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
+
+    @Override
+    public String getRandomPaintingId() {
+        Painting randomPainting = paintingDAO.findRandomPainting();
+        cacheManager.put(CacheManager.CacheType.PAINTING, randomPainting.getId(), randomPainting);
+        return randomPainting.getId();
+    }
+
+    @Override
+    public byte[] getPaintingContentById(String id, boolean zoom) throws IOException {
+        Painting painting = cacheManager.get(CacheManager.CacheType.PAINTING, id);
+        if (painting == null) {
+            painting = paintingDAO.findPaintingById(id);
+        }
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(painting.getContent().getData()));
+        if (zoom) {
+            image = ImageUtil.zoomOutImage(image, 300);
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    @Override
+    public Painting getPaintingById(String id) {
+        Painting painting = cacheManager.get(CacheManager.CacheType.PAINTING, id);
+        if (painting == null) {
+            painting = paintingDAO.findPaintingById(id);
+        }
+        return painting;
+    }
+
+
 }

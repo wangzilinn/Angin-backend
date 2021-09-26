@@ -1,11 +1,14 @@
 package com.wangzilin.site.dao;
 
+import com.wangzilin.site.model.file.Image;
 import com.wangzilin.site.model.file.Painting;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.SampleOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -30,5 +33,12 @@ public class PaintingDAO {
                 Painting.class);
         return output.getMappedResults().get(0);
     }
+
+    public Painting findPaintingById(String id) {
+        return mongoTemplateForFile.findOne(new Query(Criteria.where("id").is(id)), Painting.class, PAINTING_COLLECTION);
+    }
+
+
+
 
 }

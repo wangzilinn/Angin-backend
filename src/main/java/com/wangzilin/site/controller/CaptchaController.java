@@ -1,6 +1,5 @@
 package com.wangzilin.site.controller;
 
-import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.wangzilin.site.manager.CacheManager;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,21 +24,21 @@ import java.nio.charset.StandardCharsets;
  * @Modified By:wangzilinn@gmail.com
  */
 @RestController
-@Tag(name = "Kaptcha", description = "生成验证码")
-@RequestMapping("/api/kaptcha")
-public class KaptchaController {
+@Tag(name = "Captcha", description = "生成验证码")
+@RequestMapping("/api/captcha")
+public class CaptchaController {
 
     final private Producer captchaProducer;
     final private CacheManager cacheManager;
 
-    public KaptchaController(Producer captchaProducer, CacheManager cacheManager) {
+    public CaptchaController(Producer captchaProducer, CacheManager cacheManager) {
         this.captchaProducer = captchaProducer;
         this.cacheManager = cacheManager;
     }
 
     @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE})
     @Operation(summary = "请求验证码")
-    public byte[] getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public byte[] getCaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         response.setDateHeader("Expires", 0); //某些远古浏览器不支持Cache-Control
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -48,7 +47,7 @@ public class KaptchaController {
         //生成验证码
         String capText = captchaProducer.createText();
         String capToken = captchaProducer.createText();
-        cacheManager.put(capToken, capText);
+        cacheManager.put(CacheManager.CacheType.CAPTCHA, capToken, capText);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byteArrayOutputStream.write(capToken.getBytes(StandardCharsets.US_ASCII));
         //创造验证码图片：

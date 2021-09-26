@@ -114,20 +114,8 @@ public class ArticleController {
                                                           @RequestParam(value = "title", required = false) String title,
                                                           @RequestParam(value = "category", required = false) String category,
                                                           @RequestParam(value = "tag", required = false) String tag) {
-        QueryPage queryPage = new QueryPage(page, limit);
-        if (title != null) {
-            return new Response<>(articleService.listArticleAbstractByTitle(title, queryPage));
-        }
-        if (tag != null && category != null) {
-            return new Response<>(articleService.listArticleAbstractByCategoryAndTag(category, tag, queryPage));
-        }
-        if (category != null) {
-            return new Response<>(articleService.listArticleAbstractByCategory(category, queryPage));
-        }
-        if (tag != null) {
-            return new Response<>(articleService.listArticleAbstractByTag(tag, queryPage));
-        }
-        return new Response<>(articleService.listArticleAbstract(queryPage));
+
+        return new Response<>(articleService.listArticle(page, limit, title, category, tag));
     }
 
 

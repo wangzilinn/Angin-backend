@@ -69,15 +69,15 @@ public class UserController {
      * @Param [username, password]
      **/
     @PostMapping("/signUp")
-    public Response<?> SignUp(@NotBlank @RequestParam(value = "kaptcha") String kaptcha,
+    public Response<?> SignUp(@NotBlank @RequestParam(value = "captcha") String captcha,
                               @NotBlank @RequestParam(value = "token") String token,
                               @Valid @NotNull @RequestBody SimpleUserInfoRequest simpleUserInfoRequest) throws AuthenticationException {
-        String captchaText = cacheManager.get(token);
+        String captchaText = (String) cacheManager.get(CacheManager.CacheType.CAPTCHA, token);
         if (captchaText == null) {
             throw new UserException(400, "session中无验证码");
         }
-        if (kaptcha.equals(captchaText)) {
-            cacheManager.remove(kaptcha);
+        if (captcha.equals(captchaText)) {
+            cacheManager.remove(CacheManager.CacheType.CAPTCHA, captcha);
             userService.signUp(simpleUserInfoRequest);
         } else {
             throw new UserException(400, "验证码错误");
