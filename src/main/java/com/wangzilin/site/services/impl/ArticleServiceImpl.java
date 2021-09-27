@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -89,7 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Response.Page<Article.Abstract> listArticle(int page, int limit, String title, String category, String tag) {
+    public Response.Page<Article.Abstract> listArticle(int page, int limit, String title, String category, String tag) throws IOException {
         QueryPage queryPage = new QueryPage(page, limit);
         Response.Page<Article.Abstract> abstractPage;
         if (title != null) {
@@ -104,16 +105,10 @@ public class ArticleServiceImpl implements ArticleService {
             abstractPage = listArticleAbstract(queryPage);
         }
         // 为没有封面的摘要加上封面
-
-        abstractPage.getElements().forEach(anAbstract -> {
-            if (anAbstract.getIsPaintingCover()) {
-                try {
-                    anAbstract.setCover(fileService.getRandomPaintingId());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        int randomPaintingIdCnt =
+                (int) abstractPage.getElements().stream().filter(Article.Abstract::getIsPaintingCover).count();
+        ListIterator<String> randomPaintingIdIterator = fileService.getRandomPaintingId(randomPaintingIdCnt).listIterator();
+        abstractPage.getElements().stream().filter(Article.Abstract::getIsPaintingCover).forEach(anAbstract -> anAbstract.setCover(randomPaintingIdIterator.next()));
         return abstractPage;
     }
 

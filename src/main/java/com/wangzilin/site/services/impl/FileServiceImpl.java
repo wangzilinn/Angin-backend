@@ -18,6 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -77,21 +79,14 @@ public class FileServiceImpl implements FileService {
         imageDAO.deleteImageById(id);
     }
 
-    @Override
-    public byte[] getRandomCover() throws IOException {
-        Painting randomPainting = paintingDAO.findRandomPainting();
-        BufferedImage image = ImageIO.read(new ByteArrayInputStream(randomPainting.getContent().getData()));
-        BufferedImage zoomedImage = ImageUtil.zoomOutImage(image, 300);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(zoomedImage, "jpg", byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
 
     @Override
-    public String getRandomPaintingId() {
-        Painting randomPainting = paintingDAO.findRandomPainting();
-        cacheManager.put(CacheManager.CacheType.PAINTING, randomPainting.getId(), randomPainting);
-        return randomPainting.getId();
+    public List<String> getRandomPaintingId(int num) {
+        List<Painting> randomPaintings = paintingDAO.findRandomPainting(num);
+        randomPaintings.forEach(painting -> {
+            cacheManager.put(CacheManager.CacheType.PAINTING, painting.getId(), painting);
+        });
+        return randomPaintings.stream().map(Painting::getId).collect(Collectors.toList());
     }
 
     @Override

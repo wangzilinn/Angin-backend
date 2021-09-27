@@ -6,6 +6,7 @@ import com.wangzilin.site.model.blog.Article;
 import com.wangzilin.site.model.blog.Category;
 import com.wangzilin.site.model.blog.Tag;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public interface ArticleService {
     Response.Page<Article.Abstract> listArticleAbstractByCategoryAndTag(String category, String tag,
                                                                         QueryPage queryPage);
 
-    Response.Page<Article.Abstract> listArticle(int page, int limit, String title, String category, String tag);
+    Response.Page<Article.Abstract> listArticle(int page, int limit, String title, String category, String tag) throws IOException;
 
     interface CategoryService {
         void add(Category category);

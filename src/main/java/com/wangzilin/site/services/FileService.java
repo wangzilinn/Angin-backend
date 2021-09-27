@@ -5,6 +5,7 @@ import com.wangzilin.site.model.file.Painting;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -22,9 +23,7 @@ public interface FileService {
 
     void deleteImage(String id);
 
-    byte[] getRandomCover() throws IOException;
-
-    String getRandomPaintingId() throws IOException;
+    List<String> getRandomPaintingId(int num) throws IOException;
 
     byte[] getPaintingContentById(String id, boolean zoom) throws IOException;
 

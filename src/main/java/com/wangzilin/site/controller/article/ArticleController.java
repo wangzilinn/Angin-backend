@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -113,7 +114,7 @@ public class ArticleController {
                                                           @RequestParam(value = "limit") int limit,
                                                           @RequestParam(value = "title", required = false) String title,
                                                           @RequestParam(value = "category", required = false) String category,
-                                                          @RequestParam(value = "tag", required = false) String tag) {
+                                                          @RequestParam(value = "tag", required = false) String tag) throws IOException {
 
         return new Response<>(articleService.listArticle(page, limit, title, category, tag));
     }

@@ -1,6 +1,5 @@
 package com.wangzilin.site.dao;
 
-import com.wangzilin.site.model.file.Image;
 import com.wangzilin.site.model.file.Painting;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: wangzilinn@gmail.com
@@ -26,12 +26,12 @@ public class PaintingDAO {
     private MongoTemplate mongoTemplateForFile;
     private final String PAINTING_COLLECTION = "painting";
 
-    public Painting findRandomPainting() {
-        SampleOperation matchStage = Aggregation.sample(1);
+    public List<Painting> findRandomPainting(int num) {
+        SampleOperation matchStage = Aggregation.sample(num);
         Aggregation aggregation = Aggregation.newAggregation(matchStage);
         AggregationResults<Painting> output = mongoTemplateForFile.aggregate(aggregation, PAINTING_COLLECTION,
                 Painting.class);
-        return output.getMappedResults().get(0);
+        return output.getMappedResults();
     }
 
     public Painting findPaintingById(String id) {

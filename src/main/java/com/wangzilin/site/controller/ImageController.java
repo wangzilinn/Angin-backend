@@ -49,16 +49,6 @@ public class ImageController {
         return image.getContent().getData();
     }
 
-    @Deprecated
-    @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    public byte[] getRandomPainting() throws IOException {
-        return fileService.getRandomCover();
-    }
-
-    @GetMapping("/painting")
-    public Response<String> getRandomPaintingId() throws IOException {
-        return new Response<>(fileService.getRandomPaintingId());
-    }
 
     @GetMapping(value = "/painting/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public byte[]  getPaintingContentById(@PathVariable String id,
