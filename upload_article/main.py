@@ -62,13 +62,15 @@ def delete_article_if_exist(title: str, category: str, tags, mongo_client):
     db_article = mongo_client.blog.article.find_one_and_delete(
         {"title": title, "categoryName": category, "tagNames": tags})
     if db_article is None:
-        return False
+        return None, None
     print("find same title, delete the old one")
     content = db_article["content"]
     for src in find_image_tags(content):
         image_id = src.split("/")[-1]
         print("deleting image: " + image_id)
         mongo_client.file.img.delete_one({"_id": ObjectId(image_id)})
+    # 被删除的文档中，源文档的id和源文档的创建时间是需要保留的，以供新的文件复用
+    return db_article["_id"], db_article["createdTime"]
 
 
 class Framework(tk.Tk):
@@ -232,13 +234,14 @@ class Framework(tk.Tk):
             try:
                 # convert html to article
                 print("processing：", article.title)
-                delete_article_if_exist(article.title, article.category, article.tags, client)
+                deleted_id, created_time = delete_article_if_exist(article.title, article.category, article.tags,
+                                                                   client)
                 html_path = article.html_path
                 article_html = open(html_path, "r", encoding='utf-8').read()
                 img_tags = find_image_tags(article_html)
                 print("extract %d image(s)" % (len(img_tags)))
                 # replace <v:imagedata.../> to <img/>
-                cover_id = ''  # article's cover
+                cover_id = ''  # article's cover, if there is no img, it will be '', else it take the last img as cover
                 for img_tag in img_tags:
                     img_local_url = img_tag
                     img_local_path = "cache\\" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
@@ -261,13 +264,16 @@ class Framework(tk.Tk):
                     "tagNames": article.tags,
                     "state": "release",
                     "cover": cover_id,
-                    "createdTime": datetime.utcnow(),
+                    "createdTime": datetime.utcnow() if created_time is None else created_time,
                     "editTime": datetime.utcnow(),
                 }
+                # 如果删除了同名的文件，则本次储存还用原来的id
+                if deleted_id is not None:
+                    db_article["_id"] = deleted_id
                 print("uploading", article.title)
-                self.__add_information("uploading done!")
                 article_collection = client.blog.article
                 article_collection.insert_one(db_article)
+                self.__add_information("uploading done!")
                 print("uploading tag if not exist", article.tags)
                 tag_collection = client.blog.tag
                 for tag in article.tags:
