@@ -7,11 +7,11 @@
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
       <jdbc-url>mongodb://47.103.194.29:27017/?authSource=admin&amp;readPreference=primary&amp;appname=MongoDB%20Compass&amp;ssl=false</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="Aliyun" uuid="46da4a39-c44e-4185-9662-29ee803d16ec">
+    <data-source source="LOCAL" name="AliyunBlog" uuid="46da4a39-c44e-4185-9662-29ee803d16ec">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://47.103.194.29:3306/</jdbc-url>
+      <jdbc-url>jdbc:mysql://47.97.154.231:3306/</jdbc-url>
     </data-source>
   </component>
 </project>

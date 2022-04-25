@@ -144,3 +144,7 @@ src/main/resources/application-prod.yaml
 /certs/*.pem
 # End of https://www.gitignore.io/api/java,gradle,intellij
 
+*LifeLog*.java
+#/src/main/java/com/wangzilin/site/controller/LifeLogController.java
+#/src/main/java/com/wangzilin/site/model/lifelog/
+#/src/main/java/com/wangzilin/site/services/LifeLogService.java
