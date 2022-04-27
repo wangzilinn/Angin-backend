@@ -55,6 +55,7 @@ public class Response<T> implements Serializable {
         this.msg = throwable.getMessage();
     }
 
+
     @Data
     @NoArgsConstructor
     static public class Page<T> {

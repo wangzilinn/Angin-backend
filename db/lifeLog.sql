@@ -28,3 +28,15 @@ create table `lifelog_summary`
 ) engine = InnoDB
   auto_increment = 1
   default charset = utf8;
+
+select * from lifelog_summary;
+
+select * from lifelog;
+
+# 创建summary：
+
+insert into lifelog_summary (type_name)
+values (
+        'exercise'
+       );
+
