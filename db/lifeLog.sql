@@ -40,3 +40,5 @@ values (
         'exercise'
        );
 
+# 更新
+update lifelog_summary set type_name='sex' where id = 1
