@@ -81,7 +81,7 @@ public class ArticleDAO {
 
     public Long countByTitle(String title) {
         title = String.format("^.*%s.*$", title);
-        Query query = new Query(Criteria.where("title").regex(title));
+        Query query = new Query(Criteria.where("title").regex(title, "i"));
         return mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
     }
 
@@ -89,7 +89,7 @@ public class ArticleDAO {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
         //创建查询对象
         title = String.format("^.*%s.*$", title);
-        Query query = new Query(Criteria.where("title").regex(title));
+        Query query = new Query(Criteria.where("title").regex(title, "i"));
         query.with(pageableRequest);
         query.with(Sort.by(Sort.Direction.DESC, "editTime"));
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
