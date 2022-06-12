@@ -109,8 +109,10 @@ public class ArticleServiceImpl implements ArticleService {
         // 为没有封面的摘要加上封面
         int randomPaintingIdCnt =
                 (int) abstractPage.getElements().stream().filter(Article.Abstract::getIsPaintingCover).count();
-        ListIterator<String> randomPaintingIdIterator = fileService.getRandomPaintingId(randomPaintingIdCnt).listIterator();
-        abstractPage.getElements().stream().filter(Article.Abstract::getIsPaintingCover).forEach(anAbstract -> anAbstract.setCover(randomPaintingIdIterator.next()));
+        if(randomPaintingIdCnt > 0){
+            ListIterator<String> randomPaintingIdIterator = fileService.getRandomPaintingId(randomPaintingIdCnt).listIterator();
+            abstractPage.getElements().stream().filter(Article.Abstract::getIsPaintingCover).forEach(anAbstract -> anAbstract.setCover(randomPaintingIdIterator.next()));
+        }
         return abstractPage;
     }
 
