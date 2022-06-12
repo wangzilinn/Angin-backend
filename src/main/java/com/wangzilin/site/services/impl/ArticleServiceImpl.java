@@ -41,8 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
     /**
-     * @param article
-     * @return void
+     * @param article 文章
      * @Author wangzilin
      * @Description 添加
      * @Date 4:47 PM 5/7/2020
@@ -57,14 +56,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticle(String id) {
-        articleDAO.deleteById(id);
+        Article article = articleDAO.deleteById(id);
+        if (article != null) {
+            //article collection更新
+            log.info("delete article id = " + id);
+        }
         //删除评论
         commentService.deleteByArticleId(id);
     }
 
     /**
-     * @param article
-     * @return void
+     * @param article 文章
      * @Author wangzilin
      * @Description 删改
      * @Date 4:36 PM 5/7/2020
@@ -135,8 +137,9 @@ public class ArticleServiceImpl implements ArticleService {
      **/
     @Override
     public Response.Page<Article.Abstract> listArticleAbstractByTitle(String title, QueryPage queryPage) {
+        long numberOfArticle = articleDAO.countByTitle(title);
         List<Article> articleList = articleDAO.findByTitle(title, queryPage);
-        return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, articleList.size());
+        return new Response.Page<>(Article.convertToAbstract(articleList), queryPage, numberOfArticle);
     }
 
 

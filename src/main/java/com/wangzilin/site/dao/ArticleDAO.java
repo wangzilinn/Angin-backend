@@ -48,14 +48,10 @@ public class ArticleDAO {
     public boolean updateTag(String id, List<String> addedTags, List<String> deletedTags) {
         Update update = new Update();
         if (addedTags != null) {
-            addedTags.forEach(addedTag -> {
-                update.addToSet("tagNames", addedTag);
-            });
+            addedTags.forEach(addedTag -> update.addToSet("tagNames", addedTag));
         }
         if (deletedTags != null) {
-            deletedTags.forEach(deletedTag -> {
-                update.pull("tagNames", deletedTag);
-            });
+            deletedTags.forEach(deletedTag -> update.pull("tagNames", deletedTag));
         }
         return mongoTemplateForBlog.updateFirst(
                 new Query(Criteria.where("_id").is(id)),
@@ -83,13 +79,19 @@ public class ArticleDAO {
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
     }
 
+    public Long countByTitle(String title) {
+        title = String.format("^.*%s.*$", title);
+        Query query = new Query(Criteria.where("title").regex(title));
+        return mongoTemplateForBlog.count(query, Article.class, ARTICLE_COLLECTION);
+    }
+
     public List<Article> findByTitle(String title, QueryPage queryPage) {
         final Pageable pageableRequest = PageRequest.of(queryPage.getPageForMongoDB(), queryPage.getLimit());
         //创建查询对象
         title = String.format("^.*%s.*$", title);
         Query query = new Query(Criteria.where("title").regex(title));
         query.with(pageableRequest);
-        query.with(Sort.by(Sort.Direction.DESC, "_id"));
+        query.with(Sort.by(Sort.Direction.DESC, "editTime"));
         return mongoTemplateForBlog.find(query, Article.class, ARTICLE_COLLECTION);
     }
 

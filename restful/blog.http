@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ###
 # 获得文章列表
-GET https://{{host}}:8443/api/article/list?page=1&limit=8
+GET https://{{host}}:8443/api/article/list?page=1&limit=9&title=笔记
 Authorization: {{auth}}
 Content-Type: application/x-www-form-urlencoded
 
