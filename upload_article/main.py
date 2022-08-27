@@ -1,15 +1,16 @@
+import os
 import tkinter as tk
 from tkinter.filedialog import *  # 如果已经导入了所有tkinter也要再次导入
 
 import markdown2
 import shutil
-import win32com.client
 from bs4 import BeautifulSoup
 from bson import Binary, ObjectId
 from datetime import datetime
 from pymongo import MongoClient
 from urllib.parse import unquote
 
+from convert_docx_to_html import convert_docx_to_html
 from reformat_html import reformat_docx_html
 
 
@@ -87,7 +88,7 @@ class Framework(tk.Tk):
         self.select_dict_button.grid(row=0, column=1)
         # 滚动条
         self.scroll = tk.Scrollbar(self, orient="vertical", command=self.scroll_callback)
-        self.scroll.grid(row=2, column=4, sticky=N + S)
+        self.scroll.grid(row=2, column=4, sticky="NS")
         # 显示导入的内容：
         tk.Label(self, text="title").grid(row=1, column=0)
         self.article_title_List_box = tk.Listbox(self, width=40, yscrollcommand=self.scroll.set)
@@ -186,19 +187,16 @@ class Framework(tk.Tk):
 
     def convert_to_html_callback(self):
         self.__clear_information()
-        word = win32com.client.Dispatch('Word.Application')
         for article in self.article_list:
             if article.file_type == ".docx":
                 docx_path = article.original_path
-                doc = word.Documents.Add(docx_path)
                 file_name = os.path.basename(docx_path).split(".")[0]
                 print("converting ", file_name, ".docx to html")
                 # save path should be absolute path
-                save_path = os.getcwd() + "/cache/" + file_name + ".html"
-                article.html_path = save_path
-                doc.SaveAs(save_path, FileFormat=8)
-                doc.Close()
-                reformat_docx_html(save_path)
+                save_finder = os.getcwd() + "/cache/"
+                convert_docx_to_html(docx_path, save_finder)
+                article.html_path = save_finder + file_name + ".html"
+                # reformat_docx_html(save_path)
                 self.__add_information("convert docx to html, done!")
             elif article.file_type == ".md":
                 md_path = article.original_path
@@ -244,7 +242,7 @@ class Framework(tk.Tk):
                 cover_id = ''  # article's cover, if there is no img, it will be '', else it take the last img as cover
                 for img_tag in img_tags:
                     img_local_url = img_tag
-                    img_local_path = "cache\\" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
+                    img_local_path = "cache/" + unquote(img_local_url, 'utf-8')  # 去掉转义字符
                     # upload to mongodb
                     img_id = upload_image(img_local_path, client)
                     cover_id = str(img_id)

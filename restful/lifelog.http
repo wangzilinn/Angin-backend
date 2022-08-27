@@ -1,0 +1,10 @@
+POST https://{{host}}:8443/api/lifelog/add
+Content-Type: application/json
+
+{
+  "typeId": 2,
+  "typeName": "exercise"
+}
+
+###
+GET https://{{host}}:8443/api/lifelog/summary
